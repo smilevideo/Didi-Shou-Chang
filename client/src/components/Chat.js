@@ -7,8 +7,8 @@ const URL = 'ws://localhost:3030'
 const ws = new WebSocket(URL);
 
 
-const Chat = () => {
-  const [name, setName] = useState('Bob');
+const Chat = (props) => {
+  const { username } = props;
   const [messages, setMessages] = useState([]);
 
   ws.onopen = () => {
@@ -33,24 +33,13 @@ const Chat = () => {
 
   const submitMessage = (messageString) => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { name: name, message: messageString };
+    const message = { username: username, message: messageString };
     ws.send(JSON.stringify(message));
     addMessage(message);
   };
 
   return (
     <div>
-      <label htmlFor="name">
-        Name:&nbsp;
-        <input
-          type="text"
-          id={'name'}
-          placeholder={'Enter your name...'}
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-        />
-      </label>
-
       <ChatInput
         ws={ws}
         onSubmitMessage={(messageString) => submitMessage(messageString)}
@@ -61,7 +50,7 @@ const Chat = () => {
           <ChatMessage
             key={index}
             message={message.message}
-            name={message.name}
+            username={message.username}
           />)
       })}
     </div>

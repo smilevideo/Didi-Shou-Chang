@@ -1,10 +1,22 @@
+import { useState } from 'react';
+
 import './App.css';
-import Chat from './components/Chat';
+import Entry from 'components/Entry';
+import Chat from 'components/Chat';
 
 const App = () => {
+  const [username, setUsername] = useState('');
+  const [usernameEntered, setUsernameEntered] = useState(false);
+
   return (
     <div className="App">
-      <Chat />
+      {!usernameEntered && 
+        <Entry username={username} setUsername={setUsername} setUsernameEntered={setUsernameEntered} />
+      }
+      {usernameEntered &&
+        <Chat username={username} />
+      }
+
     </div>
   );
 }

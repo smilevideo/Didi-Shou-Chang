@@ -1,7 +1,7 @@
 const ChatMessage = (props) => {
   return (
     <p>
-      <strong>{props.name}</strong> <em>{props.message}</em>
+      <strong>{props.username}</strong> <em>{props.message}</em>
     </p>
   )
 }
