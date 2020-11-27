@@ -1,47 +1,43 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import ChatInput from './ChatInput'
 import ChatMessage from './ChatMessage'
-
-const URL = 'ws://localhost:3030'
-
-const ws = new WebSocket(URL);
-
 
 const Chat = (props) => {
   const { username } = props;
   const [messages, setMessages] = useState([]);
+  const ws = useRef(null);
 
-  ws.onopen = () => {
-    // on connecting, do nothing but log it to the console
-    console.log('connected');
-  };
+  useEffect(() => {
+    const WEBSOCKET_URL = 'ws://localhost:3030'
+    ws.current = new WebSocket(WEBSOCKET_URL);
 
-  ws.onmessage = (event) => {
-    // on receiving a message, add it to the list of messages
-    console.log(event);
-    const message = JSON.parse(event.data);
-    addMessage(message);
-  };
+    const addMessage = (message) => {
+      setMessages(previousMessages => [message, ...previousMessages]);
+    };
 
-  ws.onclose = () => {
-    console.log('disconnected');
-  };
+    ws.current.onopen = () => {
+      console.log('connected');
+    };
+  
+    ws.current.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      addMessage(message);
+    };
 
-  const addMessage = (message) => {
-    setMessages([message, ...messages]);
-  };
+    return () => ws.current.close();
+  }, [username]);
 
   const submitMessage = (messageString) => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
     const message = { username: username, message: messageString };
-    ws.send(JSON.stringify(message));
-    addMessage(message);
+    ws.current.send(JSON.stringify(message));
+    setMessages([message, ...messages]);
   };
 
   return (
     <div>
       <ChatInput
-        ws={ws}
+        ws={ws.current}
         onSubmitMessage={(messageString) => submitMessage(messageString)}
       />
 
