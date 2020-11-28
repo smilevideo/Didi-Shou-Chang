@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import './App.css';
 import Entry from 'components/Entry';
 import Chat from 'components/Chat/Chat';
 

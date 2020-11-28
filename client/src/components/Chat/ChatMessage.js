@@ -1,18 +1,24 @@
+import styled from 'styled-components';
+
+const Message = styled.li`
+  list-style-type: none;
+`
+
 const ChatMessage = (props) => {
   const { type, message, username } = props.message;
 
   switch (type) {
     case 'chat':
       return (
-        <li>
+        <Message>
           <strong>{username}</strong> <em>{message}</em>
-        </li>
+        </Message>
       )
     case 'system':
       return (
-        <li>
+        <Message>
           <em>{message}</em>
-        </li>
+        </Message>
       )
     default:
       return null;
