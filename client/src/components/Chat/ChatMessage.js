@@ -4,15 +4,15 @@ const ChatMessage = (props) => {
   switch (type) {
     case 'chat':
       return (
-        <p>
+        <li>
           <strong>{username}</strong> <em>{message}</em>
-        </p>
+        </li>
       )
     case 'system':
       return (
-        <p>
+        <li>
           <em>{message}</em>
-        </p>
+        </li>
       )
     default:
       return null;

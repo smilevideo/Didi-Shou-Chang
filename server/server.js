@@ -1,6 +1,7 @@
 const WebSocket = require('ws');
 
 const wss = new WebSocket.Server({ port: 3030 });
+const userList = [];
 
 const broadcast = (ws, data, includeSelf = false) => {
   if (includeSelf) {
@@ -9,7 +10,7 @@ const broadcast = (ws, data, includeSelf = false) => {
           client.send(data);
         }
       }
-    );  
+    );
   }
   
   else {
@@ -18,7 +19,7 @@ const broadcast = (ws, data, includeSelf = false) => {
           client.send(data);
         }
       }
-    );  
+    );
   }
 
   // alternate approach below, but probably sacrifices performance for less lines of code so no
@@ -30,20 +31,51 @@ const broadcast = (ws, data, includeSelf = false) => {
   //     }
   //   }
   // });
+};
+
+const addUser = (username) => {
+  userList.push(username);
+
+  const returnData = JSON.stringify(
+    {
+      type: 'userListUpdate',
+      userList
+    }
+  );
+
+  broadcast(null, returnData, true);
+};
+
+const removeUser = (username) => {
+  const index = userList.indexOf(username);
+  userList.splice(index, 1);
+
+  const returnData = JSON.stringify(
+    {
+      type: 'userListUpdate',
+      userList
+    }
+  );
+
+  broadcast(null, returnData, true);
 }
 
 wss.on('connection', (ws) => {
-  let username;
+  let username = '';
+  ws.username = '';
 
   ws.on('message', (data) => {
     console.log(data);
+    console.log(userList);
 
-    let returnData;
+    let returnData = '';
 
     const message = JSON.parse(data);
     switch (message.type) {
       case 'userEnter':
-        username = message.username
+        username = message.username;
+        ws.username = message.username;
+
         returnData = JSON.stringify(
           {
             message: `${username} has entered Didi-Shou-Chang.`,
@@ -52,6 +84,7 @@ wss.on('connection', (ws) => {
         );
 
         broadcast(ws, returnData, true);
+        addUser(username);
         break;
 
       case 'chat':
@@ -80,5 +113,6 @@ wss.on('connection', (ws) => {
     )
 
     broadcast(ws, returnData, true);
+    removeUser(username);
   })
 });
