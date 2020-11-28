@@ -70,4 +70,15 @@ wss.on('connection', (ws) => {
         console.log('missing or unrecognized message type');
     };
   });
+
+  ws.on('close', () => {
+    const returnData = JSON.stringify(
+      {
+        message: `${username} has left Didi-Shou-Chang.`,
+        type: 'system'
+      }
+    )
+
+    broadcast(ws, returnData, true);
+  })
 });

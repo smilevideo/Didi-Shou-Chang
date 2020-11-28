@@ -30,13 +30,19 @@ const Chat = (props) => {
     return () => ws.current.close();
   }, [username]);
 
+  // set maximum number of messages to store and show;
+  const MAX_MESSAGES = 100;
+  useEffect(() => {
+    if (messages.length > MAX_MESSAGES) {
+      messages.pop();
+    }
+  }, [messages]);
+
   const submitMessage = (messageString) => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
     const message = { message: messageString, type: 'chat' };
     ws.current.send(JSON.stringify(message));
   };
-
-  // console.log(messages);
 
   return (
     <div>
