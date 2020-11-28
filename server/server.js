@@ -33,9 +33,37 @@ const broadcast = (ws, data, includeSelf = false) => {
 }
 
 wss.on('connection', (ws) => {
+  let username = '';
+
   ws.on('message', (data) => {
     console.log(data);
 
-    broadcast(ws, data, false);
+    const message = JSON.parse(data);
+    switch (message.type) {
+      case 'userEnter':
+        console.log('asdf');
+
+        username = message.username
+        const returnData = JSON.stringify(
+          {
+            message: `${username} has entered Didi-Shou-Chang.`,
+            type: 'system'
+          }
+        );
+
+        broadcast(ws, returnData, true);
+        break;
+
+      case 'chat':
+        console.log('chat');
+
+        data = JSON.stringify({...JSON.parse(data), type: 'chat'});
+
+        broadcast(ws, data, false);
+        break;
+
+      default:
+        console.log('missing or unrecognized message type');
+    };
   });
 });

@@ -7,6 +7,7 @@ const Chat = (props) => {
   const [messages, setMessages] = useState([]);
   const ws = useRef(null);
 
+  // connect and set up WebSocket on initialize
   useEffect(() => {
     const WEBSOCKET_URL = 'ws://localhost:3030'
     ws.current = new WebSocket(WEBSOCKET_URL);
@@ -17,6 +18,8 @@ const Chat = (props) => {
 
     ws.current.onopen = () => {
       console.log('connected');
+      const message = {username, type: 'userEnter'};
+      ws.current.send(JSON.stringify(message));
     };
   
     ws.current.onmessage = (event) => {
@@ -29,7 +32,7 @@ const Chat = (props) => {
 
   const submitMessage = (messageString) => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { username: username, message: messageString };
+    const message = { username: username, message: messageString, type: 'chat' };
     ws.current.send(JSON.stringify(message));
     setMessages([message, ...messages]);
   };
@@ -45,8 +48,7 @@ const Chat = (props) => {
         return (
           <ChatMessage
             key={index}
-            message={message.message}
-            username={message.username}
+            message={message}
           />)
       })}
     </div>
