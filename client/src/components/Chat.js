@@ -32,10 +32,11 @@ const Chat = (props) => {
 
   const submitMessage = (messageString) => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input
-    const message = { username: username, message: messageString, type: 'chat' };
+    const message = { message: messageString, type: 'chat' };
     ws.current.send(JSON.stringify(message));
-    setMessages([message, ...messages]);
   };
+
+  // console.log(messages);
 
   return (
     <div>

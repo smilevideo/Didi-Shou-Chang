@@ -21,7 +21,7 @@ const broadcast = (ws, data, includeSelf = false) => {
     );  
   }
 
-  // think the below would sacrifice performance for less lines of code compared to above
+  // alternate approach below, but probably sacrifices performance for less lines of code so no
 
   // wss.clients.forEach((client) => {
   //   if (client.readyState === WebSocket.OPEN) {
@@ -63,7 +63,7 @@ wss.on('connection', (ws) => {
           }
         );
 
-        broadcast(ws, returnData, false);
+        broadcast(ws, returnData, true);
         break;
 
       default:
