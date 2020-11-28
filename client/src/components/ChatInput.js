@@ -8,8 +8,11 @@ const ChatInput = (props) => {
       action="."
       onSubmit={(event) => {
         event.preventDefault();
-        props.onSubmitMessage(message);
-        setMessage('');
+
+        if (message) {
+          props.onSubmitMessage(message);
+          setMessage('');
+        }
       }}
     >
       <input
