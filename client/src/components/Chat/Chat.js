@@ -17,7 +17,7 @@ const Chat = (props) => {
     ws.current = new WebSocket(WEBSOCKET_URL);
 
     const addMessage = (message) => {
-      setMessages(previousMessages => [message, ...previousMessages]);
+      setMessages(previousMessages => [...previousMessages, message]);
     };
 
 
@@ -58,11 +58,6 @@ const Chat = (props) => {
 
   return (
     <div>
-      <ChatInput
-        ws={ws.current}
-        onSubmitMessage={(messageString) => submitMessage(messageString)}
-      />
-
       <ul>
         {messages.map((message, index) => {
           return (
@@ -72,6 +67,11 @@ const Chat = (props) => {
             />)
         })}
       </ul>
+
+      <ChatInput
+        ws={ws.current}
+        onSubmitMessage={(messageString) => submitMessage(messageString)}
+      />
 
       <UserList userList={userList} />
     </div>

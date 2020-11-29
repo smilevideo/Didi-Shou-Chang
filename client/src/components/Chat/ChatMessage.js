@@ -5,19 +5,19 @@ const Message = styled.li`
 `
 
 const ChatMessage = (props) => {
-  const { type, message, username } = props.message;
+  const { type, message, username, timestamp } = props.message;
 
   switch (type) {
     case 'chat':
       return (
         <Message>
-          <strong>{username}</strong> <em>{message}</em>
+          <strong>{username}</strong> {`${timestamp}: `} <em>{message}</em>
         </Message>
       )
     case 'system':
       return (
         <Message>
-          <em>{message}</em>
+          {`${timestamp}: `}<em>{message}</em>
         </Message>
       )
     default:

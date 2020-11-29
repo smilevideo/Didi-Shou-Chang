@@ -2,6 +2,8 @@ const WebSocket = require('ws');
 
 const wss = new WebSocket.Server({ port: 3030 });
 const userList = [];
+const messages = [];
+const MAX_MESSAGES = 100;
 
 const broadcast = (ws, data, includeSelf = false) => {
   if (includeSelf) {
@@ -62,24 +64,24 @@ const removeUser = (username) => {
 
 wss.on('connection', (ws) => {
   let username = '';
-  ws.username = '';
 
   ws.on('message', (data) => {
     console.log(data);
-    console.log(userList);
-
     let returnData = '';
+
+    // HH:mm format
+    const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
 
     const message = JSON.parse(data);
     switch (message.type) {
       case 'userEnter':
         username = message.username;
-        ws.username = message.username;
 
         returnData = JSON.stringify(
           {
             message: `${username} has entered Didi-Shou-Chang.`,
-            type: 'system'
+            type: 'system',
+            timestamp
           }
         );
 
@@ -92,7 +94,8 @@ wss.on('connection', (ws) => {
           {
             ...JSON.parse(data), 
             username, 
-            type: 'chat'
+            type: 'chat',
+            timestamp
           }
         );
 
@@ -105,14 +108,18 @@ wss.on('connection', (ws) => {
   });
 
   ws.on('close', () => {
+    // HH:mm format
+    const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
+
     const returnData = JSON.stringify(
       {
         message: `${username} has left Didi-Shou-Chang.`,
-        type: 'system'
+        type: 'system',
+        timestamp
       }
     )
 
     broadcast(ws, returnData, true);
     removeUser(username);
-  })
+  });
 });
