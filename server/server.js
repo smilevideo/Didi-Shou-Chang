@@ -35,32 +35,42 @@ const broadcast = (ws, data, includeSelf = false) => {
   // });
 };
 
-const addUser = (username) => {
-  userList.push(username);
-
-  const returnData = JSON.stringify(
+const sendUserList = () => {
+  const data = JSON.stringify(
     {
       type: 'userListUpdate',
       userList
     }
   );
 
-  broadcast(null, returnData, true);
+  broadcast(null, data, true);
+};
+
+const addUser = (username) => {
+  userList.push(username);
+
+  // update all clients' lists whenever a change to the list is made
+  sendUserList();
 };
 
 const removeUser = (username) => {
   const index = userList.indexOf(username);
   userList.splice(index, 1);
 
-  const returnData = JSON.stringify(
+  // update all clients' lists whenever a change to the list is made
+  sendUserList();
+}
+
+const sendMessages = () => {
+  const data = JSON.stringify(
     {
-      type: 'userListUpdate',
-      userList
+      type: 'messagesUpdate',
+      messages
     }
   );
 
-  broadcast(null, returnData, true);
-}
+  broadcast(null, data, true);
+};
 
 wss.on('connection', (ws) => {
   let username = '';
@@ -111,7 +121,7 @@ wss.on('connection', (ws) => {
     // HH:mm format
     const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
 
-    const returnData = JSON.stringify(
+    const data = JSON.stringify(
       {
         message: `${username} has left Didi-Shou-Chang.`,
         type: 'system',
@@ -119,7 +129,7 @@ wss.on('connection', (ws) => {
       }
     )
 
-    broadcast(ws, returnData, true);
+    broadcast(ws, data, true);
     removeUser(username);
   });
 });
