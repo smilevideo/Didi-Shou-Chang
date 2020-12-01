@@ -5,11 +5,11 @@ const Container = styled.div`
   width: 100vw;
 
   display: grid;
-  grid-template-rows: 20% 1fr;
   justify-content: center;
 `
 
 const WelcomeImage = styled.img`
+  margin-top: 20vh;
   margin-bottom: 1rem;
 `
 
@@ -17,8 +17,6 @@ const WelcomeImage = styled.img`
 const Form = styled.div`
   display: flex;
   flex-direction: column;
-
-  justify-content: center;
   align-items: center;
 
   input[type="text"] {
@@ -46,8 +44,6 @@ const Entry = (props) => {
   
   return (
     <Container>
-      <div />
-
       <div>
         <WelcomeImage src="/assets/d.gif" alt="welcome" />
 
