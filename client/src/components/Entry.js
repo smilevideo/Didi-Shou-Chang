@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useState } from 'react';
 
 const Container = styled.div`
   height: 100vh;
@@ -51,6 +50,7 @@ const Entry = (props) => {
 
       <div>
         <WelcomeImage src="/assets/d.gif" alt="welcome" />
+
         <Form showSubmit={username}>
           <label>"whomst'd've"</label>
           <input
@@ -65,10 +65,7 @@ const Entry = (props) => {
             onClick={username ? handleSubmit : null}  
           />
         </Form>
-
       </div>
-      
-
     </Container>
   )
 };
