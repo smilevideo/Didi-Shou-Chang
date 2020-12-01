@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import ChatInput from './ChatInput';
-import ChatMessage from './ChatMessage';
+import ChatMessages from './ChatMessages';
 import UserList from './UserList';
 
 const Chat = (props) => {
@@ -44,15 +44,7 @@ const Chat = (props) => {
 
   return (
     <div>
-      <ul>
-        {messages.map((message, index) => {
-          return (
-            <ChatMessage
-              key={index}
-              message={message}
-            />)
-        })}
-      </ul>
+      <ChatMessages messages={messages} />
 
       <ChatInput
         ws={ws.current}
