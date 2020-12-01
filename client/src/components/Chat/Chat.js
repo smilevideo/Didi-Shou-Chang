@@ -16,11 +16,6 @@ const Chat = (props) => {
     const WEBSOCKET_URL = 'ws://localhost:3030'
     ws.current = new WebSocket(WEBSOCKET_URL);
 
-    const addMessage = (message) => {
-      setMessages(previousMessages => [...previousMessages, message]);
-    };
-
-
     ws.current.onopen = () => {
       console.log('connected');
       const message = {username, type: 'userEnter'};
@@ -30,8 +25,8 @@ const Chat = (props) => {
     ws.current.onmessage = (event) => {
       const message = JSON.parse(event.data);
 
-      if (message.type === 'system' || message.type === 'chat') {
-        addMessage(message);
+      if (message.type === 'messagesUpdate') {
+        setMessages(message.messages);
       }
       else if (message.type === 'userListUpdate') {
         setUserList(message.userList);
@@ -40,15 +35,6 @@ const Chat = (props) => {
 
     return () => ws.current.close();
   }, [username]);
-
-  // set maximum number of messages to store and show;
-  const MAX_MESSAGES = 100;
-  useEffect(() => {
-    if (messages.length > MAX_MESSAGES) {
-      messages.pop();
-    }
-  }, [messages]);
-
 
   const submitMessage = (messageString) => {
     // on submitting the ChatInput form, send the message, add it to the list and reset the input

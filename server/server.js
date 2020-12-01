@@ -5,34 +5,12 @@ const userList = [];
 const messages = [];
 const MAX_MESSAGES = 100;
 
-const broadcast = (ws, data, includeSelf = false) => {
-  if (includeSelf) {
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-          client.send(data);
-        }
-      }
-    );
-  }
-  
-  else {
-    wss.clients.forEach((client) => {
-      if (client !== ws && client.readyState === WebSocket.OPEN) {
-          client.send(data);
-        }
-      }
-    );
-  }
-
-  // alternate approach below, but probably sacrifices performance for less lines of code so no
-
-  // wss.clients.forEach((client) => {
-  //   if (client.readyState === WebSocket.OPEN) {
-  //     if (client !== ws || includeSelf) {
-  //       client.send(data);
-  //     }
-  //   }
-  // });
+const broadcast = (data) => {
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(data);
+    }
+  });
 };
 
 const sendUserList = () => {
@@ -43,13 +21,12 @@ const sendUserList = () => {
     }
   );
 
-  broadcast(null, data, true);
+  broadcast(data);
 };
 
 const addUser = (username) => {
   userList.push(username);
 
-  // update all clients' lists whenever a change to the list is made
   sendUserList();
 };
 
@@ -57,7 +34,6 @@ const removeUser = (username) => {
   const index = userList.indexOf(username);
   userList.splice(index, 1);
 
-  // update all clients' lists whenever a change to the list is made
   sendUserList();
 }
 
@@ -69,7 +45,17 @@ const sendMessages = () => {
     }
   );
 
-  broadcast(null, data, true);
+  broadcast(data);
+};
+
+const addMessage = (message) => {
+  messages.push(message);
+
+  if (messages.length > MAX_MESSAGES) {
+    messages.shift();
+  }
+
+  sendMessages();
 };
 
 wss.on('connection', (ws) => {
@@ -77,39 +63,30 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (data) => {
     console.log(data);
-    let returnData = '';
 
     // HH:mm format
     const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
 
-    const message = JSON.parse(data);
-    switch (message.type) {
+    const clientMessage = JSON.parse(data);
+    switch (clientMessage.type) {
       case 'userEnter':
-        username = message.username;
+        username = clientMessage.username;
 
-        returnData = JSON.stringify(
-          {
-            message: `${username} has entered Didi-Shou-Chang.`,
-            type: 'system',
-            timestamp
-          }
-        );
-
-        broadcast(ws, returnData, true);
+        addMessage({
+          message: `${username} has entered Didi-Shou-Chang.`,
+          type: 'system',
+          timestamp
+        });
         addUser(username);
         break;
 
       case 'chat':
-        returnData = JSON.stringify(
-          {
-            ...JSON.parse(data), 
-            username, 
-            type: 'chat',
-            timestamp
-          }
-        );
-
-        broadcast(ws, returnData, true);
+        addMessage({
+          message: clientMessage.message,
+          username, 
+          type: 'chat',
+          timestamp
+        });
         break;
 
       default:
@@ -121,15 +98,11 @@ wss.on('connection', (ws) => {
     // HH:mm format
     const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
 
-    const data = JSON.stringify(
-      {
-        message: `${username} has left Didi-Shou-Chang.`,
-        type: 'system',
-        timestamp
-      }
-    )
-
-    broadcast(ws, data, true);
+    addMessage({
+      message: `${username} has left Didi-Shou-Chang.`,
+      type: 'system',
+      timestamp
+    });
     removeUser(username);
   });
 });
