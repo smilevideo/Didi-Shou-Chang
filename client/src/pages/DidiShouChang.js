@@ -5,6 +5,9 @@ import Chat from 'components/Chat/Chat';
 import UserList from 'components/UserList';
 
 const Container = styled.div`
+  background-image: url('/assets/a.gif');
+  color: white;
+  font-weight: bold;
 `;
 
 const DidiShouChang = (props) => {
@@ -43,7 +46,7 @@ const DidiShouChang = (props) => {
   return (
     <Container>
       <Chat messages={messages} ws={ws.current} />
-
+      <img src="/assets/a.jpg" alt="warp" />
       <UserList userList={userList} />
     </Container>
   )
