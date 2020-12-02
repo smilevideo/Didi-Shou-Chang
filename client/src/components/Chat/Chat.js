@@ -4,7 +4,7 @@ import ChatInput from './ChatInput';
 import ChatMessageContainer from './ChatMessageContainer';
 
 const Container = styled.div`
-  /* height: 100vh; */
+
 `
 
 const Chat = (props) => {
