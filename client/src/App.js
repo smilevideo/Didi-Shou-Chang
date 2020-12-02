@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import Entry from 'components/Entry';
-import Chat from 'components/Chat/Chat';
+import Entry from 'pages/Entry';
+import DidiShouChang from 'pages/DidiShouChang';
 
 const App = () => {
   const [username, setUsername] = useState('');
@@ -13,9 +13,8 @@ const App = () => {
         <Entry username={username} setUsername={setUsername} setUsernameEntered={setUsernameEntered} />
       }
       {usernameEntered &&
-        <Chat username={username} />
+        <DidiShouChang username={username} />
       }
-
     </div>
   );
 }

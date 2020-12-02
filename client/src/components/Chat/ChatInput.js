@@ -1,7 +1,15 @@
 import { useState } from 'react';
 
 const ChatInput = (props) => {
+  const { ws } = props;
+
   const [message, setMessage] = useState('');
+
+  const sendMessage = (messageString) => {
+    // on submitting the ChatInput form, send the message, add it to the list and reset the input
+    const message = { message: messageString, type: 'chat' };
+    ws.send(JSON.stringify(message));
+  };
 
   return (
     <form
@@ -10,7 +18,7 @@ const ChatInput = (props) => {
         event.preventDefault();
 
         if (message) {
-          props.onSubmitMessage(message);
+          sendMessage(message);
           setMessage('');
         }
       }}

@@ -5,7 +5,7 @@ import ChatMessage from './ChatMessage';
 const Container = styled.div`
 `
 
-const ChatMessages = (props) => {
+const ChatMessageContainer = (props) => {
   const { messages } = props;
 
   return (
@@ -23,4 +23,4 @@ const ChatMessages = (props) => {
   )
 }
 
-export default ChatMessages;
+export default ChatMessageContainer;

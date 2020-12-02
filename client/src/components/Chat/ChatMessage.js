@@ -11,7 +11,7 @@ const ChatMessage = (props) => {
     case 'chat':
       return (
         <Message>
-          <strong>{username}</strong> {`${timestamp}: `} <em>{message}</em>
+          <strong>{username}</strong> {`${timestamp}: `}{message}
         </Message>
       )
     case 'system':
