@@ -7,7 +7,6 @@ const Container = styled.div`
 
 const ChatMessageContainer = (props) => {
   const { messages } = props;
-
   return (
     <Container>
       <ul>

@@ -1,19 +1,24 @@
-import { useEffect, useState, useRef } from 'react';
+import styled from 'styled-components';
+
 import ChatInput from './ChatInput';
 import ChatMessageContainer from './ChatMessageContainer';
+
+const Container = styled.div`
+  /* height: 100vh; */
+`
 
 const Chat = (props) => {
   const { messages, ws } = props;
 
   return (
-    <div>
+    <Container>
       <ChatMessageContainer messages={messages} />
 
       <ChatInput
         ws={ws}
       />
-    </div>
+    </Container>
   )
 }
 
-export default Chat
+export default Chat;
