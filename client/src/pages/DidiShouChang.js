@@ -5,9 +5,6 @@ import Chat from 'components/Chat/Chat';
 import UserList from 'components/UserList';
 
 const Container = styled.div`
-  background-image: url('/assets/a.gif');
-  color: white;
-  font-weight: bold;
 `;
 
 const DidiShouChang = (props) => {
