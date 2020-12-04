@@ -30,7 +30,6 @@ const Chat = (props) => {
   const endRef = useRef(null);
 
   const scrollChatToBottom = () => {
-    // endRef.current.scrollIntoView({ behavior: 'smooth' });
     endRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
   };
 
