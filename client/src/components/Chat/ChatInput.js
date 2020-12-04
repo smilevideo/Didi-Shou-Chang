@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const ChatInput = (props) => {
-  const { ws } = props;
+  const { ws, scrollChatToBottom } = props;
 
   const [message, setMessage] = useState('');
 
@@ -11,24 +11,25 @@ const ChatInput = (props) => {
     ws.send(JSON.stringify(message));
   };
 
-  return (
-    <form
-      action="."
-      onSubmit={(event) => {
-        event.preventDefault();
+  const onSubmit = (event) => {
+    event.preventDefault();
 
-        if (message) {
-          sendMessage(message);
-          setMessage('');
-        }
-      }}
-    >
+    if (message) {
+      sendMessage(message);
+      setMessage('');
+      scrollChatToBottom();
+    }
+  };
+
+  return (
+    <form onSubmit={onSubmit}>
       <input
         type="text"
         placeholder={'Enter message...'}
         value={message}
         onChange={(event) => setMessage(event.target.value)}
       />
+      
       <input type="submit" value={'Send'} />
     </form>
   )

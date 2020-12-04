@@ -7,6 +7,9 @@ import UserList from 'components/UserList';
 const Container = styled.div`
 `;
 
+const beep1 = new Audio('/assets/beep1.mp3');
+const beep2 = new Audio('/assets/beep2.mp3');
+
 const DidiShouChang = (props) => {
   const { username } = props;
 
@@ -20,6 +23,8 @@ const DidiShouChang = (props) => {
     const WEBSOCKET_URL = 'ws://localhost:3030'
     ws.current = new WebSocket(WEBSOCKET_URL);
 
+
+
     ws.current.onopen = () => {
       console.log('connected');
       const message = {username, type: 'userEnter'};
@@ -32,8 +37,10 @@ const DidiShouChang = (props) => {
       if (message.type === 'messagesUpdate') {
         setMessages(message.messages);
       }
+
       else if (message.type === 'userListUpdate') {
         setUserList(message.userList);
+        beep2.play();
       }
     };
 
@@ -43,7 +50,9 @@ const DidiShouChang = (props) => {
   return (
     <Container>
       <Chat messages={messages} ws={ws.current} />
-      <img src="/assets/a.jpg" alt="warp" />
+
+      <img src="/assets/a.jpg" alt="cooking beats" />
+
       <UserList userList={userList} />
     </Container>
   )
