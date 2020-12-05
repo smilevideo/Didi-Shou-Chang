@@ -2,13 +2,15 @@ import styled from 'styled-components';
 
 import { useState } from 'react';
 
-const ContainerForm = styled.form`
-  grid-row: 2;
+const Container = styled.div`
+  height: 43px;
 `
 
 const MessageInput = styled.textarea`
   resize: none;
   width: 100%;
+  font: inherit;
+  padding: 10px;
 `
 
 const ChatInput = (props) => {
@@ -38,7 +40,7 @@ const ChatInput = (props) => {
   }
 
   return (
-    <ContainerForm onSubmit={handleSubmit}>
+    <Container>
       <MessageInput
         placeholder="Message Didi-Shou-Chang"
         value={message}
@@ -46,10 +48,11 @@ const ChatInput = (props) => {
         autoFocus={true}
         maxLength={200}
         onKeyDown={handleKeyDown}
+        rows={1}
       >
         
       </MessageInput>
-    </ContainerForm>
+    </Container>
   )
 }
 

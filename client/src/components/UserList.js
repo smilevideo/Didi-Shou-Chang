@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-  min-height: 30vh;
+  height: 333px;
   overflow-y: auto;
 
   border: 1px solid green;
 
   padding: 1rem;
+
+  background-image: url('/assets/a.gif');
+
+  color: white;
 `
 
 const UserList = (props) => {

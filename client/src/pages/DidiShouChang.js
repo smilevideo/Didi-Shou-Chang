@@ -6,7 +6,7 @@ import UserList from 'components/UserList';
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 30% 1fr 30%;
+  grid-template-columns: 30% 1fr 500px;
   grid-template-rows: 1fr;
 `;
 
