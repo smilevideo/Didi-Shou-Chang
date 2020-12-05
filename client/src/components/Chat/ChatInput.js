@@ -50,8 +50,6 @@ const ChatInput = (props) => {
       >
         
       </MessageInput>
-      
-      <input type="submit" value={'Send'} />
     </ContainerForm>
   )
 }
