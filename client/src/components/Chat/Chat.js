@@ -6,12 +6,14 @@ import ChatInput from './ChatInput';
 import ChatMessage from './ChatMessage';
 
 const Container = styled.div`
+  height: 70vh;
+  display: grid;
+  grid-template-rows: 90% 1fr;
 
 `
 
 const ChatMessageContainer = styled.div`
-  height: 45vh;
-  width: 50ch;
+  grid-row: 1;
   overflow-y: auto;
   
   border: 1px solid black;
@@ -21,7 +23,6 @@ const ChatMessageContainer = styled.div`
     padding: 0;
   }
 `
-
 
 const Chat = (props) => {
   const { messages, ws } = props;

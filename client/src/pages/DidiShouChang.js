@@ -5,7 +5,16 @@ import Chat from 'components/Chat/Chat';
 import UserList from 'components/UserList';
 
 const Container = styled.div`
+  display: grid;
+  grid-template-columns: 30% 1fr 30%;
+  grid-template-rows: 1fr;
 `;
+
+const Column = styled.div`
+  grid-column: ${props => props.gridColumn};
+  display: flex;
+  flex-direction: column;
+`
 
 const beep1 = new Audio('/assets/beep1.mp3');
 const beep2 = new Audio('/assets/beep2.mp3');
@@ -22,8 +31,6 @@ const DidiShouChang = (props) => {
   useEffect(() => {
     const WEBSOCKET_URL = 'ws://localhost:3030'
     ws.current = new WebSocket(WEBSOCKET_URL);
-
-
 
     ws.current.onopen = () => {
       console.log('connected');
@@ -49,11 +56,18 @@ const DidiShouChang = (props) => {
 
   return (
     <Container>
-      <Chat messages={messages} ws={ws.current} />
+      <Column gridColumn={1}>
+        asdf
+      </Column>
 
-      <img src="/assets/a.jpg" alt="cooking beats" />
-
-      <UserList userList={userList} />
+      <Column gridColumn={2}>
+        zxcv
+      </Column>
+      
+      <Column gridColumn={3}>
+        <UserList userList={userList} />
+        <Chat messages={messages} ws={ws.current} />
+      </Column>
     </Container>
   )
 }

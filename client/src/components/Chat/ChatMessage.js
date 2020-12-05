@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 const Message = styled.li`
   list-style-type: none;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 `
 
 const ChatMessage = (props) => {
