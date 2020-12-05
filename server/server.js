@@ -13,10 +13,12 @@ const broadcast = (data) => {
   });
 };
 
-const sendUserList = () => {
+const addUser = (username) => {
+  userList.push(username);
+
   const data = JSON.stringify(
     {
-      type: 'userListUpdate',
+      type: 'userEnter',
       userList
     }
   );
@@ -24,17 +26,18 @@ const sendUserList = () => {
   broadcast(data);
 };
 
-const addUser = (username) => {
-  userList.push(username);
-
-  sendUserList();
-};
-
 const removeUser = (username) => {
   const index = userList.indexOf(username);
   userList.splice(index, 1);
 
-  sendUserList();
+  const data = JSON.stringify(
+    {
+      type: 'userLeave',
+      userList
+    }
+  );
+
+  broadcast(data);
 }
 
 const sendMessages = () => {
@@ -73,8 +76,8 @@ wss.on('connection', (ws) => {
         username = clientMessage.username;
 
         addMessage({
-          message: `${username} has entered Didi-Shou-Chang.`,
-          type: 'system',
+          username,
+          type: 'userEnter',
           timestamp
         });
         addUser(username);
@@ -99,8 +102,8 @@ wss.on('connection', (ws) => {
     const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
 
     addMessage({
-      message: `${username} has left Didi-Shou-Chang.`,
-      type: 'system',
+      username,
+      type: 'userLeave',
       timestamp
     });
     removeUser(username);

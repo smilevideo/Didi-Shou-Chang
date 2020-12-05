@@ -1,9 +1,24 @@
 import styled from 'styled-components';
 
-const Message = styled.li`
+const Container = styled.li`
   list-style-type: none;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+`
+
+const Username = styled.span`
+  font-weight: bold;
+`
+
+const Timestamp = styled.span`
+  font-size: 12px;
+`
+
+const Message = styled.span`
+`
+
+const SystemMessage = styled.span`
+  font-style: italic;
 `
 
 const ChatMessage = (props) => {
@@ -12,15 +27,27 @@ const ChatMessage = (props) => {
   switch (type) {
     case 'chat':
       return (
-        <Message>
-          <strong>{username}</strong> {`${timestamp}: `}{message}
-        </Message>
+        <Container>
+          <Username>{`${username} `}</Username>
+          <Timestamp>{`${timestamp}: `}</Timestamp>
+          <Message>{message}</Message>
+        </Container>
       )
-    case 'system':
+    case 'userEnter':
       return (
-        <Message>
-          {`${timestamp}: `}<em>{message}</em>
-        </Message>
+        <Container>
+          <Username>{`${username} `}</Username>
+          <Timestamp>{`${timestamp}: `}</Timestamp>
+          <SystemMessage>has entered Didi-Shou-Chang.</SystemMessage>
+        </Container>
+      ) 
+    case 'userLeave':
+      return (
+        <Container>
+          <Username>{`${username} `}</Username>
+          <Timestamp>{`${timestamp}: `}</Timestamp>
+          <SystemMessage>has left Didi-Shou-Chang.</SystemMessage>
+        </Container>
       )
     default:
       return null;

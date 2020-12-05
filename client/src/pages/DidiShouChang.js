@@ -45,9 +45,14 @@ const DidiShouChang = (props) => {
         setMessages(message.messages);
       }
 
-      else if (message.type === 'userListUpdate') {
+      else if (message.type === 'userEnter') {
         setUserList(message.userList);
         beep2.play();
+      }
+
+      else if (message.type === 'userLeave') {
+        setUserList(message.userList);
+        beep1.play();
       }
     };
 

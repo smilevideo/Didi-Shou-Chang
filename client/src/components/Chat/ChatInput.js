@@ -8,6 +8,7 @@ const ContainerForm = styled.form`
 
 const MessageInput = styled.textarea`
   resize: none;
+  width: 100%;
 `
 
 const ChatInput = (props) => {
@@ -42,8 +43,6 @@ const ChatInput = (props) => {
         placeholder="Message Didi-Shou-Chang"
         value={message}
         onChange={(event) => setMessage(event.target.value)}
-        cols={33}
-        rows={3}
         autoFocus={true}
         maxLength={200}
         onKeyDown={handleKeyDown}

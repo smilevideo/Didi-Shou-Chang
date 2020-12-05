@@ -7,13 +7,10 @@ import ChatMessage from './ChatMessage';
 
 const Container = styled.div`
   height: 70vh;
-  display: grid;
-  grid-template-rows: 90% 1fr;
-
 `
 
 const ChatMessageContainer = styled.div`
-  grid-row: 1;
+  max-height: 90%;
   overflow-y: auto;
   
   border: 1px solid black;
