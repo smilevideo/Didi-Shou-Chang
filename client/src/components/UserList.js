@@ -6,11 +6,15 @@ const Container = styled.div`
 
   border: 1px solid green;
 
-  padding: 1rem;
+  padding: 1.5rem;
 
   background-image: url('/assets/a.gif');
 
   color: white;
+  
+  h2 {
+    margin: 0;
+  }
 `
 
 const UserList = (props) => {

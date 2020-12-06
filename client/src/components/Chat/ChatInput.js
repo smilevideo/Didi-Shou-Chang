@@ -23,19 +23,15 @@ const ChatInput = (props) => {
     ws.send(JSON.stringify(message));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    if (message) {
-      sendMessage(message);
-      setMessage('');
-      scrollChatToBottom();
-    }
-  };
-
   const handleKeyDown = (event) => {
     if (event.code === "Enter" && !event.shiftKey) {
-      handleSubmit(event);
+      event.preventDefault(); //stops the default behavior of the enter key adding a line break to the textarea element
+
+      if (message) {
+        sendMessage(message);
+        setMessage('');
+        scrollChatToBottom();
+      }
     }
   }
 

@@ -3,10 +3,11 @@ import { useEffect, useState, useRef } from 'react';
 
 import Chat from 'components/Chat/Chat';
 import UserList from 'components/UserList';
+import Timeline from 'components/Timeline';
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 30% 1fr 500px;
+  grid-template-columns: 500px 1fr 500px;
   grid-template-rows: 1fr;
 `;
 
@@ -26,6 +27,7 @@ const DidiShouChang = (props) => {
 
   const [messages, setMessages] = useState([]);
   const [userList, setUserList] = useState([]);
+  const [timeline, setTimeline] = useState([]);
 
   // connect and set up WebSocket on initialize
   useEffect(() => {
@@ -62,7 +64,7 @@ const DidiShouChang = (props) => {
   return (
     <Container>
       <Column gridColumn={1}>
-        asdf
+        <Timeline timeline={timeline} />
       </Column>
 
       <Column gridColumn={2}>
