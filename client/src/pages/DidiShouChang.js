@@ -4,10 +4,11 @@ import { useEffect, useState, useRef } from 'react';
 import Chat from 'components/Chat/Chat';
 import UserList from 'components/UserList';
 import Timeline from 'components/Timeline';
+import SongUpload from 'components/SongUpload';
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 500px 1fr 500px;
+  grid-template-columns: 350px 1fr 350px;
   grid-template-rows: 1fr;
 `;
 
@@ -68,7 +69,7 @@ const DidiShouChang = (props) => {
       </Column>
 
       <Column gridColumn={2}>
-        zxcv
+        <SongUpload />
       </Column>
       
       <Column gridColumn={3}>
