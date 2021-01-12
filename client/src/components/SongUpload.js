@@ -51,7 +51,6 @@ const Title = styled.div`
 const Dropzone = styled.div`
   height: 200px;
   width: 200px;
-  background-color: #fff;
   border: 2px solid rgb(187, 186, 186);
   border-radius: 50%;
   display: flex;
@@ -62,7 +61,7 @@ const Dropzone = styled.div`
 
   cursor: pointer;
 
-  background-color: ${props => props.highlighted ? "rgb(188, 185, 236)" : "#fff"};
+  opacity: ${props => props.highlighted ? 0.3 : 1};
 
   background-image: url('/assets/c.gif');
   background-size: cover;
@@ -79,14 +78,6 @@ const SongUpload = () => {
   const fileInputRef = useRef(null);
 
   const [dropzoneHighlighted, setDropzoneHighlighted] = useState(false);
-  const [files, setFiles] = useState([]);
-  const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState({});
-  const [successfullyUploaded, setSuccessfulyUploaded] = useState(false);
-
-  const onFilesAdded = (newFiles) => {
-    setFiles(...files, newFiles);
-  }
 
   const handleUpload = (event) => {
     console.log(event.target.files);
@@ -110,7 +101,6 @@ const SongUpload = () => {
     event.preventDefault();
     
     console.log(event.dataTransfer.files);
-    handleUpload(event);
 
     setDropzoneHighlighted(false);
   }
@@ -132,11 +122,7 @@ const SongUpload = () => {
         onDragLeave={onDragLeave}
         onDrop={onDrop}
         highlighted={dropzoneHighlighted}
-        onFilesAdded={onFilesAdded}
-      >
-        {/* <img src="/assets/a.gif" alt="upload songs here" /> */}
-        <div></div>
-        
+      > 
         <FileInput
           ref={fileInputRef}
           type="file"
