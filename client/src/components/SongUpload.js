@@ -126,6 +126,7 @@ const SongUpload = () => {
         <FileInput
           ref={fileInputRef}
           type="file"
+          accept="audio/*"
           onChange={handleUpload}
         />
       </Dropzone>
