@@ -5,6 +5,7 @@ import Chat from 'components/Chat/Chat';
 import UserList from 'components/UserList';
 import Timeline from 'components/Timeline';
 import SongUpload from 'components/SongUpload';
+import SongByURLInput from 'components/SongByURLInput';
 
 const Container = styled.div`
   display: grid;
@@ -70,6 +71,7 @@ const DidiShouChang = (props) => {
 
       <Column gridColumn={2}>
         <SongUpload />
+        <SongByURLInput />
       </Column>
       
       <Column gridColumn={3}>
