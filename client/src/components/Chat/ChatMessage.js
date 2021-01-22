@@ -21,6 +21,10 @@ const SystemMessage = styled.span`
   font-style: italic;
 `
 
+const SongMessage = styled.span`
+  color: blue;
+`
+
 const ChatMessage = (props) => {
   const { type, message, username, timestamp } = props.message;
 
@@ -47,6 +51,15 @@ const ChatMessage = (props) => {
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
           <SystemMessage>has left Didi-Shou-Chang.</SystemMessage>
+        </Container>
+      )
+    case 'addSong':
+      return (
+        <Container>
+          <Username>{`${username} `}</Username>
+          <Timestamp>{`${timestamp}: `}</Timestamp>
+          <SongMessage>added a song to the queue.</SongMessage>
+
         </Container>
       )
     default:

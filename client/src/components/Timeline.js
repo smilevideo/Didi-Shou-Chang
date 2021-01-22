@@ -15,30 +15,29 @@ const Container = styled.div`
 `
 
 const Timeline = (props) => {
-  const { timeline } = props;
-
-  const [initialScrollComplete, setInitialScrollComplete] = useState(false);
-  const currentlyPlayingRef = useRef(null);
-
-  const scrollTimelineToCurrentlyPlaying = () => {
-    currentlyPlayingRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
-  };
-
-  // scroll chat to bottom once initial messages are loaded
-  useEffect(() => {
-    if (!initialScrollComplete && timeline.length > 0) {
-      scrollTimelineToCurrentlyPlaying();
-      setInitialScrollComplete(true);
-    }
-  }, [timeline, initialScrollComplete]);
+  const { songQueue, songHistory } = props;
 
   return (
     <Container>
-        <ul>
-          {timeline.map(song => <li>asdf</li>)}
-        </ul>
-        
-        <div ref={currentlyPlayingRef} />
+      <ul>
+        {songQueue.map((song) => {
+          return <li>
+            <div>{song.username}</div>
+            <div>{song.url}</div>
+          </li>
+        })}
+      </ul>
+
+      <hr />
+
+      <ul>
+        {songHistory.map((song) => {
+          return <li>
+            <div>{song.username}</div>
+            <div>{song.url}</div>
+          </li>
+        })}
+      </ul>
     </Container>
   )
 }

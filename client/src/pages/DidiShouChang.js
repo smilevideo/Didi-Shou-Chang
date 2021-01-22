@@ -29,7 +29,8 @@ const DidiShouChang = (props) => {
 
   const [messages, setMessages] = useState([]);
   const [userList, setUserList] = useState([]);
-  const [timeline, setTimeline] = useState([]);
+  const [songQueue, setSongQueue] = useState([]);
+  const [songHistory, setSongHistory] = useState([]);
 
   // connect and set up WebSocket on initialize
   useEffect(() => {
@@ -58,6 +59,15 @@ const DidiShouChang = (props) => {
         setUserList(message.userList);
         beep1.play();
       }
+
+      else if (message.type === 'welcome') {
+        setSongQueue(message.songQueue);
+        setSongHistory(message.songHistory);
+      }
+
+      else if (message.type === 'addSong') {
+        setSongQueue(message.songQueue);
+      }
     };
 
     return () => ws.current.close();
@@ -66,12 +76,12 @@ const DidiShouChang = (props) => {
   return (
     <Container>
       <Column gridColumn={1}>
-        <Timeline timeline={timeline} />
+        <Timeline songQueue={songQueue} songHistory={songHistory} />
       </Column>
 
       <Column gridColumn={2}>
-        <SongUpload />
-        <SongByURLInput />
+        {/* <SongUpload /> */}
+        <SongByURLInput ws={ws.current} />
       </Column>
       
       <Column gridColumn={3}>
