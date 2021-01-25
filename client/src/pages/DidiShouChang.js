@@ -3,9 +3,11 @@ import { useEffect, useState, useRef } from 'react';
 
 import Chat from 'components/Chat/Chat';
 import UserList from 'components/UserList';
-import Timeline from 'components/Timeline';
+import SongQueue from 'components/SongQueue';
+import SongHistory from 'components/SongHistory';
 import SongUpload from 'components/SongUpload';
 import SongByURLInput from 'components/SongByURLInput';
+import AudioPlayer from 'components/AudioPlayer';
 
 const Container = styled.div`
   display: grid;
@@ -76,12 +78,14 @@ const DidiShouChang = (props) => {
   return (
     <Container>
       <Column gridColumn={1}>
-        <Timeline songQueue={songQueue} songHistory={songHistory} />
+        <SongQueue songQueue={songQueue} />
+        <SongHistory songHistory={songHistory} />
       </Column>
 
       <Column gridColumn={2}>
         {/* <SongUpload /> */}
         <SongByURLInput ws={ws.current} />
+        {songQueue.length > 0 && <AudioPlayer url={songQueue[0].url} />}
       </Column>
       
       <Column gridColumn={3}>

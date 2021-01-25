@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import ReactPlayer from 'react-player';
+import ReactPlayerYouTube from 'react-player/youtube';
+import ReactPlayerSoundCloud from 'react-player/soundcloud';
 
 const SongByURLInput = (props) => {
   const { ws } = props;
@@ -17,13 +18,13 @@ const SongByURLInput = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault(); 
 
-    if (ReactPlayer.canPlay(mediaURL)) {
+    if (ReactPlayerYouTube.canPlay(mediaURL) || ReactPlayerSoundCloud.canPlay(mediaURL)) {
       handleNewMedia();
       setError(null);
     }
 
     else {
-      setError('URL is not valid media');
+      setError('URL is not a valid YT or SC link');
     };
 
     setMediaURL('');

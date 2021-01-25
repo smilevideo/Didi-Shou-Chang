@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useEffect, useState, useRef } from 'react';
 
 const Container = styled.div`
-  height: 100%;
+  height: 50%;
   overflow-y: auto;
   
   border: 1px solid black;
@@ -14,25 +14,14 @@ const Container = styled.div`
   }
 `
 
-const Timeline = (props) => {
-  const { songQueue, songHistory } = props;
+const SongHistory = (props) => {
+  const { songHistory } = props;
 
   return (
     <Container>
       <ul>
-        {songQueue.map((song) => {
-          return <li>
-            <div>{song.username}</div>
-            <div>{song.url}</div>
-          </li>
-        })}
-      </ul>
-
-      <hr />
-
-      <ul>
-        {songHistory.map((song) => {
-          return <li>
+        {songHistory.map((song, index) => {
+          return <li key={index}>
             <div>{song.username}</div>
             <div>{song.url}</div>
           </li>
@@ -42,4 +31,4 @@ const Timeline = (props) => {
   )
 }
 
-export default Timeline;
+export default SongHistory;

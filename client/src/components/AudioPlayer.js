@@ -1,36 +1,29 @@
+import styled from 'styled-components';
+
 import { useState, useEffect } from 'react';
 
-const useAudio = url => {
-  const [audio, setAudio] = useState(new Audio(url));
-  const [playing, setPlaying] = useState(false);
+import ReactPlayer from 'react-player';
 
-  const togglePlaying = () => setPlaying(!playing);
+const AudioPlayer = (props) => {
+  const { url } = props;
 
-  useEffect(() => {
-    if (playing) {
-      audio.play();
-    } else {
-      audio.pause();
-    }
-  }, [audio, playing]);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    audio.addEventListener('ended', () => setPlaying(false));
-    
-    return () => {
-      audio.removeEventListener('ended', () => setPlaying(false));
-    }
-  }, [audio]);
-
-  return [playing, togglePlaying];
-};
-
-const AudioPlayer = ({ url }) => {
-  const [playing, togglePlaying] = useAudio(url);
+  const handleError = () => {
+    setError('error playing media at this url');
+  }
 
   return (
     <div>
-      <button onClick={togglePlaying}>{playing ? "Pause" : "Play"}</button>
+      <ReactPlayer 
+        url={url} 
+        playing={true}
+        width="0"
+        height="0"
+        onError={handleError}
+      />
+
+      {error && <div>{error}</div>}
     </div>
   );
 };
