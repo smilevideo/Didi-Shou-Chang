@@ -14,11 +14,20 @@ const Container = styled.div`
   }
 `
 
+const Header = styled.div`
+  font-weight: bold;
+  font-size: 1.2rem;
+
+  background-color: #333333;
+  color: #CCCCCC;
+`
+
 const SongHistory = (props) => {
   const { songHistory } = props;
 
   return (
     <Container>
+      <Header>PAST</Header>
       <ul>
         {songHistory.map((song, index) => {
           return <li key={index}>

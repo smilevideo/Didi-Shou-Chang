@@ -11,7 +11,7 @@ const Username = styled.span`
 `
 
 const Timestamp = styled.span`
-  font-size: 12px;
+  font-size: 0.9rem;
 `
 
 const Message = styled.span`

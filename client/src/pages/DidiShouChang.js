@@ -85,7 +85,9 @@ const DidiShouChang = (props) => {
       <Column gridColumn={2}>
         {/* <SongUpload /> */}
         <SongByURLInput ws={ws.current} />
-        {songQueue.length > 0 && <AudioPlayer url={songQueue[0].url} />}
+        {songQueue.length > 0 && <>
+          <AudioPlayer song={songQueue[0]} />
+        </>}
       </Column>
       
       <Column gridColumn={3}>

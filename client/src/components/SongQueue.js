@@ -9,6 +9,14 @@ const Container = styled.div`
   border: 1px solid black;
 `
 
+const Header = styled.div`
+  font-weight: bold;
+  font-size: 1.2rem;
+
+  background-color: #333333;
+  color: #CCCCCC;
+`
+
 const SongList = styled.ul`
   margin: 0;
   padding: 0;
@@ -50,6 +58,7 @@ const SongQueue = (props) => {
 
   return (
     <Container>
+      <Header>FUTURE</Header>
       <SongList>
         {songQueue.map((song, index) => {
           const { username, oEmbedData, url } = song;
@@ -61,7 +70,7 @@ const SongQueue = (props) => {
               <PlaceNumber>{index + 1}</PlaceNumber>
               
               <div>{author_name}</div>
-              <div>{title}</div>
+              <a href={song.url}>{title}</a>
 
               <AddedBy>{`Added by ${username}`}</AddedBy>
             </Song>
