@@ -15,15 +15,11 @@ const AudioPlayer = (props) => {
 
   const handleError = () => {
     setError('error playing media at this url');
-  }
+  };
 
   const handleDuration = (duration) => {
     setDuration(duration);
-  }
-
-  const handleSeekChange = (event) => {
-    this.setState({ played: parseFloat(e.target.value) })
-  }
+  };
 
   return (
     <div>
