@@ -8,7 +8,7 @@
 - react-player
 - node
 - ws (websockets library for node)
-- node-fetch
+- node-fetch cuz lazy
 
 ## other providers I could add because of react-player
 
