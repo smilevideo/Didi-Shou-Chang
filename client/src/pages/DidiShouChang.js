@@ -9,6 +9,8 @@ import SongUpload from 'components/SongUpload';
 import SongByURLInput from 'components/SongByURLInput';
 import AudioPlayer from 'components/AudioPlayer';
 
+import FillerVisuals from 'components/FillerVisuals';
+
 const Container = styled.div`
   display: grid;
   grid-template-columns: 350px 1fr 350px;
@@ -36,7 +38,7 @@ const DidiShouChang = (props) => {
 
   // connect and set up WebSocket on initialize
   useEffect(() => {
-    const WEBSOCKET_URL = 'ws://localhost:3030'
+    const WEBSOCKET_URL = process.env.REACT_APP_WEBSOCKET_URL;
     ws.current = new WebSocket(WEBSOCKET_URL);
 
     ws.current.onopen = () => {
@@ -88,6 +90,8 @@ const DidiShouChang = (props) => {
         {songQueue.length > 0 && <>
           <AudioPlayer song={songQueue[0]} />
         </>}
+
+        <FillerVisuals />
       </Column>
       
       <Column gridColumn={3}>
