@@ -5,7 +5,6 @@ import Chat from 'components/Chat/Chat';
 import UserList from 'components/UserList';
 import SongQueue from 'components/SongQueue';
 import SongHistory from 'components/SongHistory';
-import SongUpload from 'components/SongUpload';
 import SongByURLInput from 'components/SongByURLInput';
 import AudioPlayer from 'components/AudioPlayer';
 
@@ -38,8 +37,7 @@ const DidiShouChang = (props) => {
 
   // connect and set up WebSocket on initialize
   useEffect(() => {
-    const WEBSOCKET_URL = process.env.REACT_APP_WEBSOCKET_URL;
-    ws.current = new WebSocket(WEBSOCKET_URL);
+    ws.current = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
 
     ws.current.onopen = () => {
       console.log('connected');

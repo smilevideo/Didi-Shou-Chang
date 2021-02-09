@@ -21,6 +21,17 @@ const AudioPlayer = (props) => {
     setDuration(duration);
   };
 
+  const handleProgress = (progress) => {
+    const { loaded, loadedSeconds, played, playedSeconds } = progress;
+
+    setElapsed(played);
+    // loaded: 0.1284723857811503
+    // loadedSeconds: 30.000999999999998
+    // played: 0.0248933544266832
+    // playedSeconds: 5.8131210190734866
+    
+  }
+
   return (
     <div>
       <ReactPlayer 
@@ -30,14 +41,22 @@ const AudioPlayer = (props) => {
         height="0"
         onError={handleError}
         onDuration={handleDuration}
+        onProgress={handleProgress}
       />
 
-      {error && <div>{error}</div>}
+      <div>
+        {error}
+      </div>
 
       {duration && <>
         <div>{`Now Playing: ${song.oEmbedData.title}`}</div>
         <hr />
-        <div>0:00 / <Duration seconds={duration} /></div>
+        <div>
+          <Duration seconds={elapsed * duration} /> / <Duration seconds={duration} />
+        </div>
+        <div>
+          <progress max={1} value={elapsed}>{elapsed}</progress>
+        </div>
       </>}
     </div>
   );
