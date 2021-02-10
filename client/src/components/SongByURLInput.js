@@ -37,7 +37,12 @@ const SongByURLInput = (props) => {
   return (
     <> 
       <form onSubmit={handleSubmit}>
-        <input type="text" value={mediaURL} onChange={handleChange} />
+        <input 
+          type="text" 
+          maxLength={100}
+          value={mediaURL} 
+          onChange={handleChange}   
+        />
         <input type="submit" value="yt/sc only" />
       </form>
       
