@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 
+import ReactPlayer from 'react-player';
 import ReactPlayerYouTube from 'react-player/youtube';
 import ReactPlayerSoundCloud from 'react-player/soundcloud';
 
@@ -8,18 +9,21 @@ const SongByURLInput = (props) => {
   const { ws } = props;
 
   const [error, setError] = useState(null);
-  const [mediaURL, setMediaURL] = useState('');
+  const [urlInput, setUrlInput] = useState('');
 
-  const handleNewMedia = () => {
-    const message = { url: mediaURL, type: 'addSong' };
-    ws.send(JSON.stringify(message));
-  }
+  const [player, setPlayer] = useState(false);
+  const [playerUrl, setPlayerUrl] = useState('');
+
+  const handleNewMedia = (urlInput) => {
+    setPlayerUrl(urlInput);
+    setPlayer(true);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault(); 
 
-    if (ReactPlayerYouTube.canPlay(mediaURL) || ReactPlayerSoundCloud.canPlay(mediaURL)) {
-      handleNewMedia();
+    if (ReactPlayerYouTube.canPlay(urlInput) || ReactPlayerSoundCloud.canPlay(urlInput)) {
+      handleNewMedia(urlInput);
       setError(null);
     }
 
@@ -27,20 +31,36 @@ const SongByURLInput = (props) => {
       setError('URL is not a valid YT or SC link');
     };
 
-    setMediaURL('');
-  }
-  
+    setUrlInput('');
+  };
+
   const handleChange = (event) => {
-    setMediaURL(event.target.value);
-  }
+    setUrlInput(event.target.value);
+  };
+
+  const handleDuration = (duration) => {
+    const message = { duration, url: playerUrl, type: 'addSong' };
+    ws.send(JSON.stringify(message));
+    setPlayer(false);
+  };
 
   return (
     <> 
+      {player && (
+        <ReactPlayer
+          url={playerUrl}
+          playing={false}
+          width="0"
+          height="0"
+          onDuration={handleDuration}
+        />
+      )}
+
       <form onSubmit={handleSubmit}>
         <input 
           type="text" 
           maxLength={100}
-          value={mediaURL} 
+          value={urlInput} 
           onChange={handleChange}   
         />
         <input type="submit" value="yt/sc only" />

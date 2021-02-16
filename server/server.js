@@ -14,6 +14,15 @@ const songHistory = [];
 const nowPlaying = {};
 const currentSeekTime = 0;
 
+let seconds = 0;
+
+const timerInterval = setInterval(() => {
+  console.log(seconds);
+  seconds += 1;
+
+
+}, 1000);
+
 const getOEmbedData = async (url) => {
   // hacky way to check if soundcloud
   if (url.includes('soundcloud.')) {
@@ -105,12 +114,13 @@ const addMessage = (message) => {
   broadcast(data);
 };
 
-const addSong = (username, url) => {
+const addSong = (username, duration, url) => {
   getOEmbedData(url)
     .then((oEmbedData) => {
       songQueue.push({
         username,
         url, 
+        duration,
         oEmbedData
       });
     
@@ -158,15 +168,15 @@ wss.on('connection', (ws) => {
         break;
 
       case 'addSong':
-        const url = clientMessage.url
-
+        const { url, duration }  = clientMessage;
+        
         addMessage({
           username,
           type: 'addSong',
           timestamp,
           url
         });
-        addSong(username, url);
+        addSong(username, duration, url);
         break;
 
       default:

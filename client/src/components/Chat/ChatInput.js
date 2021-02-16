@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import { useState } from 'react';
 
 const Container = styled.div`
-  height: 43px;
+  height: 40px;
 `
 
 const MessageInput = styled.textarea`
   resize: none;
   width: 100%;
   font: inherit;
-  padding: 10px;
+  padding: 7px;
 `
 
 const ChatInput = (props) => {

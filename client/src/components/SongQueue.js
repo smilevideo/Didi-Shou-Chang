@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 import { useEffect, useState, useRef } from 'react';
 
+import Duration from 'utils/Duration';
+
 const Container = styled.div`
   height: 50%;
   overflow-y: auto;
@@ -53,6 +55,12 @@ const AddedBy = styled.div`
   font-size: 0.9rem;
 `
 
+const Length = styled.div`
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+`
+
 const SongQueue = (props) => {
   const { songQueue } = props;
 
@@ -61,7 +69,7 @@ const SongQueue = (props) => {
       <Header>FUTURE</Header>
       <SongList>
         {songQueue.map((song, index) => {
-          const { username, oEmbedData, url } = song;
+          const { username, oEmbedData, url, duration } = song;
   
           if (oEmbedData) {
             const { author_name, title } = oEmbedData;
@@ -70,9 +78,13 @@ const SongQueue = (props) => {
               <PlaceNumber>{index + 1}</PlaceNumber>
               
               <div>{author_name}</div>
-              <a href={song.url}>{title}</a>
-
+              <a href={url}>{title}</a>
+              
               <AddedBy>{`Added by ${username}`}</AddedBy>
+
+              <Length>
+                <Duration seconds={duration} />
+              </Length>
             </Song>
           }
 
