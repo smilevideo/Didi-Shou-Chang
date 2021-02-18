@@ -30,6 +30,14 @@ const AudioPlayer = (props) => {
   const [error, setError] = useState(null);
   const [elapsed, setElapsed] = useState(null);
 
+  const [volume, setVolume] = useState(1);
+
+  if (!song) {
+    return <Container>
+      Nothing currently playing.
+    </Container>;
+  }
+
   const handleError = () => {
     setError('error playing media at this url');
   };
@@ -47,6 +55,10 @@ const AudioPlayer = (props) => {
     // playedSeconds: 5.8131210190734866
   }
 
+  const handleVolumeChange = (event) => {
+    setVolume(parseFloat(event.target.value));
+  }
+
   return (
     <Container>
       <ReactPlayer 
@@ -56,25 +68,39 @@ const AudioPlayer = (props) => {
         height="0"
         onError={handleError}
         onProgress={handleProgress}
+        volume={volume}
       />
 
       <div>
         {error}
       </div>
 
-      {duration && <>
-        <Title>
-          {oEmbedData.title}
-        </Title>
+      <Title>
+        {oEmbedData.title}
+      </Title>
 
-        <Elapsed>
-          <Duration seconds={elapsed * duration} /> / <Duration seconds={duration} />
-        </Elapsed>
+      <Elapsed>
+        <Duration seconds={elapsed * duration} /> / <Duration seconds={duration} />
+      </Elapsed>
 
-        <div>
-          <progress max={1} value={elapsed}>{elapsed}</progress>
-        </div>
-      </>}
+      <div>
+        <progress max={1} value={elapsed}>{elapsed}</progress>
+      </div>
+
+      <hr />
+
+      <div>
+        Volume
+      </div>
+      <input
+        type="range"
+        min={0}
+        max={1}
+        step="any"
+        value={volume}
+        onChange={handleVolumeChange}
+      />
+
     </Container>
   );
 };

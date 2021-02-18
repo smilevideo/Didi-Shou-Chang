@@ -99,9 +99,7 @@ const DidiShouChang = (props) => {
 
       <CenterColumn>
         {/* <SongUpload /> */}
-        {songQueue.length > 0 && <>
-          <AudioPlayer song={songQueue[0]} />
-        </>}
+        <AudioPlayer song={songQueue.length ? songQueue[0] : null} />
 
         <FillerVisuals />
 
