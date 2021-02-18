@@ -5,8 +5,6 @@ const Container = styled.div`
 
   justify-content: center;
   align-items: center;
-
-  margin-top: 200px;
 `;
 
 const Image = styled.div`

@@ -5,6 +5,11 @@ import ReactPlayer from 'react-player';
 import ReactPlayerYouTube from 'react-player/youtube';
 import ReactPlayerSoundCloud from 'react-player/soundcloud';
 
+const Container = styled.div`
+  padding: 5px;
+  text-align: center;
+`;
+
 const SongByURLInput = (props) => {
   const { ws } = props;
 
@@ -45,7 +50,7 @@ const SongByURLInput = (props) => {
   };
 
   return (
-    <> 
+    <Container> 
       {player && (
         <ReactPlayer
           url={playerUrl}
@@ -67,7 +72,7 @@ const SongByURLInput = (props) => {
       </form>
       
       {error && <div>{error}</div>}
-    </>
+    </Container>
   )
 }
 

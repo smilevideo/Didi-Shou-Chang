@@ -16,8 +16,23 @@ const Container = styled.div`
   grid-template-rows: 1fr;
 `;
 
-const Column = styled.div`
-  grid-column: ${props => props.gridColumn};
+const LeftColumn = styled.div`
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+`
+
+const CenterColumn = styled.div`
+  grid-column: 2;
+  display: grid;
+  
+  grid-template-rows: 18vh 1fr 18vh;
+  justify-content: center;
+  align-items: center;
+`
+
+const RightColumn = styled.div`
+  grid-column: 3;
   display: flex;
   flex-direction: column;
 `
@@ -77,25 +92,26 @@ const DidiShouChang = (props) => {
 
   return (
     <Container>
-      <Column gridColumn={1}>
+      <LeftColumn>
         <SongQueue songQueue={songQueue} />
         <SongHistory songHistory={songHistory} />
-      </Column>
+      </LeftColumn>
 
-      <Column gridColumn={2}>
+      <CenterColumn>
         {/* <SongUpload /> */}
-        <SongByURLInput ws={ws.current} />
         {songQueue.length > 0 && <>
           <AudioPlayer song={songQueue[0]} />
         </>}
 
         <FillerVisuals />
-      </Column>
+
+        <SongByURLInput ws={ws.current} />
+      </CenterColumn>
       
-      <Column gridColumn={3}>
+      <RightColumn>
         <UserList userList={userList} />
         <Chat messages={messages} ws={ws.current} />
-      </Column>
+      </RightColumn>
     </Container>
   )
 }

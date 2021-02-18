@@ -6,6 +6,24 @@ import ReactPlayer from 'react-player';
 
 import Duration from 'utils/Duration';
 
+const Container = styled.div`
+  padding: 5px;
+
+  text-align: center;
+`;
+
+const Title = styled.div`
+  font-size: 1.5rem;
+  font-weight: bold;
+  
+  margin-bottom: 10px;
+`
+
+const Elapsed = styled.div`
+  font-size: 1rem;
+  font-weight: bold;
+`
+
 const AudioPlayer = (props) => {
   const { song } = props;
 
@@ -30,7 +48,7 @@ const AudioPlayer = (props) => {
   }
 
   return (
-    <div>
+    <Container>
       <ReactPlayer 
         url={url}
         playing={true}
@@ -45,21 +63,19 @@ const AudioPlayer = (props) => {
       </div>
 
       {duration && <>
-        <div>
-          {`Now Playing: ${oEmbedData.title}`}
-        </div>
+        <Title>
+          {oEmbedData.title}
+        </Title>
 
-        <hr />
-
-        <div>
+        <Elapsed>
           <Duration seconds={elapsed * duration} /> / <Duration seconds={duration} />
-        </div>
+        </Elapsed>
 
         <div>
           <progress max={1} value={elapsed}>{elapsed}</progress>
         </div>
       </>}
-    </div>
+    </Container>
   );
 };
 
