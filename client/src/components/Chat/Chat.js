@@ -33,8 +33,9 @@ const Chat = (props) => {
 
   // scroll chat to bottom once initial messages are loaded
   useEffect(() => {
+    scrollChatToBottom();
+
     if (!initialScrollComplete && messages.length > 0) {
-      scrollChatToBottom();
       setInitialScrollComplete(true);
     }
   }, [messages, initialScrollComplete]);

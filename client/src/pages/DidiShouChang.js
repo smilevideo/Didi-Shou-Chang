@@ -26,7 +26,7 @@ const CenterColumn = styled.div`
   grid-column: 2;
   display: grid;
   
-  grid-template-rows: 18vh 1fr 18vh;
+  grid-template-rows: 20vh 1fr 18vh;
   justify-content: center;
   align-items: center;
 `
