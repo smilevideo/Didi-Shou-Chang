@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import ReactPlayer from 'react-player';
 
@@ -25,24 +25,25 @@ const Elapsed = styled.div`
 `
 
 const AudioPlayer = (props) => {
-  const { song } = props;
+  const { song, seekTime } = props;
 
   const [error, setError] = useState(null);
   const [elapsed, setElapsed] = useState(null);
 
   const [volume, setVolume] = useState(1);
 
-  if (!song) {
-    return <Container>
-      Nothing currently playing.
-    </Container>;
-  }
+  const playerRef = useRef(null);
+
+  useEffect(() => {
+    if (playerRef.current && seekTime > 0) {
+      playerRef.current.seekTo(seekTime, 'seconds');
+      console.log(seekTime);
+    }
+  }, [seekTime]);
 
   const handleError = () => {
     setError('error playing media at this url');
   };
-
-  const { url, duration, oEmbedData } = song;
 
   const handleProgress = (progress) => {
     const { loaded, loadedSeconds, played, playedSeconds } = progress;
@@ -59,6 +60,14 @@ const AudioPlayer = (props) => {
     setVolume(parseFloat(event.target.value));
   }
 
+  if (!song) {
+    return <Container>
+      Nothing currently playing.
+    </Container>;
+  }
+
+  const { url, duration, oEmbedData } = song;
+
   return (
     <Container>
       <ReactPlayer 
@@ -69,6 +78,7 @@ const AudioPlayer = (props) => {
         onError={handleError}
         onProgress={handleProgress}
         volume={volume}
+        ref={playerRef}
       />
 
       <div>

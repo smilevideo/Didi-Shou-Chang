@@ -49,6 +49,7 @@ const DidiShouChang = (props) => {
   const [userList, setUserList] = useState([]);
   const [songQueue, setSongQueue] = useState([]);
   const [songHistory, setSongHistory] = useState([]);
+  const [seekTime, setSeekTime] = useState(0);
 
   // connect and set up WebSocket on initialize
   useEffect(() => {
@@ -80,6 +81,7 @@ const DidiShouChang = (props) => {
       else if (message.type === 'welcome') {
         setSongQueue(message.songQueue);
         setSongHistory(message.songHistory);
+        setSeekTime(message.seekTime);
       }
 
       else if (message.type === 'addSong') {
@@ -104,7 +106,7 @@ const DidiShouChang = (props) => {
 
       <CenterColumn>
         {/* <SongUpload /> */}
-        <AudioPlayer song={songQueue.length ? songQueue[0] : null} />
+        <AudioPlayer song={songQueue.length ? songQueue[0] : null} seekTime={seekTime} />
 
         <FillerVisuals />
 

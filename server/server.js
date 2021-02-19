@@ -12,31 +12,25 @@ const songQueue = [];
 const songHistory = [];
 
 let nowPlaying = {};
-const currentSeekTime = 0;
 
-let seconds = 0;
-let timer = 0;
+let seekTime = 0;
 
 const timerInterval = setInterval(() => {
-  console.log(seconds);
-  seconds += 1;
-
   if (songQueue.length && !nowPlaying.duration) {
     nowPlaying = songQueue[0];
     console.log(nowPlaying.duration);
   }
 
   else if (songQueue.length) {
-    timer += 1;
+    seekTime += 1;
 
-    if (timer >= nowPlaying.duration) {
+    if (seekTime >= nowPlaying.duration) {
       nowPlaying = {};
-      timer = 0;
+      seekTime = 0;
+      
       nextSong();
     }
   }
-
-
 }, 1000);
 
 const getOEmbedData = async (url) => {
@@ -80,7 +74,8 @@ const welcomeNewUser = (ws) => {
     {
       type: 'welcome',
       songQueue,
-      songHistory
+      songHistory,
+      seekTime
     }
   )
   sendToOne(ws, data);
@@ -152,7 +147,9 @@ const addSong = (username, duration, url) => {
 }
 
 const nextSong = () => {
-  songHistory.push(songQueue.shift());
+  const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
+  songHistory.push({...songQueue.shift(), timestamp});
+  console.log(songHistory);
 
   const data = JSON.stringify(
     {
