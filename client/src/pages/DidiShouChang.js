@@ -64,34 +64,39 @@ const DidiShouChang = (props) => {
     ws.current.onmessage = (event) => {
       const message = JSON.parse(event.data);
 
-      if (message.type === 'messagesUpdate') {
-        setMessages(message.messages);
-      }
+      switch (message.type) {
+        case 'messagesUpdate':
+          setMessages(message.messages);
+          break;
 
-      else if (message.type === 'userEnter') {
-        setUserList(message.userList);
-        beep2.play();
-      }
+        case 'userEnter':
+          setUserList(message.userList);
+          beep2.play();
+          break;
 
-      else if (message.type === 'userLeave') {
-        setUserList(message.userList);
-        beep1.play();
-      }
+        case 'userLeave':
+          setUserList(message.userList);
+          beep1.play();
+          break;
 
-      else if (message.type === 'welcome') {
-        setSongQueue(message.songQueue);
-        setSongHistory(message.songHistory);
-        setSeekTime(message.seekTime);
-      }
+        case 'welcome':
+          setSongQueue(message.songQueue);
+          setSongHistory(message.songHistory);
+          setSeekTime(message.seekTime);
+          break;
 
-      else if (message.type === 'addSong') {
-        setSongQueue(message.songQueue);
-      }
+        case 'addSong':
+          setSongQueue(message.songQueue);
+          break;
 
-      else if (message.type === 'nextSong') {
-        setSongQueue(message.songQueue);
-        setSongHistory(message.songHistory);
-      }
+        case 'nextSong':
+          setSongQueue(message.songQueue);
+          setSongHistory(message.songHistory);
+          break;
+
+        default:
+          console.log('missing or unrecognized message type');
+      };
     };
 
     return () => ws.current.close();

@@ -26,7 +26,7 @@ const Elapsed = styled.div`
 
 const AudioPlayer = (props) => {
   const { song, seekTime } = props;
-
+  
   const [error, setError] = useState(null);
   const [elapsed, setElapsed] = useState(null);
 
