@@ -85,6 +85,11 @@ const DidiShouChang = (props) => {
       else if (message.type === 'addSong') {
         setSongQueue(message.songQueue);
       }
+
+      else if (message.type === 'nextSong') {
+        setSongQueue(message.songQueue);
+        setSongHistory(message.songHistory);
+      }
     };
 
     return () => ws.current.close();

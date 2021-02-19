@@ -11,14 +11,30 @@ const MAX_MESSAGES = 100;
 const songQueue = [];
 const songHistory = [];
 
-const nowPlaying = {};
+let nowPlaying = {};
 const currentSeekTime = 0;
 
 let seconds = 0;
+let timer = 0;
 
 const timerInterval = setInterval(() => {
   console.log(seconds);
   seconds += 1;
+
+  if (songQueue.length && !nowPlaying.duration) {
+    nowPlaying = songQueue[0];
+    console.log(nowPlaying.duration);
+  }
+
+  else if (songQueue.length) {
+    timer += 1;
+
+    if (timer >= nowPlaying.duration) {
+      nowPlaying = {};
+      timer = 0;
+      nextSong();
+    }
+  }
 
 
 }, 1000);
@@ -135,6 +151,20 @@ const addSong = (username, duration, url) => {
     });
 }
 
+const nextSong = () => {
+  songHistory.push(songQueue.shift());
+
+  const data = JSON.stringify(
+    {
+      type: 'nextSong',
+      songQueue,
+      songHistory
+    }
+  );
+
+  broadcast(data);
+}
+
 wss.on('connection', (ws) => {
   let username = '';
   welcomeNewUser(ws);
@@ -169,7 +199,7 @@ wss.on('connection', (ws) => {
 
       case 'addSong':
         const { url, duration }  = clientMessage;
-        
+
         addMessage({
           username,
           type: 'addSong',
