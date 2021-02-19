@@ -18,7 +18,6 @@ let seekTime = 0;
 const timerInterval = setInterval(() => {
   if (songQueue.length && !nowPlaying.duration) {
     nowPlaying = songQueue[0];
-    console.log(nowPlaying.duration);
   }
 
   else if (songQueue.length) {
@@ -149,7 +148,6 @@ const addSong = (username, duration, url) => {
 const nextSong = () => {
   const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
   songHistory.push({...songQueue.shift(), timestamp});
-  console.log(songHistory);
 
   const data = JSON.stringify(
     {

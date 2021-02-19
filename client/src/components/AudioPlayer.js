@@ -37,7 +37,6 @@ const AudioPlayer = (props) => {
   useEffect(() => {
     if (playerRef.current && seekTime > 0) {
       playerRef.current.seekTo(seekTime, 'seconds');
-      console.log(seekTime);
     }
   }, [seekTime]);
 
