@@ -63,6 +63,10 @@ const PlaceNumber = styled.div`
   align-items: center;
 `
 
+const SongTitle = styled.div`
+  width: 295px;
+`
+
 const AddedBy = styled.div`
   font-size: 0.9rem;
 `
@@ -87,12 +91,23 @@ const SongQueue = (props) => {
             const { author_name, title } = oEmbedData;
 
             return <Song key={index}>
-              <PlaceNumber>{index + 1}</PlaceNumber>
+              <PlaceNumber>
+                {index + 1}
+              </PlaceNumber>
               
-              <div>{author_name}</div>
-              <a href={url}>{title}</a>
+              <div>
+                {author_name}
+              </div>
               
-              <AddedBy>{`Added by ${username}`}</AddedBy>
+              <SongTitle> {/* why the fuck do i have to wrap this in a div to get max-width to work */}
+                <a href={url}>
+                  {title}
+                </a>
+              </SongTitle>
+              
+              <AddedBy>
+                {`Added by ${username}`}
+              </AddedBy>
 
               <Length>
                 <Duration seconds={duration} />
