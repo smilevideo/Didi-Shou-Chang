@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:14 AS builder
 
 WORKDIR /usr/src/app
 COPY package*.json ./
@@ -10,7 +10,7 @@ RUN npm run build:prod
 
 FROM node:14
 WORKDIR /usr/src/app
-COPY --from=BUILDER /usr/src/app/build /usr/src/app/build
+COPY --from=builder /usr/src/app/build /usr/src/app/build
 
 EXPOSE 5000
 
