@@ -6,7 +6,6 @@ import Duration from 'utils/Duration';
 
 const Container = styled.div`
   height: 50%;
-  overflow-y: auto;
   
   border: 1px solid black;
 `
@@ -15,16 +14,26 @@ const Header = styled.div`
   font-weight: bold;
   font-size: 1.2rem;
 
+  height: 30px;
+
   background-color: #333333;
   color: #CCCCCC;
 
   position: sticky; top: 0;
   z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const SongList = styled.ul`
   margin: 0;
   padding: 0;
+
+  overflow-y: auto;
+
+  max-height: calc(100% - 40px);
 `
 
 const Song = styled.li`
