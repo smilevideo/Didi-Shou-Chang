@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 import { useEffect, useState, useRef } from 'react';
 
-import Chat from 'components/Chat/Chat';
-import UserList from 'components/UserList';
 import SongQueue from 'components/SongQueue';
 import SongHistory from 'components/SongHistory';
-import SongByURLInput from 'components/SongByURLInput';
+
 import AudioPlayer from 'components/AudioPlayer';
+import SongByURLInput from 'components/SongByURLInput';
+import Footer from 'components/Footer';
+
+import Chat from 'components/Chat/Chat';
+import UserList from 'components/UserList';
 
 import FillerVisuals from 'components/FillerVisuals';
 
@@ -116,6 +119,8 @@ const DidiShouChang = (props) => {
         <FillerVisuals />
 
         <SongByURLInput ws={ws.current} />
+
+        <Footer />
       </CenterColumn>
       
       <RightColumn>
