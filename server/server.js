@@ -8,8 +8,10 @@ const userList = [];
 const messages = [];
 const MAX_MESSAGES = 100;
 
-const songQueue = [];
-const songHistory = [];
+const songQueue = []; //handle max song queue limit on frontend
+
+const songHistory = []; 
+const MAX_SONGS_IN_HISTORY = 100;
 
 let nowPlaying = {};
 
@@ -24,9 +26,6 @@ const timerInterval = setInterval(() => {
     seekTime += 1;
 
     if (seekTime >= nowPlaying.duration) {
-      nowPlaying = {};
-      seekTime = 0;
-      
       nextSong();
     }
   }
@@ -146,8 +145,15 @@ const addSong = (username, duration, url) => {
 }
 
 const nextSong = () => {
+  nowPlaying = {};
+  seekTime = 0;
+
   const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
-  songHistory.push({...songQueue.shift(), timestamp});
+  songHistory.unshift({...songQueue.shift(), timestamp});
+  
+  if (songHistory.length > MAX_SONGS_IN_HISTORY) {
+    songHistory.pop();
+  }
 
   const data = JSON.stringify(
     {
