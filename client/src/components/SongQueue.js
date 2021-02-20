@@ -17,6 +17,9 @@ const Header = styled.div`
 
   background-color: #333333;
   color: #CCCCCC;
+
+  position: sticky; top: 0;
+  z-index: 1;
 `
 
 const SongList = styled.ul`

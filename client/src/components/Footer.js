@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 const Link = styled.a`
   text-align: center;
+  margin: 5px;
 `;
 
 const Footer = (props) => {
