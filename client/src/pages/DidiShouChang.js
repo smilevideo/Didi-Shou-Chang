@@ -105,6 +105,10 @@ const DidiShouChang = (props) => {
     return () => ws.current.close();
   }, [username]);
 
+  const sendMessage = (message) => {
+    ws.current.send(JSON.stringify(message));
+  };
+
   return (
     <Container>
       <LeftColumn>
@@ -114,18 +118,19 @@ const DidiShouChang = (props) => {
 
       <CenterColumn>
         {/* <SongUpload /> */}
+
         <AudioPlayer song={songQueue.length ? songQueue[0] : null} seekTime={seekTime} />
 
         <FillerVisuals />
 
-        <SongByURLInput ws={ws.current} />
+        <SongByURLInput sendMessage={sendMessage} />
 
         <Footer />
       </CenterColumn>
       
       <RightColumn>
         <UserList userList={userList} />
-        <Chat messages={messages} ws={ws.current} />
+        <Chat messages={messages} sendMessage={sendMessage} />
       </RightColumn>
     </Container>
   )

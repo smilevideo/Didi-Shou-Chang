@@ -22,7 +22,7 @@ const ChatMessageContainer = styled.div`
 `
 
 const Chat = (props) => {
-  const { messages, ws } = props;
+  const { messages, sendMessage } = props;
 
   const [initialScrollComplete, setInitialScrollComplete] = useState(false);
   const endRef = useRef(null);
@@ -57,7 +57,7 @@ const Chat = (props) => {
       </ChatMessageContainer>
 
       <ChatInput
-        ws={ws}
+        sendMessage={sendMessage}
         scrollChatToBottom={scrollChatToBottom}
       />
     </Container>

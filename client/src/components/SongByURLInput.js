@@ -11,7 +11,7 @@ const Container = styled.div`
 `;
 
 const SongByURLInput = (props) => {
-  const { ws } = props;
+  const { sendMessage } = props;
 
   const [error, setError] = useState(null);
   const [urlInput, setUrlInput] = useState('');
@@ -45,7 +45,7 @@ const SongByURLInput = (props) => {
 
   const handleDuration = (duration) => {
     const message = { duration, url: playerUrl, type: 'addSong' };
-    ws.send(JSON.stringify(message));
+    sendMessage(message);
     setPlayer(false);
   };
 

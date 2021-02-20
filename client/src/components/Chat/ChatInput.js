@@ -14,22 +14,18 @@ const MessageInput = styled.textarea`
 `
 
 const ChatInput = (props) => {
-  const { ws, scrollChatToBottom } = props;
+  const { sendMessage, scrollChatToBottom } = props;
 
-  const [message, setMessage] = useState('');
-
-  const sendMessage = (messageString) => {
-    const message = { message: messageString, type: 'chat' };
-    ws.send(JSON.stringify(message));
-  };
+  const [messageInput, setMessageInput] = useState('');
 
   const handleKeyDown = (event) => {
     if (event.code === "Enter" && !event.shiftKey) {
       event.preventDefault(); //stops the default behavior of the enter key adding a line break to the textarea element
 
-      if (message) {
+      if (messageInput) {
+        const message = { message: messageInput, type: 'chat' };
         sendMessage(message);
-        setMessage('');
+        setMessageInput('');
         scrollChatToBottom();
       }
     }
@@ -39,8 +35,8 @@ const ChatInput = (props) => {
     <Container>
       <MessageInput
         placeholder="Message Didi-Shou-Chang"
-        value={message}
-        onChange={(event) => setMessage(event.target.value)}
+        value={messageInput}
+        onChange={(event) => setMessageInput(event.target.value)}
         autoFocus={true}
         maxLength={200}
         onKeyDown={handleKeyDown}
