@@ -10,6 +10,12 @@ const Container = styled.div`
   padding: 5px;
 
   text-align: center;
+
+  display: grid;
+  grid-template-columns: 15% 1fr 15%;
+
+  justify-content: center;
+  align-items: center;
 `;
 
 const Title = styled.div`
@@ -22,6 +28,21 @@ const Title = styled.div`
 const Elapsed = styled.div`
   font-size: 1rem;
   font-weight: bold;
+`
+
+const Volume = styled.div`
+  display: grid;
+  grid-template-rows: 1fr 150px;
+  grid-template-columns: minmax(55px, 100%);
+  
+  justify-content: center;
+  align-items: center;
+`
+
+const VolumeInput = styled.input`
+  /* mode: vertical - a proper method seems yet to be standardized and implemented by browsers... */
+  -webkit-appearance: slider-vertical;
+  writing-mode: bt-lr;
 `
 
 const AudioPlayer = (props) => {
@@ -69,47 +90,47 @@ const AudioPlayer = (props) => {
 
   return (
     <Container>
-      <ReactPlayer 
-        url={url}
-        playing={true}
-        width="0"
-        height="0"
-        onError={handleError}
-        onProgress={handleProgress}
-        volume={volume}
-        ref={playerRef}
-      />
-
       <div>
+        <ReactPlayer 
+          url={url}
+          playing={true}
+          width="0"
+          height="0"
+          onError={handleError}
+          onProgress={handleProgress}
+          volume={volume}
+          ref={playerRef}
+        />
         {error}
       </div>
 
-      <Title>
-        {oEmbedData.title}
-      </Title>
-
-      <Elapsed>
-        <Duration seconds={elapsed * duration} /> / <Duration seconds={duration} />
-      </Elapsed>
-
       <div>
-        <progress max={1} value={elapsed}>{elapsed}</progress>
+        <Title>
+          {oEmbedData.title}
+        </Title>
+
+        <Elapsed>
+          <Duration seconds={elapsed * duration} /> / <Duration seconds={duration} />
+        </Elapsed>
+
+        <div>
+          <progress max={1} value={elapsed}>{elapsed}</progress>
+        </div>
       </div>
 
-      <hr />
-
-      <div>
+      <Volume>
         Volume
-      </div>
-      <input
-        type="range"
-        min={0}
-        max={1}
-        step="any"
-        value={volume}
-        onChange={handleVolumeChange}
-      />
 
+        <VolumeInput
+          type="range"
+          min={0}
+          max={1}
+          step="any"
+          value={volume}
+          onChange={handleVolumeChange}
+          orient="vertical" /* makes it vertical for firefox or something */
+        />
+      </Volume>
     </Container>
   );
 };

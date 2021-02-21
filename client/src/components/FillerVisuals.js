@@ -15,8 +15,6 @@ const Image = styled.div`
   background-repeat: no-repeat;
 `;
 
-
-
 const FillerVisuals = (props) => {
   return (
     <Container>
