@@ -16,7 +16,7 @@ import FillerVisuals from 'components/FillerVisuals';
 const Container = styled.div`
   display: grid;
   grid-template-columns: 350px 1fr 350px;
-  grid-template-rows: 1fr;
+  grid-template-rows: 100vh;
 `;
 
 const LeftColumn = styled.div`
@@ -29,7 +29,7 @@ const CenterColumn = styled.div`
   grid-column: 2;
   display: grid;
   
-  grid-template-rows: 20vh 1fr 18vh;
+  grid-template-rows: 25% 1fr 15% 30px;
   justify-content: center;
   align-items: center;
 `
