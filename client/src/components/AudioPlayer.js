@@ -82,7 +82,9 @@ const AudioPlayer = (props) => {
 
   if (!song) {
     return <Container>
-      Nothing currently playing.
+      <div></div>
+      <div>Nothing currently playing.</div>
+      <div></div>
     </Container>;
   }
 
