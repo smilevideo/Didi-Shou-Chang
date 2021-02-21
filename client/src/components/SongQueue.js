@@ -33,7 +33,7 @@ const SongList = styled.ul`
 
   overflow-y: auto;
 
-  max-height: calc(100% - 40px);
+  max-height: calc(100% - 30px);
 `
 
 const Song = styled.li`
