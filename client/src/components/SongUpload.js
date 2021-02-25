@@ -10,10 +10,10 @@ const Container = styled.div`
 `
 
 const Dropzone = styled.div`
-  height: 100px;
-  width: 100px;
+  height: 300px;
+  width: 300px;
   border: 2px solid rgb(187, 186, 186);
-  border-radius: 50%;
+  border-radius: 10%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,8 +39,6 @@ const SongUpload = () => {
   const fileInputRef = useRef(null);
 
   const [dropzoneHighlighted, setDropzoneHighlighted] = useState(false);
-  const [fileUrl, setFileUrl] = useState('');
-  const BUCKET_PATH = "/uploads"
 
   const handleUpload = (event) => {
     handleFiles(event.target.files);
@@ -72,9 +70,11 @@ const SongUpload = () => {
     const file = files[0];
 
     if (files[0] && file.type.substring(0, 6) === 'audio/') {
-      fetchPresignedUrl(file)
+      const filename = parseFilename(file.name);
+
+      fetchPresignedUrl(filename)
         .then((presignedUrl) => {
-          uploadFileToS3(file, presignedUrl);
+          uploadFileToS3(file, presignedUrl, filename);
         })
         .catch(error => console.log(error));
     }
@@ -84,34 +84,34 @@ const SongUpload = () => {
     };
   };
 
-  const fetchPresignedUrl = async (file) => {
-    const filename = file.name
-
-    const fetchUrl = `${process.env.REACT_APP_S3_PRESIGN_ENDPOINT}${parseFilename(filename)}`;
+  const fetchPresignedUrl = async (filename) => {
+    const fetchUrl = `${process.env.REACT_APP_S3_PRESIGN_ENDPOINT}${filename}`;
 
     const response = await fetch(fetchUrl);
 
     return response.text();
   };
 
-  const uploadFileToS3 = async (file, presignedUrl) => {
-    await fetch(presignedUrl, {
+  const uploadFileToS3 = (file, presignedUrl, filename) => {
+    const audioUrl = `${process.env.REACT_APP_S3_BUCKET_BASE_URL}/uploads/${filename}`;
+    console.log(audioUrl);
+    
+    fetch(presignedUrl, {
       method: 'PUT',
       body: file,
     })
-      .then ((response) => {
-        console.log(response);
-        setFileUrl(response.url);
+      .then(response => {
+        console.log('ready');
+        // TODO: add to queue and get metadata and shit
       });
-      // might need to wait for partial upload      
   };
 
   const parseFilename = (fileName) => {
-    fileName.trim()
+    const name = fileName.trim()
       .replace(/\s/g,'_')
       .replace(/\{|\}|\^|\%|\`|\[|\]|\"|<|>|\~|\#|\||\@|\&/g,''); //invalid characters for s3
     const prefix = new Date().getTime()
-    return `${prefix}_${fileName}`
+    return `${prefix}_${name}`
   }
 
   return (

@@ -32,14 +32,24 @@ const Elapsed = styled.div`
 
 const Volume = styled.div`
   display: grid;
-  grid-template-rows: 1fr 150px;
+  grid-template-rows: 1fr 90px;
   grid-template-columns: minmax(55px, 100%);
-  
   justify-content: center;
   align-items: center;
+
+  /* border: 1px solid black; */
+  /* border-radius: 5px;
+
+  box-shadow: 1px 1px 1px rgb(200, 200, 200); */
+
+  div {
+    /* border-bottom: 1px solid black; */
+  }
 `
 
 const VolumeInput = styled.input`
+  height: 90%;
+
   /* mode: vertical - a proper method seems yet to be standardized and implemented by browsers... */
   -webkit-appearance: slider-vertical;
   writing-mode: bt-lr;
@@ -82,9 +92,29 @@ const AudioPlayer = (props) => {
 
   if (!song) {
     return <Container>
-      <div></div>
-      <div>Nothing currently playing.</div>
-      <div></div>
+      <div />
+
+      <div>
+        <Title>
+          NO MUSIC NO IDOL
+        </Title>
+      </div>
+
+      <Volume>
+        <div>
+          Volume
+        </div>
+        
+        <VolumeInput
+          type="range"
+          min={0}
+          max={1}
+          step="any"
+          value={volume}
+          onChange={handleVolumeChange}
+          orient="vertical" /* makes it vertical for firefox or something */
+        />
+      </Volume>
     </Container>;
   }
 

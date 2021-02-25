@@ -34,6 +34,19 @@ const SongList = styled.ul`
   overflow-y: auto;
 
   max-height: calc(100% - 30px);
+
+  li:nth-child(1) {
+    background-image: url('/assets/woo3.gif');
+    /* background-position-x: 50%; */
+    background-position-y: 50%;
+    background-size: cover;
+
+    color: white;
+
+    .placenumber {
+      display: none;
+    }
+  }
 `
 
 const Song = styled.li`
@@ -91,18 +104,18 @@ const SongQueue = (props) => {
             const { author_name, title } = oEmbedData;
 
             return <Song key={index}>
-              <PlaceNumber>
-                {index + 1}
+              <PlaceNumber className="placenumber">
+                {index}
               </PlaceNumber>
               
               <div>
                 {author_name}
               </div>
               
-              <SongTitle> {/* why the fuck do i have to wrap this in a div to get max-width to work */}
-                <a href={url}>
+              <SongTitle>
+                <div>
                   {title}
-                </a>
+                </div>
               </SongTitle>
               
               <AddedBy>

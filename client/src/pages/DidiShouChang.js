@@ -31,7 +31,7 @@ const CenterColumn = styled.div`
   grid-column: 2;
   display: grid;
   
-  grid-template-rows: 30% 1fr 20% 30px;
+  grid-template-rows: 40% 60%;
   grid-template-columns: 100%;
   justify-content: center;
   align-items: center;
@@ -120,19 +120,16 @@ const DidiShouChang = (props) => {
       </LeftColumn>
 
       <CenterColumn>
-        
-
         <AudioPlayer song={songQueue.length ? songQueue[0] : null} seekTime={seekTime} />
 
-        <FillerVisuals />
+        {/* <FillerVisuals /> */}
 
         <div>
           <SongUpload />
           <SongByURLInput sendMessage={sendMessage} />
         </div>
-        
-
-        <Footer />
+      
+        {/* <Footer /> */}
       </CenterColumn>
       
       <RightColumn>
