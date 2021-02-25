@@ -40,6 +40,7 @@ const SongUpload = () => {
 
   const [dropzoneHighlighted, setDropzoneHighlighted] = useState(false);
   const [fileUrl, setFileUrl] = useState('');
+  const BUCKET_PATH = "/uploads"
 
   const handleUpload = (event) => {
     handleFiles(event.target.files);
@@ -89,15 +90,15 @@ const SongUpload = () => {
       .replace(/\s/g,'_')
       .replace(/\{|\}|\^|\%|\`|\[|\]|\"|<|>|\~|\#|\||\@|\&/g,''); //invalid characters for s3
 
-    const fetchUrl = `${process.env.REACT_APP_S3_PRESIGN_ENDPOINT}${filename}`;
+    const fetchUrl = `${process.env.REACT_APP_S3_PRESIGN_ENDPOINT}${parseFilename(filename)}`;
 
     const response = await fetch(fetchUrl);
 
     return response.text();
   };
 
-  const uploadFileToS3 = (file, presignedUrl) => {
-    fetch(presignedUrl, {
+  const uploadFileToS3 = async (file, presignedUrl) => {
+    await fetch(presignedUrl, {
       method: 'PUT',
       body: file,
     })
@@ -105,7 +106,15 @@ const SongUpload = () => {
         console.log(response);
         setFileUrl(response.url);
       });
+      // might need to wait for partial upload
+      return `${process.env.REACT_APP_S3_BUCKET_BASE_URL}${BUCKET_PATH}/${file.name}`
+      
   };
+
+  const parseFilename = (fileName) => {
+    const prefix = new Date().getTime()
+    return `${prefix}_`
+  }
 
   return (
     <Container>
