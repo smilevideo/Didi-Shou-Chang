@@ -105,6 +105,25 @@ const SongUpload = () => {
     setDropzoneHighlighted(false);
   }
 
+  async function getPresignedUrl(filename) {
+    const safeFilename = sanitizeFilename(filename) 
+    if (safeFilename) {
+      // response is just plaintext url to upload to
+      return await fetch(`${S3_PRESIGN_ENDPOINT}${sanitizeFilename(filename)}`)
+    }
+  }
+
+  function sanitizeFilename(input) {
+    if (input instanceof String) { // weakly typed smh
+      // trim whitespace
+      let ret = input.trim()
+      // replace central whitespace with _
+      ret = ret.replace(/\s/g,'_');
+      // remove invalid characters for S3 and return
+      return ret.replace(/\{|\}|\^|\%|\`|\[|\]|\"|<|>|\~|\#|\||\@|\&/g,'');
+    }
+  }
+
   return (
     <Container>
       {/* <Upload>
