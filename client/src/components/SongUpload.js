@@ -9,48 +9,9 @@ const Container = styled.div`
   justify-content: center;
 `
 
-const Upload = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  align-items: flex-start;
-  text-align: left;
-  overflow: hidden;
-`
-
-const Content = styled.span`
-  display: flex;
-  flex-direction: row;
-  padding-top: 16px;
-  box-sizing: border-box;
-  width: 100%;
-`
-
-const Files = styled.div`
-  margin-left: 32px;
-  align-items: flex-start;
-  justify-items: flex-start;
-  flex: 1;
-  overflow-y: auto;
-`
-
-const Actions = styled.div`
-  display: flex;
-  flex: 1;
-  width: 100%;
-  align-items: flex-end;
-  flex-direction: column;
-  margin-top: 32px;
-`
-
-const Title = styled.div`
-  margin-bottom: 32px;
-  color: #555;
-`
-
 const Dropzone = styled.div`
-  height: 200px;
-  width: 200px;
+  height: 100px;
+  width: 100px;
   border: 2px solid rgb(187, 186, 186);
   border-radius: 50%;
   display: flex;
@@ -63,7 +24,7 @@ const Dropzone = styled.div`
 
   opacity: ${props => props.highlighted ? 0.3 : 1};
 
-  background-image: url('/assets/c.gif');
+  background-image: url('/assets/cover.jpg');
   background-size: cover;
   background-position-x: center;
   background-position-y: center;
@@ -78,9 +39,10 @@ const SongUpload = () => {
   const fileInputRef = useRef(null);
 
   const [dropzoneHighlighted, setDropzoneHighlighted] = useState(false);
+  const [fileUrl, setFileUrl] = useState('');
 
   const handleUpload = (event) => {
-    console.log(event.target.files);
+    handleFiles(event.target.files);
   }
 
   const openFileDialog = () => {
@@ -100,41 +62,53 @@ const SongUpload = () => {
   const onDrop = (event) => {
     event.preventDefault();
     
-    console.log(event.dataTransfer.files);
+    handleFiles(event.dataTransfer.files);
 
     setDropzoneHighlighted(false);
   }
 
-  async function getPresignedUrl(filename) {
-    const safeFilename = sanitizeFilename(filename) 
-    if (safeFilename) {
-      // response is just plaintext url to upload to
-      return await fetch(`${S3_PRESIGN_ENDPOINT}${sanitizeFilename(filename)}`)
-    }
-  }
+  const handleFiles = (files) => {
+    const file = files[0];
 
-  function sanitizeFilename(input) {
-    if (input instanceof String) { // weakly typed smh
-      // trim whitespace
-      let ret = input.trim()
-      // replace central whitespace with _
-      ret = ret.replace(/\s/g,'_');
-      // remove invalid characters for S3 and return
-      return ret.replace(/\{|\}|\^|\%|\`|\[|\]|\"|<|>|\~|\#|\||\@|\&/g,'');
+    if (files[0] && file.type.substring(0, 6) === 'audio/') {
+      fetchPresignedUrl(file)
+        .then((presignedUrl) => {
+          uploadFileToS3(file, presignedUrl);
+        })
+        .catch(error => console.log(error));
     }
-  }
+
+    else {
+      console.log('audio files only');
+    };
+  };
+
+  const fetchPresignedUrl = async (file) => {
+    const filename = file.name
+      .trim()
+      .replace(/\s/g,'_')
+      .replace(/\{|\}|\^|\%|\`|\[|\]|\"|<|>|\~|\#|\||\@|\&/g,''); //invalid characters for s3
+
+    const fetchUrl = `${process.env.REACT_APP_S3_PRESIGN_ENDPOINT}${filename}`;
+
+    const response = await fetch(fetchUrl);
+
+    return response.text();
+  };
+
+  const uploadFileToS3 = (file, presignedUrl) => {
+    fetch(presignedUrl, {
+      method: 'PUT',
+      body: file,
+    })
+      .then ((response) => {
+        console.log(response);
+        setFileUrl(response.url);
+      });
+  };
 
   return (
     <Container>
-      {/* <Upload>
-        <Title>Upload Files</Title>
-        <Content>
-          <div />
-          <Files />
-        </Content>
-        <Actions />
-      </Upload> */}
-
       <Dropzone 
         onClick={openFileDialog}
         onDragOver={onDragOver}

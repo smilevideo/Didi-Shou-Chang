@@ -4,6 +4,8 @@ import { useEffect, useState, useRef } from 'react';
 import SongQueue from 'components/SongQueue';
 import SongHistory from 'components/SongHistory';
 
+import SongUpload from 'components/SongUpload';
+
 import AudioPlayer from 'components/AudioPlayer';
 import SongByURLInput from 'components/SongByURLInput';
 import Footer from 'components/Footer';
@@ -29,7 +31,7 @@ const CenterColumn = styled.div`
   grid-column: 2;
   display: grid;
   
-  grid-template-rows: 30% 1fr 15% 30px;
+  grid-template-rows: 30% 1fr 20% 30px;
   grid-template-columns: 100%;
   justify-content: center;
   align-items: center;
@@ -118,13 +120,17 @@ const DidiShouChang = (props) => {
       </LeftColumn>
 
       <CenterColumn>
-        {/* <SongUpload /> */}
+        
 
         <AudioPlayer song={songQueue.length ? songQueue[0] : null} seekTime={seekTime} />
 
         <FillerVisuals />
 
-        <SongByURLInput sendMessage={sendMessage} />
+        <div>
+          <SongUpload />
+          <SongByURLInput sendMessage={sendMessage} />
+        </div>
+        
 
         <Footer />
       </CenterColumn>
