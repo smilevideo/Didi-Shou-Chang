@@ -86,9 +86,6 @@ const SongUpload = () => {
 
   const fetchPresignedUrl = async (file) => {
     const filename = file.name
-      .trim()
-      .replace(/\s/g,'_')
-      .replace(/\{|\}|\^|\%|\`|\[|\]|\"|<|>|\~|\#|\||\@|\&/g,''); //invalid characters for s3
 
     const fetchUrl = `${process.env.REACT_APP_S3_PRESIGN_ENDPOINT}${parseFilename(filename)}`;
 
@@ -106,14 +103,15 @@ const SongUpload = () => {
         console.log(response);
         setFileUrl(response.url);
       });
-      // might need to wait for partial upload
-      return `${process.env.REACT_APP_S3_BUCKET_BASE_URL}${BUCKET_PATH}/${file.name}`
-      
+      // might need to wait for partial upload      
   };
 
   const parseFilename = (fileName) => {
+    fileName.trim()
+      .replace(/\s/g,'_')
+      .replace(/\{|\}|\^|\%|\`|\[|\]|\"|<|>|\~|\#|\||\@|\&/g,''); //invalid characters for s3
     const prefix = new Date().getTime()
-    return `${prefix}_`
+    return `${prefix}_${fileName}`
   }
 
   return (
