@@ -93,7 +93,7 @@ const DidiShouChang = (props) => {
           setSongQueue(message.songQueue);
           break;
 
-        case 'nextSong':
+        case 'updateSongLists':
           setSongQueue(message.songQueue);
           setSongHistory(message.songHistory);
           break;
@@ -113,7 +113,7 @@ const DidiShouChang = (props) => {
   return (
     <Container>
       <LeftColumn>
-        <SongQueue songQueue={songQueue} />
+        <SongQueue songQueue={songQueue} sendMessage={sendMessage} />
         <SongHistory songHistory={songHistory} />
       </LeftColumn>
 

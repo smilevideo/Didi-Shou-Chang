@@ -59,13 +59,13 @@ const Song = styled.li`
 
   display: grid;
   grid-template-columns: calc(100% - 36px) 35px;
-  grid-template-rows: 1fr 22px;
+  grid-template-rows: 1fr 22px 22px;
   grid-gap: 8px;
 `
 
 const SongTitle = styled.div`
   grid-column: 1;
-  grid-row: 1;
+  grid-row: 1 / span 2;
 
   width: 100%;
 
@@ -92,20 +92,38 @@ const PlaceNumber = styled.span`
 
 const AddedBy = styled.div`
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 3;
 
   font-size: 0.9rem;
 `
 
 const Length = styled.div`
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 3;
 
   font-size: 0.9rem;
 `
 
+const RemoveButton = styled.div`
+  grid-column: 2;
+  grid-row: 2;
+
+  cursor: pointer;
+`
+
 const SongQueue = (props) => {
-  const { songQueue } = props;
+  const { songQueue, sendMessage } = props;
+
+  const removeFromQueue = (index, label) => {
+    if (window.confirm(`Rixslay ${label}?`)) {
+      const message = {
+        type: 'removeSong',
+        index,
+      };
+  
+      sendMessage(message);
+    };
+  };
 
   return (
     <Container>
@@ -124,6 +142,10 @@ const SongQueue = (props) => {
                 {label}
               </div>
             </SongTitle>
+
+            <RemoveButton onClick={() => removeFromQueue(index, label)}>
+              [ri<span style={{color: 'red'}}>X</span>]
+            </RemoveButton>
             
             <AddedBy>
               {`Added by ${username}`}

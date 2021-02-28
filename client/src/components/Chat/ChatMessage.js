@@ -19,10 +19,16 @@ const Message = styled.span`
 
 const SystemMessage = styled.span`
   font-style: italic;
+
+  color: rgba(0, 0, 0, 0.8);
 `
 
-const SongMessage = styled.span`
-  color: blue;
+const AddedSong = styled.span`
+  color: rgba(0, 0, 255, 0.8);
+`
+
+const RemovedSong = styled.span`
+  color: rgba(255, 0, 0, 0.8);
 `
 
 const ChatMessage = (props) => {
@@ -58,7 +64,16 @@ const ChatMessage = (props) => {
         <Container>
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
-          <SongMessage>added a song to the queue.</SongMessage>
+          <AddedSong>added a song to the queue.</AddedSong>
+
+        </Container>
+      )
+    case 'removeSong':
+      return (
+        <Container>
+          <Username>{`${username} `}</Username>
+          <Timestamp>{`${timestamp}: `}</Timestamp>
+          <RemovedSong>removed a song from the queue.</RemovedSong>
 
         </Container>
       )

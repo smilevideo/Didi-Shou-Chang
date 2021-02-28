@@ -11,7 +11,7 @@ const MAX_MESSAGES = 100;
 const songQueue = []; //handle max song queue limit on frontend
 
 const songHistory = []; 
-const MAX_SONGS_IN_HISTORY = 100;
+const MAX_SONGS_IN_HISTORY = 50;
 
 let nowPlaying = {};
 
@@ -170,6 +170,24 @@ const addSong = async (username, url, label, duration) => {
   broadcast(data);
 };
 
+const removeSong = (index) => {
+  if (index === 0) {
+    nextSong();
+  } else {
+    songQueue.splice(index, 1);
+  };
+
+  const data = JSON.stringify(
+    {
+      type: 'updateSongLists',
+      songQueue,
+      songHistory
+    }
+  );
+
+  broadcast(data);
+};
+
 const nextSong = () => {
   nowPlaying = {};
   seekTime = 0;
@@ -179,11 +197,11 @@ const nextSong = () => {
   
   if (songHistory.length > MAX_SONGS_IN_HISTORY) {
     songHistory.pop();
-  }
+  };
 
   const data = JSON.stringify(
     {
-      type: 'nextSong',
+      type: 'updateSongLists',
       songQueue,
       songHistory
     }
@@ -233,6 +251,18 @@ wss.on('connection', (ws) => {
         addMessage({
           username,
           type: 'addSong',
+          timestamp,
+        });
+        break;
+
+      case 'removeSong':
+        const { index } = clientMessage;
+
+        removeSong(index);
+
+        addMessage({
+          username,
+          type: 'removeSong',
           timestamp,
         });
         break;
