@@ -1,4 +1,5 @@
 const WebSocket = require('ws');
+const fetch = require('node-fetch');
 
 const wss = new WebSocket.Server({ port: 3030 });
 
@@ -104,15 +105,49 @@ const addMessage = (message) => {
   broadcast(data);
 };
 
-const addSong = (username, url, label, duration) => {
+const getOEmbedData = async (url) => {
+  // hacky way to check if soundcloud
+  if (url.includes('soundcloud.')) {
+    const fetchUrl = `https://www.soundcloud.com/oembed?url=${url}&format=json`;
+    
+    const response = await fetch(fetchUrl);
+
+    return response.json();
+  }
+
+  // otherwise assume youtube
+  else {
+    const fetchUrl = `https://www.youtube.com/oembed?url=${url}&format=json`;
+
+    const response = await fetch(fetchUrl);
+
+    return response.json();
+  }
+}
+
+const addSong = async (username, url, label, duration) => {
   // TODO: order the queue so that each user takes turn playing songs, maybe not necessarily here
 
-  songQueue.push({
-    username,
-    url,
-    label,
-    duration
-  });
+  //no label implies song from provider URL, not upload
+  if (!label) {
+    const oEmbedData = await getOEmbedData(url);
+
+    songQueue.push({
+      username,
+      url,
+      label: oEmbedData.title,
+      duration
+    });
+  }
+
+  else {
+    songQueue.push({
+      username,
+      url,
+      label,
+      duration
+    });
+  }
 
   const data = JSON.stringify(
     {
