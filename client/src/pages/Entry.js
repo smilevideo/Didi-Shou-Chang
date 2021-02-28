@@ -20,7 +20,7 @@ const Form = styled.div`
   align-items: center;
 
   input[type="text"] {
-    width: 20ch;
+    width: 14ch;
     margin-bottom: 2rem;
   }
 
@@ -53,7 +53,7 @@ const Entry = (props) => {
             type="text"
             value={username}
             onChange={handleChangeUsername}
-            maxLength={20}
+            maxLength={14}
           /> 
 
           <img
