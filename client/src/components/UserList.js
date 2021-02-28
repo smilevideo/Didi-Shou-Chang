@@ -4,7 +4,7 @@ const Container = styled.div`
   height: 333px;
   overflow-y: auto;
 
-  border: 1px solid green;
+  border: 1px solid black;
 
   padding: 1.5rem;
   

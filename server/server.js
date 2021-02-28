@@ -1,5 +1,4 @@
 const WebSocket = require('ws');
-const fetch = require('node-fetch');
 
 const wss = new WebSocket.Server({ port: 3030 });
 
@@ -31,25 +30,7 @@ const timerInterval = setInterval(() => {
   }
 }, 1000);
 
-const getOEmbedData = async (url) => {
-  // hacky way to check if soundcloud
-  if (url.includes('soundcloud.')) {
-    const fetchUrl = `https://www.soundcloud.com/oembed?url=${url}&format=json`;
-    
-    const response = await fetch(fetchUrl);
 
-    return response.json();
-  }
-
-  // otherwise assume youtube
-  else {
-    const fetchUrl = `https://www.youtube.com/oembed?url=${url}&format=json`;
-
-    const response = await fetch(fetchUrl);
-
-    return response.json();
-  }
-}
 
 const broadcast = (data) => {
   wss.clients.forEach((client) => {
@@ -123,26 +104,25 @@ const addMessage = (message) => {
   broadcast(data);
 };
 
-const addSong = (username, duration, url) => {
-  getOEmbedData(url)
-    .then((oEmbedData) => {
-      songQueue.push({
-        username,
-        url, 
-        duration,
-        oEmbedData
-      });
-    
-      const data = JSON.stringify(
-        {
-          type: 'addSong',
-          songQueue
-        }
-      );
-    
-      broadcast(data);
-    });
-}
+const addSong = (username, url, label, duration) => {
+  // TODO: order the queue so that each user takes turn playing songs, maybe not necessarily here
+
+  songQueue.push({
+    username,
+    url,
+    label,
+    duration
+  });
+
+  const data = JSON.stringify(
+    {
+      type: 'addSong',
+      songQueue
+    }
+  );
+
+  broadcast(data);
+};
 
 const nextSong = () => {
   nowPlaying = {};
@@ -186,6 +166,7 @@ wss.on('connection', (ws) => {
           type: 'userEnter',
           timestamp
         });
+
         addUser(username);
         break;
 
@@ -199,15 +180,15 @@ wss.on('connection', (ws) => {
         break;
 
       case 'addSong':
-        const { url, duration }  = clientMessage;
+        const { url, label, duration } = clientMessage;
+
+        addSong(username, url, label, duration);
 
         addMessage({
           username,
           type: 'addSong',
           timestamp,
-          url
         });
-        addSong(username, duration, url);
         break;
 
       default:

@@ -1,6 +1,8 @@
-import styled from 'styled-components';
 
 import { useRef, useState, useEffect } from 'react';
+import styled from 'styled-components';
+
+import { parseBlob } from 'music-metadata-browser';
 
 const Container = styled.div`
   display: flex;
@@ -9,49 +11,14 @@ const Container = styled.div`
   justify-content: center;
 `
 
-const Upload = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  align-items: flex-start;
-  text-align: left;
-  overflow: hidden;
-`
-
-const Content = styled.span`
-  display: flex;
-  flex-direction: row;
-  padding-top: 16px;
-  box-sizing: border-box;
-  width: 100%;
-`
-
-const Files = styled.div`
-  margin-left: 32px;
-  align-items: flex-start;
-  justify-items: flex-start;
-  flex: 1;
-  overflow-y: auto;
-`
-
-const Actions = styled.div`
-  display: flex;
-  flex: 1;
-  width: 100%;
-  align-items: flex-end;
-  flex-direction: column;
-  margin-top: 32px;
-`
-
-const Title = styled.div`
-  margin-bottom: 32px;
-  color: #555;
+const FileInput = styled.input`
+  display: none;
 `
 
 const Dropzone = styled.div`
-  height: 200px;
-  width: 200px;
-  border: 2px solid rgb(187, 186, 186);
+  height: 170px;
+  width: 170px;
+  border: 1px solid rgb(187, 186, 186);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -59,28 +26,37 @@ const Dropzone = styled.div`
   flex-direction: column;
   font-size: 16px;
 
-  cursor: pointer;
+  cursor: ${props => props.canUpload ? 'pointer' : null};
 
   opacity: ${props => props.highlighted ? 0.3 : 1};
 
-  background-image: url('/assets/c.gif');
+  background-image: ${props => props.canUpload ? "url('assets/a.gif')" : "url('/assets/woo2.gif')"};
   background-size: cover;
   background-position-x: center;
   background-position-y: center;
   background-repeat: no-repeat;
 `
 
-const FileInput = styled.input`
-  display: none;
+const ProgressMessage = styled.div`
+  height: 30px;
+
+  display: grid;
+  justify-content: center;
+  align-items: center;
 `
 
-const SongUpload = () => {
-  const fileInputRef = useRef(null);
+const SongUpload = (props) => {
+  const { sendMessage } = props;
 
   const [dropzoneHighlighted, setDropzoneHighlighted] = useState(false);
+  const [progressMessage, setProgressMessage] = useState('');
+
+  const fileInputRef = useRef(null);
+
+  const canUpload = !progressMessage;
 
   const handleUpload = (event) => {
-    console.log(event.target.files);
+    handleFiles(event.target.files);
   }
 
   const openFileDialog = () => {
@@ -100,28 +76,105 @@ const SongUpload = () => {
   const onDrop = (event) => {
     event.preventDefault();
     
-    console.log(event.dataTransfer.files);
+    handleFiles(event.dataTransfer.files);
 
     setDropzoneHighlighted(false);
   }
 
+  const handleFiles = async (files) => {
+    const file = files[0];
+
+    if (progressMessage) {
+      console.log('upload already in progress');
+    }
+
+    else if (files[0] && file.type.substring(0, 6) === 'audio/') {
+      const filename = parseFilename(file.name);
+      const audioUrl = `${process.env.REACT_APP_S3_BUCKET_BASE_URL}/uploads/${filename}`;
+
+      setProgressMessage('fetching presigned URL');
+      const presignedUrl = await fetchPresignedUrl(filename);
+
+      setProgressMessage('uploading song to S3');
+      await uploadFileToS3(file, presignedUrl);
+
+      setProgressMessage('parsing song metadata');
+      const metadata = await getMetadata(file);
+
+      const duration = metadata.format.duration;
+
+      const artist = metadata.common.artist || 
+        metadata.native.ID3v1.filter(tag => {
+          return tag.id === 'artist';
+        })[0].value;
+
+      const title = metadata.common.title || 
+        metadata.native.ID3v1.filter(tag => {
+          return tag.id === 'title';
+        })[0].value;
+
+      let label;
+
+      if (artist && title) {
+        label = `${artist} - ${title}`;
+      }
+
+      else {
+        label = file.name;
+      };
+
+      const message = {
+        type: 'addSong',
+        url: audioUrl,
+        label,
+        duration, 
+      };
+      sendMessage(message);
+
+      setProgressMessage('');
+    }
+
+    else {
+      console.log('audio files only');
+    };
+  };
+
+  const parseFilename = (fileName) => {
+    const name = fileName.trim()
+      .replace(/\s/g,'_')
+      .replace(/\{|\}|\^|\%|\`|\[|\]|\"|<|>|\~|\#|\||\@|\&/g,''); //invalid characters for s3
+    const prefix = new Date().getTime()
+    return `${prefix}_${name}`
+  };
+
+  const fetchPresignedUrl = async (filename) => {
+    const fetchUrl = `${process.env.REACT_APP_S3_PRESIGN_ENDPOINT}${filename}`;
+
+    const response = await fetch(fetchUrl);
+
+    return response.text();
+  };
+
+  const uploadFileToS3 = (file, presignedUrl) => {
+    return fetch(presignedUrl, {
+      method: 'PUT',
+      body: file,
+    });
+  };
+
+  const getMetadata = (file) => {
+    return parseBlob(file);
+  };
+
   return (
     <Container>
-      {/* <Upload>
-        <Title>Upload Files</Title>
-        <Content>
-          <div />
-          <Files />
-        </Content>
-        <Actions />
-      </Upload> */}
-
       <Dropzone 
-        onClick={openFileDialog}
+        onClick={canUpload ? openFileDialog: null}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
-        onDrop={onDrop}
+        onDrop={canUpload ? onDrop : null}
         highlighted={dropzoneHighlighted}
+        canUpload={canUpload}
       > 
         <FileInput
           ref={fileInputRef}
@@ -130,6 +183,10 @@ const SongUpload = () => {
           onChange={handleUpload}
         />
       </Dropzone>
+
+      <ProgressMessage>
+        {progressMessage}
+      </ProgressMessage>
     </Container>
   )
 }
