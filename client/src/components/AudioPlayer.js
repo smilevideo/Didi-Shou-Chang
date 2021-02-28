@@ -37,7 +37,7 @@ const Volume = styled.div`
 
   display: ${props => props.hide ? 'none' : 'block'};
 
-  width: 40%;
+  max-width: 200px;
 
   margin: auto;
 
