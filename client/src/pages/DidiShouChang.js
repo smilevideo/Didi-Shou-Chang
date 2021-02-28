@@ -120,7 +120,7 @@ const DidiShouChang = (props) => {
       <CenterColumn>
         <AudioPlayer song={songQueue.length ? songQueue[0] : null} seekTime={seekTime} />
 
-        {(songQueue.length < 50) ? 
+        {(songQueue.length < 51) ? 
           <div>
             <SongUpload sendMessage={sendMessage} />
             <SongByURLInput sendMessage={sendMessage} />
