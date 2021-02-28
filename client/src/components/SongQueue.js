@@ -36,13 +36,13 @@ const SongList = styled.ul`
 
   li:nth-child(1) {
     background-image: url('/assets/woo3.gif');
-    /* background-position-x: 50%; */
     background-position-y: 50%;
     background-size: cover;
 
-    color: white;
-
     min-height: 80px;
+
+    color: white;
+    font-weight: 400;
 
     .placenumber {
       display: none;
@@ -69,7 +69,7 @@ const SongTitle = styled.div`
 
   width: 100%;
 
-  font-weight: bold;
+  font-weight: ${props => props.first ? 'normal' : 'bold'};
 `
 
 const PlaceNumber = styled.span`
@@ -119,7 +119,7 @@ const SongQueue = (props) => {
               {index}
             </PlaceNumber>
             
-            <SongTitle>
+            <SongTitle first={index === 0}>
               <div>
                 {label}
               </div>
