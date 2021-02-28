@@ -43,11 +43,41 @@ const SongByURLInput = (props) => {
     setUrlInput(event.target.value);
   };
 
-  const handleDuration = (duration) => {
-    const message = { duration, url: playerUrl, type: 'addSong' };
+  const handleDuration = async (duration) => {
+    const oEmbedData = await getOEmbedData(playerUrl);
+
+    const label = oEmbedData.title;
+
+    const message = {
+      type: 'addSong',
+      url: playerUrl, 
+      label, 
+      duration, 
+    };
     sendMessage(message);
+
     setPlayer(false);
   };
+
+  const getOEmbedData = async (url) => {
+    // hacky way to check if soundcloud
+    if (url.includes('soundcloud.')) {
+      const fetchUrl = `https://www.soundcloud.com/oembed?url=${url}&format=json`;
+      
+      const response = await fetch(fetchUrl);
+  
+      return response.json();
+    }
+  
+    // otherwise assume youtube
+    else {
+      const fetchUrl = `https://www.youtube.com/oembed?url=${url}&format=json`;
+  
+      const response = await fetch(fetchUrl);
+  
+      return response.json();
+    }
+  }
 
   return (
     <Container> 

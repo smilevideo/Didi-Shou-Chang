@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { useEffect, useState, useRef } from 'react';
-
 import Duration from 'utils/Duration';
 
 const Container = styled.div`
@@ -32,6 +30,7 @@ const SongList = styled.ul`
   padding: 0;
 
   overflow-y: auto;
+  overflow-x: hidden;
 
   max-height: calc(100% - 30px);
 
@@ -43,6 +42,8 @@ const SongList = styled.ul`
 
     color: white;
 
+    min-height: 80px;
+
     .placenumber {
       display: none;
     }
@@ -50,44 +51,57 @@ const SongList = styled.ul`
 `
 
 const Song = styled.li`
-  position: relative;
+  min-height: 70px;
 
   border-bottom: 1px solid purple;
   margin: 0;
   padding: 5px;
+
+  display: grid;
+  grid-template-columns: calc(100% - 36px) 35px;
+  grid-template-rows: 1fr 22px;
+  grid-gap: 8px;
 `
 
-const PlaceNumber = styled.div`
-  position: absolute;
-  top: 5px;
-  right: 5px;
+const SongTitle = styled.div`
+  grid-column: 1;
+  grid-row: 1;
 
-  color: blue;
+  width: 100%;
+
+  font-weight: bold;
+`
+
+const PlaceNumber = styled.span`
+  grid-column: 2;
+  grid-row: 1;
+
+  color: rgb(90, 90, 255);
   font-weight: bold;
 
-  border-radius: 20px;
+  border-radius: 14px;
   border: 1px solid grey;
 
-  height: 40px;
-  width: 40px;
+  height: 28px;
+  width: 28px;
 
   display: grid;
   justify-content: center;
   align-items: center;
 `
 
-const SongTitle = styled.div`
-  width: 295px;
-`
-
 const AddedBy = styled.div`
+  grid-column: 1;
+  grid-row: 2;
+
   font-size: 0.9rem;
 `
 
 const Length = styled.div`
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
+  grid-column: 2;
+  grid-row: 2;
+
+  font-size: 0.9rem;
 `
 
 const SongQueue = (props) => {
@@ -98,41 +112,27 @@ const SongQueue = (props) => {
       <Header>FUTURE</Header>
       <SongList>
         {songQueue.map((song, index) => {
-          const { username, oEmbedData, url, duration } = song;
-  
-          if (oEmbedData) {
-            const { author_name, title } = oEmbedData;
+          const { username, label, duration } = song;
 
-            return <Song key={index}>
-              <PlaceNumber className="placenumber">
-                {index}
-              </PlaceNumber>
-              
+          return <Song key={index}>
+            <PlaceNumber className="placenumber">
+              {index}
+            </PlaceNumber>
+            
+            <SongTitle>
               <div>
-                {author_name}
+                {label}
               </div>
-              
-              <SongTitle>
-                <div>
-                  {title}
-                </div>
-              </SongTitle>
-              
-              <AddedBy>
-                {`Added by ${username}`}
-              </AddedBy>
+            </SongTitle>
+            
+            <AddedBy>
+              {`Added by ${username}`}
+            </AddedBy>
 
-              <Length>
-                <Duration seconds={duration} />
-              </Length>
-            </Song>
-          }
-
-          else {
-            return <Song key={index}>
-              <div>asdf</div>
-            </Song>
-          }
+            <Length>
+              <Duration seconds={duration} />
+            </Length>
+          </Song>
         })}
       </SongList>
     </Container>

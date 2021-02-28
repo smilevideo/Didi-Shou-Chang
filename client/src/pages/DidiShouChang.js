@@ -125,7 +125,7 @@ const DidiShouChang = (props) => {
         {/* <FillerVisuals /> */}
 
         <div>
-          <SongUpload />
+          <SongUpload sendMessage={sendMessage} />
           <SongByURLInput sendMessage={sendMessage} />
         </div>
       

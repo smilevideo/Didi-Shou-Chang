@@ -12,7 +12,7 @@ const Container = styled.div`
   text-align: center;
 
   display: grid;
-  grid-template-columns: 15% 1fr 15%;
+  grid-template-columns: minmax(15%, 25%) 1fr minmax(15%, 25%);
 
   justify-content: center;
   align-items: center;
@@ -31,7 +31,7 @@ const Elapsed = styled.div`
 `
 
 const Volume = styled.div`
-  display: grid;
+  display: ${props => props.hide ? 'none' : 'grid'};
   grid-template-rows: 1fr 90px;
   grid-template-columns: minmax(55px, 100%);
   justify-content: center;
@@ -100,7 +100,7 @@ const AudioPlayer = (props) => {
         </Title>
       </div>
 
-      <Volume>
+      <Volume hide={true}>
         <div>
           Volume
         </div>
@@ -118,7 +118,7 @@ const AudioPlayer = (props) => {
     </Container>;
   }
 
-  const { url, duration, oEmbedData } = song;
+  const { url, label, duration } = song;
 
   return (
     <Container>
@@ -138,7 +138,7 @@ const AudioPlayer = (props) => {
 
       <div>
         <Title>
-          {oEmbedData.title}
+          {label}
         </Title>
 
         <Elapsed>

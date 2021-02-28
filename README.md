@@ -9,6 +9,7 @@
 - node
 - ws (websockets library for node)
 - node-fetch cuz lazy
+- music-metadata-browser
 
 ## other providers I could add because of react-player
 
