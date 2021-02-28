@@ -55,23 +55,27 @@ const SongUpload = (props) => {
 
   const canUpload = !progressMessage;
 
+  const handleClick = (event) => {
+    event.target.value = '';
+  };
+
   const handleUpload = (event) => {
     handleFiles(event.target.files);
-  }
+  };
 
   const openFileDialog = () => {
     fileInputRef.current.click();
-  }
+  };
 
   const onDragOver = (event) => {
     event.preventDefault();
 
     setDropzoneHighlighted(true);
-  }
+  };
 
   const onDragLeave = () => {
     setDropzoneHighlighted(false);
-  }
+  };
 
   const onDrop = (event) => {
     event.preventDefault();
@@ -79,7 +83,7 @@ const SongUpload = (props) => {
     handleFiles(event.dataTransfer.files);
 
     setDropzoneHighlighted(false);
-  }
+  };
 
   const handleFiles = async (files) => {
     const file = files[0];
@@ -170,6 +174,7 @@ const SongUpload = (props) => {
           ref={fileInputRef}
           type="file"
           accept="audio/*"
+          onClick={handleClick}
           onChange={handleUpload}
         />
       </Dropzone>

@@ -13,8 +13,6 @@ import Footer from 'components/Footer';
 import Chat from 'components/Chat/Chat';
 import UserList from 'components/UserList';
 
-import FillerVisuals from 'components/FillerVisuals';
-
 const Container = styled.div`
   display: grid;
   grid-template-columns: 350px 1fr 350px;
@@ -121,8 +119,6 @@ const DidiShouChang = (props) => {
 
       <CenterColumn>
         <AudioPlayer song={songQueue.length ? songQueue[0] : null} seekTime={seekTime} />
-
-        {/* <FillerVisuals /> */}
 
         <div>
           <SongUpload sendMessage={sendMessage} />

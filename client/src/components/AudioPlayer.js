@@ -37,11 +37,11 @@ const Volume = styled.div`
 
   display: ${props => props.hide ? 'none' : 'block'};
 
-  max-width: 200px;
+  max-width: 120px;
 
   margin: auto;
 
-  box-shadow: 1px 1px 1px 1px rgb(150, 150, 150);
+  box-shadow: 1px 1px 1px 1px rgb(200, 200, 200);
 `
 
 const VolumeInput = styled.input`
