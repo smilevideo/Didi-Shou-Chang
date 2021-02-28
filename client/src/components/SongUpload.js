@@ -103,23 +103,24 @@ const SongUpload = (props) => {
 
       const duration = metadata.format.duration;
 
-      const artist = metadata.common.artist || 
-        metadata.native.ID3v1.filter(tag => {
+      let artist, title, label;
+
+      if (metadata.native.ID3v1) {
+        artist = metadata.native.ID3v1.filter(tag => {
           return tag.id === 'artist';
         })[0].value;
 
-      const title = metadata.common.title || 
-        metadata.native.ID3v1.filter(tag => {
+        title = metadata.native.ID3v1.filter(tag => {
           return tag.id === 'title';
         })[0].value;
-
-      let label;
+      } else {
+        artist = metadata.common.artist;
+        title = metadata.common.title;
+      }
 
       if (artist && title) {
         label = `${artist} - ${title}`;
-      }
-
-      else {
+      } else {
         label = file.name;
       };
 

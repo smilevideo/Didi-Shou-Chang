@@ -31,7 +31,7 @@ const CenterColumn = styled.div`
   grid-column: 2;
   display: grid;
   
-  grid-template-rows: 40% 60%;
+  grid-template-rows: 50% 50%;
   grid-template-columns: 100%;
   justify-content: center;
   align-items: center;

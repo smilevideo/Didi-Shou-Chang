@@ -13,6 +13,7 @@ const Container = styled.div`
 
   display: grid;
   grid-template-columns: minmax(15%, 25%) 1fr minmax(15%, 25%);
+  grid-template-rows: 1fr 125px;
 
   justify-content: center;
   align-items: center;
@@ -31,28 +32,24 @@ const Elapsed = styled.div`
 `
 
 const Volume = styled.div`
-  display: ${props => props.hide ? 'none' : 'grid'};
-  grid-template-rows: 1fr 90px;
-  grid-template-columns: minmax(55px, 100%);
-  justify-content: center;
-  align-items: center;
+  grid-column: 2;
+  grid-row: 2;
 
-  /* border: 1px solid black; */
-  /* border-radius: 5px;
+  display: ${props => props.hide ? 'none' : 'block'};
 
-  box-shadow: 1px 1px 1px rgb(200, 200, 200); */
+  width: 40%;
 
-  div {
-    /* border-bottom: 1px solid black; */
-  }
+  margin: auto;
+
+  box-shadow: 1px 1px 1px 1px rgb(150, 150, 150);
 `
 
 const VolumeInput = styled.input`
-  height: 90%;
+  width: 80%;
 
   /* mode: vertical - a proper method seems yet to be standardized and implemented by browsers... */
-  -webkit-appearance: slider-vertical;
-  writing-mode: bt-lr;
+  /* -webkit-appearance: slider-vertical;
+  writing-mode: bt-lr; */
 `
 
 const AudioPlayer = (props) => {
@@ -98,23 +95,25 @@ const AudioPlayer = (props) => {
         <Title>
           NO MUSIC NO IDOL
         </Title>
+
+        <Volume hide={true}>
+          <div>
+            Volume
+          </div>
+          
+          <VolumeInput
+            type="range"
+            min={0}
+            max={1}
+            step="any"
+            value={volume}
+            onChange={handleVolumeChange}
+            orient="vertical" /* makes it vertical for firefox or something */
+          />
+        </Volume>
       </div>
 
-      <Volume hide={true}>
-        <div>
-          Volume
-        </div>
-        
-        <VolumeInput
-          type="range"
-          min={0}
-          max={1}
-          step="any"
-          value={volume}
-          onChange={handleVolumeChange}
-          orient="vertical" /* makes it vertical for firefox or something */
-        />
-      </Volume>
+      
     </Container>;
   }
 
@@ -151,18 +150,21 @@ const AudioPlayer = (props) => {
       </div>
 
       <Volume>
-        Volume
+          <div>
+            Volume
+          </div>
 
-        <VolumeInput
-          type="range"
-          min={0}
-          max={1}
-          step="any"
-          value={volume}
-          onChange={handleVolumeChange}
-          orient="vertical" /* makes it vertical for firefox or something */
-        />
-      </Volume>
+          <VolumeInput
+            type="range"
+            min={0}
+            max={1}
+            step="any"
+            value={volume}
+            onChange={handleVolumeChange}
+            orient="vertical" /* makes it vertical for firefox or something */
+          />
+        </Volume>
+      
     </Container>
   );
 };
