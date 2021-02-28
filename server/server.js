@@ -130,14 +130,27 @@ const addSong = async (username, url, label, duration) => {
   if (!label) {
     const oEmbedData = await getOEmbedData(url);
 
-    songQueue.push({
-      username,
-      url,
-      label: oEmbedData.title,
-      duration
-    });
+    //hacky way to fix react-player not being able to play the same url twice in a row 
+    // -- adding ?in to the end of the url seems to still let it play for both yt and sc
+    if (songQueue.length > 0 && songQueue[songQueue.length - 1].url === url) { 
+      songQueue.push({
+        username,
+        url: `${url}?in`,
+        label: oEmbedData.title,
+        duration
+      });
+    } 
+    
+    else {
+      songQueue.push({
+        username,
+        url,
+        label: oEmbedData.title,
+        duration
+      });
+    };
   }
-
+  
   else {
     songQueue.push({
       username,
@@ -145,7 +158,7 @@ const addSong = async (username, url, label, duration) => {
       label,
       duration
     });
-  }
+  };
 
   const data = JSON.stringify(
     {

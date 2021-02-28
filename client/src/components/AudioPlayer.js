@@ -77,11 +77,11 @@ const AudioPlayer = (props) => {
     // loadedSeconds: 30.000999999999998
     // played: 0.0248933544266832
     // playedSeconds: 5.8131210190734866
-  }
+  };
 
   const handleVolumeChange = (event) => {
     setVolume(parseFloat(event.target.value));
-  }
+  };
 
   if (!song) {
     return <Container>
