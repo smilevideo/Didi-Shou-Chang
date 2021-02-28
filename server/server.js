@@ -31,8 +31,6 @@ const timerInterval = setInterval(() => {
   }
 }, 1000);
 
-
-
 const broadcast = (data) => {
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
@@ -47,7 +45,7 @@ const sendToOne = (ws, data) => {
       client.send(data);
     }
   });
-}
+};
 
 const welcomeNewUser = (ws) => {
   const data = JSON.stringify(
@@ -59,7 +57,7 @@ const welcomeNewUser = (ws) => {
     }
   )
   sendToOne(ws, data);
-}
+};
 
 const addUser = (username) => {
   userList.push(username);
@@ -86,7 +84,7 @@ const removeUser = (username) => {
   );
 
   broadcast(data);
-}
+};
 
 const addMessage = (message) => {
   messages.push(message);
@@ -123,7 +121,7 @@ const getOEmbedData = async (url) => {
 
     return response.json();
   }
-}
+};
 
 const addSong = async (username, url, label, duration) => {
   // TODO: order the queue so that each user takes turn playing songs, maybe not necessarily here
@@ -179,7 +177,7 @@ const nextSong = () => {
   );
 
   broadcast(data);
-}
+};
 
 wss.on('connection', (ws) => {
   let username = '';

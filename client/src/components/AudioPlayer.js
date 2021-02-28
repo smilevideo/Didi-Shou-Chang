@@ -46,10 +46,6 @@ const Volume = styled.div`
 
 const VolumeInput = styled.input`
   width: 80%;
-
-  /* mode: vertical - a proper method seems yet to be standardized and implemented by browsers... */
-  /* -webkit-appearance: slider-vertical;
-  writing-mode: bt-lr; */
 `
 
 const AudioPlayer = (props) => {
@@ -108,12 +104,9 @@ const AudioPlayer = (props) => {
             step="any"
             value={volume}
             onChange={handleVolumeChange}
-            orient="vertical" /* makes it vertical for firefox or something */
           />
         </Volume>
       </div>
-
-      
     </Container>;
   }
 
@@ -150,21 +143,19 @@ const AudioPlayer = (props) => {
       </div>
 
       <Volume>
-          <div>
-            Volume
-          </div>
+        <div>
+          Volume
+        </div>
 
-          <VolumeInput
-            type="range"
-            min={0}
-            max={1}
-            step="any"
-            value={volume}
-            onChange={handleVolumeChange}
-            orient="vertical" /* makes it vertical for firefox or something */
-          />
-        </Volume>
-      
+        <VolumeInput
+          type="range"
+          min={0}
+          max={1}
+          step="any"
+          value={volume}
+          onChange={handleVolumeChange}
+        />
+      </Volume>
     </Container>
   );
 };

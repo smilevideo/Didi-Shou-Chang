@@ -20,7 +20,7 @@ const Form = styled.div`
   align-items: center;
 
   input[type="text"] {
-    width: 10ch;
+    width: 15ch;
     margin-bottom: 2rem;
   }
 

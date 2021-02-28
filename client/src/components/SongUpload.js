@@ -102,21 +102,10 @@ const SongUpload = (props) => {
       const metadata = await getMetadata(file);
 
       const duration = metadata.format.duration;
+      const artist = metadata.common.artist;
+      const title = metadata.common.title;
 
-      let artist, title, label;
-
-      if (metadata.native.ID3v1) {
-        artist = metadata.native.ID3v1.filter(tag => {
-          return tag.id === 'artist';
-        })[0].value;
-
-        title = metadata.native.ID3v1.filter(tag => {
-          return tag.id === 'title';
-        })[0].value;
-      } else {
-        artist = metadata.common.artist;
-        title = metadata.common.title;
-      }
+      let label;
 
       if (artist && title) {
         label = `${artist} - ${title}`;
