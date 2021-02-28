@@ -4,10 +4,10 @@ import { useEffect, useState, useRef } from 'react';
 import SongQueue from 'components/SongQueue';
 import SongHistory from 'components/SongHistory';
 
-import SongUpload from 'components/SongUpload';
-
 import AudioPlayer from 'components/AudioPlayer';
+import SongUpload from 'components/SongUpload';
 import SongByURLInput from 'components/SongByURLInput';
+import QueueFull from 'components/QueueFull';
 import Footer from 'components/Footer';
 
 import Chat from 'components/Chat/Chat';
@@ -120,10 +120,14 @@ const DidiShouChang = (props) => {
       <CenterColumn>
         <AudioPlayer song={songQueue.length ? songQueue[0] : null} seekTime={seekTime} />
 
-        <div>
-          <SongUpload sendMessage={sendMessage} />
-          <SongByURLInput sendMessage={sendMessage} />
-        </div>
+        {(songQueue.length < 50) ? 
+          <div>
+            <SongUpload sendMessage={sendMessage} />
+            <SongByURLInput sendMessage={sendMessage} />
+          </div> 
+          :
+          <QueueFull />
+        }
       
         <Footer />
       </CenterColumn>

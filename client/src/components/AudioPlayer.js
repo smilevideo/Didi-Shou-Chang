@@ -51,7 +51,7 @@ const VolumeInput = styled.input`
 const AudioPlayer = (props) => {
   const { song, seekTime } = props;
   
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
   const [elapsed, setElapsed] = useState(null);
 
   const [volume, setVolume] = useState(1);

@@ -95,7 +95,7 @@ const SongUpload = (props) => {
     else if (files[0] && file.type.substring(0, 6) === 'audio/') {
       const filename = parseFilename(file.name);
       const audioUrl = `${process.env.REACT_APP_S3_BUCKET_BASE_URL}/uploads/${filename}`;
-
+      
       setProgressMessage('fetching presigned URL');
       const presignedUrl = await fetchPresignedUrl(filename);
 
@@ -184,6 +184,6 @@ const SongUpload = (props) => {
       </ProgressMessage>
     </Container>
   )
-}
+};
 
 export default SongUpload;
