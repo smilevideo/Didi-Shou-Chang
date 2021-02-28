@@ -31,7 +31,7 @@ const CenterColumn = styled.div`
   grid-column: 2;
   display: grid;
   
-  grid-template-rows: 50% 50%;
+  grid-template-rows: 50% 1fr 30px;
   grid-template-columns: 100%;
   justify-content: center;
   align-items: center;
@@ -129,7 +129,7 @@ const DidiShouChang = (props) => {
           <SongByURLInput sendMessage={sendMessage} />
         </div>
       
-        {/* <Footer /> */}
+        <Footer />
       </CenterColumn>
       
       <RightColumn>
