@@ -6,12 +6,12 @@ const wss = new WebSocket.Server({ port: 3030 });
 const userList = [];
 
 const messages = [];
-const MAX_MESSAGES = 100;
+const MAX_MESSAGES = 200;
 
 const songQueue = []; //handle max song queue limit on frontend
 
 const songHistory = []; 
-const MAX_SONGS_IN_HISTORY = 50;
+const MAX_SONGS_IN_HISTORY = 100;
 
 let nowPlaying = {};
 

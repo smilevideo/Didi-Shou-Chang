@@ -39,7 +39,7 @@ const SongList = styled.ul`
     background-position-y: 50%;
     background-size: cover;
 
-    min-height: 80px;
+    min-height: 100px;
 
     color: white;
     font-weight: 400;
@@ -115,7 +115,7 @@ const SongQueue = (props) => {
   const { songQueue, sendMessage } = props;
 
   const removeFromQueue = (index, label) => {
-    if (window.confirm(`Rixslay ${label}?`)) {
+    if (window.confirm(`rixslay ${label}?`)) {
       const message = {
         type: 'removeSong',
         index,

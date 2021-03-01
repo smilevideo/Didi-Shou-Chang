@@ -18,17 +18,16 @@ const Message = styled.span`
 `
 
 const SystemMessage = styled.span`
-  font-style: italic;
-
-  color: rgba(0, 0, 0, 0.8);
+  color: green;
+  opacity: 0.9;
 `
 
 const AddedSong = styled.span`
-  color: rgba(0, 0, 255, 0.8);
+  color: rgba(0, 0, 255, 0.9);
 `
 
 const RemovedSong = styled.span`
-  color: rgba(255, 0, 0, 0.8);
+  color: rgba(255, 0, 0, 0.9);
 `
 
 const ChatMessage = (props) => {

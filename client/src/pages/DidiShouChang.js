@@ -23,7 +23,7 @@ const LeftColumn = styled.div`
   grid-column: 1;
   display: flex;
   flex-direction: column;
-`
+`;
 
 const CenterColumn = styled.div`
   grid-column: 2;
@@ -33,15 +33,14 @@ const CenterColumn = styled.div`
   grid-template-columns: 100%;
   justify-content: center;
   align-items: center;
-`
+`;
 
 const RightColumn = styled.div`
   grid-column: 3;
   display: flex;
   flex-direction: column;
-`
+`;
 
-const beep1 = new Audio('/assets/beep1.mp3');
 const beep2 = new Audio('/assets/beep2.mp3');
 
 const DidiShouChang = (props) => {
@@ -75,18 +74,18 @@ const DidiShouChang = (props) => {
 
         case 'userEnter':
           setUserList(message.userList);
-          beep2.play();
           break;
 
         case 'userLeave':
           setUserList(message.userList);
-          beep1.play();
           break;
 
         case 'welcome':
           setSongQueue(message.songQueue);
           setSongHistory(message.songHistory);
           setSeekTime(message.seekTime);
+
+          beep2.play();
           break;
 
         case 'addSong':
