@@ -17,9 +17,16 @@ const Timestamp = styled.span`
 const Message = styled.span`
 `
 
-const SystemMessage = styled.span`
+const UserJoined = styled.span`
   color: green;
   opacity: 0.9;
+`
+
+const UserLeft = styled.span`
+  color: green;
+  opacity: 0.9;
+
+  font-style: italic;
 `
 
 const AddedSong = styled.span`
@@ -47,7 +54,7 @@ const ChatMessage = (props) => {
         <Container>
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
-          <SystemMessage>has entered Didi-Shou-Chang.</SystemMessage>
+          <UserJoined>has entered Didi-Shou-Chang.</UserJoined>
         </Container>
       ) 
     case 'userLeave':
@@ -55,7 +62,7 @@ const ChatMessage = (props) => {
         <Container>
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
-          <SystemMessage>has left Didi-Shou-Chang.</SystemMessage>
+          <UserLeft>has left Didi-Shou-Chang.</UserLeft>
         </Container>
       )
     case 'addSong':

@@ -5,12 +5,31 @@ const Container = styled.div`
   overflow-y: auto;
 
   border: 1px solid black;
+`
 
-  padding: 1.5rem;
-  
-  h2 {
-    margin: 0;
-  }
+const Header = styled.div`
+  font-weight: bold;
+  font-size: 1.2rem;
+
+  height: 30px;
+
+  background-color: #333333;
+  color: #CCCCCC;
+
+  position: sticky; top: 0;
+  z-index: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
+const UsersContainer = styled.ul`
+  padding: 0 0 0 2.5rem; 
+`
+
+const User = styled.li`
+  margin-bottom: 2px;
 `
 
 const UserList = (props) => {
@@ -18,16 +37,16 @@ const UserList = (props) => {
 
   return (
     <Container>
-      <h2>Users: ({userList.length})</h2>
-      <ul>
+      <Header>entities ({userList.length})</Header>
+      <UsersContainer>
         {userList.map((username, index) => {
           return (
-            <li key={index}>
+            <User key={index}>
               {username}
-            </li>
+            </User>
           )
         })}
-      </ul>
+      </UsersContainer>
     </Container>
   )
 }
