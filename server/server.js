@@ -1,7 +1,9 @@
-const WebSocket = require('ws');
-const fetch = require('node-fetch');
+import pkg from 'ws';
+const { Server, OPEN } = pkg
+import fetch from 'node-fetch';
+import Song from './Song.js';
 
-const wss = new WebSocket.Server({ port: 3030 });
+const wss = new Server({ port: 3030 });
 
 const userList = [];
 
@@ -33,7 +35,7 @@ const timerInterval = setInterval(() => {
 
 const broadcast = (data) => {
   wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
+    if (client.readyState === OPEN) {
       client.send(data);
     }
   });
@@ -41,7 +43,7 @@ const broadcast = (data) => {
 
 const sendToOne = (ws, data) => {
   wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN && client === ws) {
+    if (client.readyState === OPEN && client === ws) {
       client.send(data);
     }
   });
@@ -126,6 +128,9 @@ const getOEmbedData = async (url) => {
 const addSong = async (username, url, label, duration) => {
   // TODO: order the queue so that each user takes turn playing songs, maybe not necessarily here
 
+  // create song object
+  let newSong = new Song(username, url, label, duration);
+
   //no label implies song from provider URL, not upload
   if (!label) {
     const oEmbedData = await getOEmbedData(url);
@@ -133,32 +138,17 @@ const addSong = async (username, url, label, duration) => {
     //hacky way to fix react-player not being able to play the same url twice in a row 
     // -- adding ?in to the end of the url seems to still let it play for both yt and sc
     if (songQueue.length > 0 && songQueue[songQueue.length - 1].url === url) { 
-      songQueue.push({
-        username,
-        url: `${url}?in`,
-        label: oEmbedData.title,
-        duration
-      });
+      newSong.url = `${url}?in`;
+      newSong.label = oEmbedData.title;
     } 
     
     else {
-      songQueue.push({
-        username,
-        url,
-        label: oEmbedData.title,
-        duration
-      });
+      newSong.label = oEmbedData.title
     };
   }
-  
-  else {
-    songQueue.push({
-      username,
-      url,
-      label,
-      duration
-    });
-  };
+  // only need to edit params in above two conditions
+  // we want to use a singular .push call for all 3 if possible
+  songQueue.push(newSong);
 
   const data = JSON.stringify(
     {
