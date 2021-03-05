@@ -87,8 +87,11 @@ export default class PriorityQ {
 
     getSongAtIndex(i) {
         if (!this.inUse) {
-            let values = this.traverse(i)
-            return this.qMap.get(values[0])[values[1]]
+            this.inUse = true
+            let [username, depth] = this.traverse(i)
+            let retVal = this.qMap.get(username)[depth]
+            this.inUse = false
+            return retVal
         } else {
             setTimeout(() => {
                 return this.getSongAtIndex(i)
@@ -98,7 +101,22 @@ export default class PriorityQ {
     }
 
     removeSongAtIndex(i) {
-        let values = this.traverse(i)
+        if (!this.inUse) {
+            this.inUse = true
+            let [username, depth] = this.traverse(i)
+            this.qMap.get(username).splice(depth, 1)
+            this.length--
+            // if we're removing the current song, then don't repeat turn
+            // go to next guy
+            if (i == 0) {
+                this.updateHead()
+            }
+            this.inUse = false
+        } else {
+            setTimeout(() => {
+                this.removeSongAtIndex(i)
+            })
+        }
     }
 
     // returns [username, index] of the element at index n

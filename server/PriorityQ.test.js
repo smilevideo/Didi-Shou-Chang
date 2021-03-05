@@ -25,6 +25,9 @@ shiftTest()
 setup()
 getSongAtIndexTest()
 
+setup()
+removeSongAtIndexTest()
+
 // methods
 function setup() {
     prioQ = new PriorityQ()
@@ -79,4 +82,14 @@ function getSongAtIndexTest() {
         console.log(`getItemAtIndexTest case ${i+1}: ${retSong.equals(songs[i])}`)
     }
     console.log(`getItemAtIndexTest length assertion: ${prioQ.length == songs.length}`)
+}
+
+function removeSongAtIndexTest() {
+    prioQ.removeSongAtIndex(0)
+    console.log(`removeItemAtIndexTest case 1: ${prioQ.shift() == song2}`)
+    setup()
+    prioQ.removeSongAtIndex(1)
+    prioQ.shift()
+    console.log(`removeItemAtIndexTest case 2: ${prioQ.shift() == song4}`)
+
 }
