@@ -143,6 +143,24 @@ export default class PriorityQ {
         }
     }
 
+    // literally just traverse, but we add elements into retArr
+    flatten() {
+        let retArr = []
+        let index = 0
+        let depth = 0
+        while (index < this.length) {
+            for (const user of this.users) {
+                let song = this.qMap.get(user)[depth]
+                if (song) {
+                    retArr.push(song)
+                    index++
+                }
+            }
+            depth++
+        }
+        return retArr
+    }
+
     // need to be careful with the timing of this method call to prevent
     // index out of bounds or skipping when a user's final song has played
     updateHead() {

@@ -51,10 +51,11 @@ const sendToOne = (ws, data) => {
 };
 
 const welcomeNewUser = (ws) => {
+  let flatQ = songQueue.flatten()
   const data = JSON.stringify(
     {
       type: 'welcome',
-      songQueue,
+      songQueue: flatQ,
       songHistory,
       seekTime
     }
@@ -151,10 +152,12 @@ const addSong = async (username, url, label, duration) => {
   // we want to use a singular .push call for all 3 if possible
   songQueue.push(newSong);
 
+  let flatQ = songQueue.flatten()
   const data = JSON.stringify(
+    
     {
       type: 'addSong',
-      songQueue
+      songQueue: flatQ
     }
   );
 
@@ -168,10 +171,12 @@ const removeSong = (index) => {
     songQueue.removeSongAtIndex(index);
   };
 
+  let flatQ = songQueue.flatten()
+
   const data = JSON.stringify(
     {
       type: 'updateSongLists',
-      songQueue,
+      songQueue: flatQ,
       songHistory
     }
   );
@@ -190,10 +195,12 @@ const nextSong = () => {
     songHistory.pop();
   };
 
+  let flatQ = songQueue.flatten()
+
   const data = JSON.stringify(
     {
       type: 'updateSongLists',
-      songQueue,
+      songQueue: flatQ,
       songHistory
     }
   );
