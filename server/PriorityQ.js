@@ -16,7 +16,7 @@ export default class PriorityQ {
     // lock to make all of our operations atomic
     inUse = false
     // 
-    pollingRate = 500
+    pollingRate = 50
 
     constructor() { }
 
@@ -121,7 +121,7 @@ export default class PriorityQ {
 
     // returns [username, index] of the element at index n
     traverse(n) {
-        if (n < this.length && n > -1) {
+        if (n < this.length && n >= 0) {
             let index = 0
             let depth = 0
             // logically, this while loop is for (depth < maxDepth), but that requires us to find maxDepth first
