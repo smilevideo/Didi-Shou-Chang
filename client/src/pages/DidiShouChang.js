@@ -1,17 +1,18 @@
 import styled from 'styled-components';
 import { useEffect, useState, useRef } from 'react';
 
-import SongQueue from 'components/SongQueue';
-import SongHistory from 'components/SongHistory';
+import Tabs from 'components/LeftColumn/Tabs';
+import SongQueue from 'components/LeftColumn/SongQueue';
+import SongHistory from 'components/LeftColumn/SongHistory';
 
-import AudioPlayer from 'components/AudioPlayer';
-import SongUpload from 'components/SongUpload';
-import SongByURLInput from 'components/SongByURLInput';
-import QueueFull from 'components/QueueFull';
-import Footer from 'components/Footer';
+import AudioPlayer from 'components/CenterColumn/AudioPlayer';
+import SongUpload from 'components/CenterColumn/SongUpload';
+import SongByURLInput from 'components/CenterColumn/SongByURLInput';
+import QueueFull from 'components/CenterColumn/QueueFull';
+import Footer from 'components/CenterColumn/Footer';
 
-import Chat from 'components/Chat/Chat';
-import UserList from 'components/UserList';
+import Chat from 'components/RightColumn/Chat';
+import UserList from 'components/RightColumn/UserList';
 
 const Container = styled.div`
   display: grid;
@@ -53,6 +54,8 @@ const DidiShouChang = (props) => {
   const [songQueue, setSongQueue] = useState([]);
   const [songHistory, setSongHistory] = useState([]);
   const [seekTime, setSeekTime] = useState(0);
+
+  const [leftColumnTab, setLeftColumnTab] = useState('FUTURE');
 
   // connect and set up WebSocket on initialize
   useEffect(() => {
@@ -112,6 +115,7 @@ const DidiShouChang = (props) => {
   return (
     <Container>
       <LeftColumn>
+        <Tabs tab={leftColumnTab} setTab={setLeftColumnTab} />
         <SongQueue songQueue={songQueue} sendMessage={sendMessage} />
         <SongHistory songHistory={songHistory} />
       </LeftColumn>

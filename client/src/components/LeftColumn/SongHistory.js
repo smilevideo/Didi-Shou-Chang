@@ -12,8 +12,8 @@ const Header = styled.div`
 
   height: 30px;
 
-  background-color: #333333;
-  color: #CCCCCC;
+  background-color: rgb(33, 38, 45);
+  color: rgb(201, 209, 217);
 
   position: sticky; top: 0;
   z-index: 1;
