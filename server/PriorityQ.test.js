@@ -78,5 +78,5 @@ function getSongAtIndexTest() {
         let retSong = prioQ.getSongAtIndex(i)
         console.log(`getItemAtIndexTest case ${i+1}: ${retSong.equals(songs[i])}`)
     }
-
+    console.log(`getItemAtIndexTest length assertion: ${prioQ.length == songs.length}`)
 }
