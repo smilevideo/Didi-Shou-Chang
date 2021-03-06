@@ -14,14 +14,12 @@ const songHistoryPath = `${BASE_PATH}/song_history.txt`
 
 const userList = [];
 
-const messages = FileUtils.readJSONFromCSV(chatPath) || [];
+var messages = [];
 const MAX_MESSAGES = 200;
 
-const songQFromFile = FileUtils.readJSONFromPath(songQPath)
 const songQueue = new PriorityQ() //handle max song queue limit on frontend
-if (songQFromFile) { songQueue = new PriorityQ().initFromObject(songQFromFile) }
 
-const songHistory = FileUtils.readJSONFromCSV(songHistoryPath) || [];
+var songHistory = [];
 const MAX_SONGS_IN_HISTORY = 100;
 
 let nowPlaying = {};
@@ -41,6 +39,19 @@ const timerInterval = setInterval(() => {
     }
   }
 }, 1000);
+
+{
+  // in method for single try/catch
+  try {
+    messages = FileUtils.readJSONArray(chatPath)
+    songHistory = FileUtils.readJSONArray(songHistoryPath)
+    
+    const songQFromFile = FileUtils.readJSONFromPath(songQPath)
+    if (songQFromFile) { songQueue.initFromObject(songQFromFile) }
+  } catch (e) {
+    console.log(`Error reading state from files: ${e}`)
+  }
+}
 
 const writeState = () => {
   let messagesString = FileUtils.arrayOfJSONToString(messages)
