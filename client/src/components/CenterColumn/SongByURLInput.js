@@ -76,7 +76,9 @@ const SongByURLInput = (props) => {
         <input type="submit" value="yt/sc only" />
       </form>
       
-      {error && <div>{error}</div>}
+      <div>
+        {error}
+      </div>
     </Container>
   )
 }

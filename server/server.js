@@ -1,5 +1,5 @@
-import pkg from 'ws';
-const { Server, OPEN } = pkg
+import WebSocket from 'ws';
+const { Server, OPEN } = WebSocket;
 import fetch from 'node-fetch';
 import Song from './Song.js';
 

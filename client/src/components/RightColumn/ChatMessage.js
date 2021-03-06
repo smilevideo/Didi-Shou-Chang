@@ -18,11 +18,11 @@ const Message = styled.span`
 `
 
 const UserJoined = styled.span`
-  color: rgb(90, 90, 255);
+  color: rgb(70, 70, 255);
 `
 
 const UserLeft = styled.span`
-  color: rgb(90, 90, 255);
+  color: rgb(70, 70, 255);
 
   font-style: italic;
 `

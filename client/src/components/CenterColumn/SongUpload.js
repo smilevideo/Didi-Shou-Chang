@@ -92,7 +92,7 @@ const SongUpload = (props) => {
       console.log('upload already in progress');
     }
 
-    else if (files[0] && file.type.substring(0, 6) === 'audio/') {
+    else if (file && file.type.substring(0, 6) === 'audio/') {
       const filename = parseFilename(file.name);
       const audioUrl = `${process.env.REACT_APP_S3_BUCKET_BASE_URL}/uploads/${filename}`;
       
@@ -169,15 +169,15 @@ const SongUpload = (props) => {
         onDrop={canUpload ? onDrop : null}
         highlighted={dropzoneHighlighted}
         canUpload={canUpload}
-      > 
-        <FileInput
-          ref={fileInputRef}
-          type="file"
-          accept="audio/*"
-          onClick={handleClick}
-          onChange={handleUpload}
-        />
-      </Dropzone>
+      />
+
+      <FileInput
+        ref={fileInputRef}
+        type="file"
+        accept="audio/*"
+        onClick={handleClick}
+        onChange={handleUpload}
+      />
 
       <ProgressMessage>
         {progressMessage}
