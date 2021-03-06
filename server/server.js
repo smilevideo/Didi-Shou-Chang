@@ -3,17 +3,25 @@ const { Server, OPEN } = pkg
 import fetch from 'node-fetch';
 import Song from './Song.js';
 import PriorityQ from './PriorityQ.js';
+import FileUtils from './FileUtils.js'
 
 const wss = new Server({ port: 3030 });
 
+const BASE_PATH = process.env.DSC_BASE_PATH
+const songQPath = `${BASE_PATH}/songq.json`
+const chatPath = `${BASE_PATH}/chat.txt`
+const songHistoryPath = `${BASE_PATH}/song_history.txt`
+
 const userList = [];
 
-const messages = [];
+const messages = FileUtils.readJSONFromCSV(chatPath) || [];
 const MAX_MESSAGES = 200;
 
-const songQueue = new PriorityQ(); //handle max song queue limit on frontend
+const songQFromFile = FileUtils.readJSONFromPath(songQPath)
+const songQueue = new PriorityQ() //handle max song queue limit on frontend
+if (songQFromFile) { songQueue = new PriorityQ().initFromObject(songQFromFile) }
 
-const songHistory = []; 
+const songHistory = FileUtils.readJSONFromCSV(songHistoryPath) || [];
 const MAX_SONGS_IN_HISTORY = 100;
 
 let nowPlaying = {};
@@ -34,7 +42,17 @@ const timerInterval = setInterval(() => {
   }
 }, 1000);
 
+const writeState = () => {
+  let messagesString = FileUtils.arrayOfJSONToString(messages)
+  let songHistoryString = FileUtils.arrayOfJSONToString(songHistory)
+
+  FileUtils.writeToPath(songQPath, JSON.stringify(songQueue))
+  FileUtils.writeToPath(chatPath, messagesString)
+  FileUtils.writeToPath(songHistoryPath, songHistoryString)
+}
+
 const broadcast = (data) => {
+  writeState()
   wss.clients.forEach((client) => {
     if (client.readyState === OPEN) {
       client.send(data);
@@ -111,7 +129,7 @@ const getOEmbedData = async (url) => {
   // hacky way to check if soundcloud
   if (url.includes('soundcloud.')) {
     const fetchUrl = `https://www.soundcloud.com/oembed?url=${url}&format=json`;
-    
+
     const response = await fetch(fetchUrl);
 
     return response.json();
@@ -128,8 +146,6 @@ const getOEmbedData = async (url) => {
 };
 
 const addSong = async (username, url, label, duration) => {
-  // TODO: order the queue so that each user takes turn playing songs, maybe not necessarily here
-
   // create song object
   let newSong = new Song(username, url, label, duration);
 
@@ -139,11 +155,11 @@ const addSong = async (username, url, label, duration) => {
 
     //hacky way to fix react-player not being able to play the same url twice in a row 
     // -- adding ?in to the end of the url seems to still let it play for both yt and sc
-    if (songQueue.length > 0 && songQueue.getSongAtIndex(songQueue.length - 1).url === url) { 
+    if (songQueue.length > 0 && songQueue.getSongAtIndex(songQueue.length - 1).url === url) {
       newSong.url = `${url}?in`;
       newSong.label = oEmbedData.title;
-    } 
-    
+    }
+
     else {
       newSong.label = oEmbedData.title
     };
@@ -154,7 +170,7 @@ const addSong = async (username, url, label, duration) => {
 
   let flatQ = songQueue.flatten()
   const data = JSON.stringify(
-    
+
     {
       type: 'addSong',
       songQueue: flatQ
@@ -188,9 +204,9 @@ const nextSong = () => {
   nowPlaying = {};
   seekTime = 0;
 
-  const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
-  songHistory.unshift({...songQueue.shift(), timestamp});
-  
+  const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' });
+  songHistory.unshift({ ...songQueue.shift(), timestamp });
+
   if (songHistory.length > MAX_SONGS_IN_HISTORY) {
     songHistory.pop();
   };
@@ -214,9 +230,9 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (data) => {
     console.log(data);
-    
+
     // HH:mm format
-    const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
+    const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' });
 
     const clientMessage = JSON.parse(data);
     switch (clientMessage.type) {
@@ -235,7 +251,7 @@ wss.on('connection', (ws) => {
       case 'chat':
         addMessage({
           message: clientMessage.message,
-          username, 
+          username,
           type: 'chat',
           timestamp
         });
@@ -272,7 +288,7 @@ wss.on('connection', (ws) => {
 
   ws.on('close', () => {
     // HH:mm format
-    const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
+    const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' });
 
     addMessage({
       username,
