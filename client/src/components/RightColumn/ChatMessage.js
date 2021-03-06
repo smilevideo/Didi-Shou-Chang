@@ -18,18 +18,18 @@ const Message = styled.span`
 `
 
 const UserJoined = styled.span`
-  color: rgb(70, 70, 255);
+  color: green;
 `
 
 const UserLeft = styled.span`
-  color: rgb(70, 70, 255);
+  color: green;
 
   font-style: italic;
 `
 
 const AddedSong = styled.span`
-  color: green;
-  opacity: 0.85;
+  color: rgb(50, 50, 255);
+  
 `
 
 const RemovedSong = styled.span`

@@ -1,10 +1,9 @@
 import WebSocket from 'ws';
-const { Server, OPEN } = WebSocket;
 import fetch from 'node-fetch';
 import Song from './Song.js';
 import PriorityQ from './PriorityQ.js';
 
-const wss = new Server({ port: 3030 });
+const wss = new WebSocket.Server({ port: 3030 });
 
 const userList = [];
 
@@ -36,7 +35,7 @@ const timerInterval = setInterval(() => {
 
 const broadcast = (data) => {
   wss.clients.forEach((client) => {
-    if (client.readyState === OPEN) {
+    if (client.readyState === WebSocket.OPEN) {
       client.send(data);
     }
   });
@@ -44,7 +43,7 @@ const broadcast = (data) => {
 
 const sendToOne = (ws, data) => {
   wss.clients.forEach((client) => {
-    if (client.readyState === OPEN && client === ws) {
+    if (client.readyState === WebSocket.OPEN && client === ws) {
       client.send(data);
     }
   });
