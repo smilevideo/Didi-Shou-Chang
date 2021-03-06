@@ -6,18 +6,9 @@ Basic structure is a Map<String, Array>
 */
 export default class PriorityQ {
   qMap = new Map()
-  head = 0
   length = 0 // length of resultant song queue
 
   constructor() { }
-
-  updateHead() {
-    if (this.head >= this.qMap.size - 1) {
-      this.head = 0
-    } else {
-      this.head++
-    }
-  }
 
   push(song) {
     const username = song.username
@@ -33,22 +24,14 @@ export default class PriorityQ {
 
   shift() {
     if (this.length > 0) {
-      const keysArray = Array.from(this.qMap.keys());
-      const username = keysArray[this.head];
-      const userSongList = this.qMap.get(username)
+      const [ username, userSongList ] = this.qMap.entries().next().value
       const nextSong = userSongList.shift()
-      
+
       if (userSongList.length > 0) {
-        this.updateHead()
+        // reorder map keys
+        this.qMap.delete(username)
+        this.qMap.set(username, userSongList)
       } else {
-        const toDeleteIndex =  keysArray.indexOf(username);
-        // if userSongList == 0 and user is last element of users
-        // we can just set head to 0 directly
-        // otherwise, don't update head, since we remove the user key
-        // and next user is at current head
-        if (toDeleteIndex == this.qMap.size - 1) {
-          this.head = 0
-        }
         this.qMap.delete(username)
       }
       this.length--
@@ -70,8 +53,8 @@ export default class PriorityQ {
           if (this.qMap.get(username)[depth]) {
             if (index == n) {
               return ({
-                username, 
-                depth 
+                username,
+                depth
               });
             }
             index++
@@ -85,18 +68,18 @@ export default class PriorityQ {
 
   getSongAtIndex(i) {
     const { username, depth } = this.traverse(i)
-    
     return this.qMap.get(username)[depth];
   }
 
   removeSongAtIndex(i) {
-    const { username, depth } = this.traverse(i)
-    this.qMap.get(username).splice(depth, 1)
-    this.length--
-    // if we're removing the current song, then don't repeat turn
-    // go to next guy
+    // if removing 0, we still want to shift to reorder map
+    // i.e. only skip person's turn if we remove current song
     if (i == 0) {
-      this.updateHead()
+      this.shift()
+    } else {
+      const { username, depth } = this.traverse(i)
+      this.qMap.get(username).splice(depth, 1)
+      this.length--
     }
   }
 
