@@ -10,6 +10,10 @@ const Container = styled.div`
   text-align: center;
 `;
 
+const Error = styled.div`
+  min-height: 58px;
+`
+
 const SongByURLInput = (props) => {
   const { sendMessage } = props;
 
@@ -76,9 +80,9 @@ const SongByURLInput = (props) => {
         <input type="submit" value="yt/sc only" />
       </form>
       
-      <div>
+      <Error>
         {error}
-      </div>
+      </Error>
     </Container>
   )
 }
