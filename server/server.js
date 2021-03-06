@@ -53,17 +53,18 @@ const timerInterval = setInterval(() => {
   }
 }
 
-const writeState = () => {
+const persistChat = () => {
   let messagesString = FileUtils.arrayOfJSONToString(messages)
-  let songHistoryString = FileUtils.arrayOfJSONToString(songHistory)
-
-  FileUtils.writeToPath(songQPath, JSON.stringify(songQueue))
   FileUtils.writeToPath(chatPath, messagesString)
+}
+
+const persistSongState = () => {
+  let songHistoryString = FileUtils.arrayOfJSONToString(songHistory)
   FileUtils.writeToPath(songHistoryPath, songHistoryString)
+  FileUtils.writeToPath(songQPath, JSON.stringify(songQueue))
 }
 
 const broadcast = (data) => {
-  writeState()
   wss.clients.forEach((client) => {
     if (client.readyState === OPEN) {
       client.send(data);
@@ -133,6 +134,7 @@ const addMessage = (message) => {
     }
   );
 
+  persistChat()
   broadcast(data);
 };
 
@@ -188,6 +190,7 @@ const addSong = async (username, url, label, duration) => {
     }
   );
 
+  persistSongState()
   broadcast(data);
 };
 
@@ -208,6 +211,7 @@ const removeSong = (index) => {
     }
   );
 
+  persistSongState()
   broadcast(data);
 };
 
@@ -232,6 +236,7 @@ const nextSong = () => {
     }
   );
 
+  persistSongState()
   broadcast(data);
 };
 
