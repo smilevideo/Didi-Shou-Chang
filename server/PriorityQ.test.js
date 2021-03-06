@@ -51,26 +51,20 @@ function shiftTest() {
 
     console.log("Checking sequential shift() against song constants")
     console.log(`shiftTest case 1a: ${song1 == prioQ.shift()}`)
-    console.log(`shiftTest case 1b: ${prioQ.users.length == 2}`)
     console.log(`shiftTest case 1c: ${prioQ.length == 3}`)
 
     console.log(`shiftTest case 2a: ${song2 == prioQ.shift()}`)
-    console.log(`shiftTest case 2b: ${prioQ.users.length == 2}`)
     console.log(`shiftTest case 2c: ${prioQ.length == 2}`)
 
     console.log(`shiftTest case 3a: ${song3 == prioQ.shift()}`)
-    console.log(`shiftTest case 3b: ${prioQ.users.length == 1}`)
-    console.log(`shiftTest case 3c: ${prioQ.users[0] == song4.username}`)
     console.log(`shiftTest case 3d: ${prioQ.length == 1}`)
 
     console.log(`shiftTest case 4a: ${song4 == prioQ.shift()}`)
-    console.log(`shiftTest case 4b: ${prioQ.users.length == 0}`)
     console.log(`shiftTest case 4c: ${prioQ.length == 0}`)
 
     // check if fields of prioQ are reset even after an empty shfit
     prioQ.shift()
     console.log(`shiftTest case 5a: ${prioQ.length == 0}`)
-    console.log(`shiftTest case 5b: ${prioQ.users.length == 0}`)
     console.log(`shiftTest case 5c: ${prioQ.head == 0}`)
     console.log(`shiftTest case 5d: ${prioQ.qMap.size == 0}`)
 }
