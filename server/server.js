@@ -2,6 +2,7 @@ import WebSocket from 'ws';
 const { Server, OPEN } = WebSocket;
 import fetch from 'node-fetch';
 import Song from './Song.js';
+import PriorityQ from './PriorityQ.js';
 
 const wss = new Server({ port: 3030 });
 
@@ -10,7 +11,7 @@ const userList = [];
 const messages = [];
 const MAX_MESSAGES = 200;
 
-const songQueue = []; //handle max song queue limit on frontend
+const songQueue = new PriorityQ(); //handle max song queue limit on frontend
 
 const songHistory = []; 
 const MAX_SONGS_IN_HISTORY = 100;
@@ -21,7 +22,7 @@ let seekTime = 0;
 
 const timerInterval = setInterval(() => {
   if (songQueue.length && !nowPlaying.duration) {
-    nowPlaying = songQueue[0];
+    nowPlaying = songQueue.getSongAtIndex(0);
   }
 
   else if (songQueue.length) {
@@ -50,10 +51,11 @@ const sendToOne = (ws, data) => {
 };
 
 const welcomeNewUser = (ws) => {
+  let flatQ = songQueue.flatten()
   const data = JSON.stringify(
     {
       type: 'welcome',
-      songQueue,
+      songQueue: flatQ,
       songHistory,
       seekTime
     }
@@ -137,7 +139,7 @@ const addSong = async (username, url, label, duration) => {
 
     //hacky way to fix react-player not being able to play the same url twice in a row 
     // -- adding ?in to the end of the url seems to still let it play for both yt and sc
-    if (songQueue.length > 0 && songQueue[songQueue.length - 1].url === url) { 
+    if (songQueue.length > 0 && songQueue.getSongAtIndex(songQueue.length - 1).url === url) { 
       newSong.url = `${url}?in`;
       newSong.label = oEmbedData.title;
     } 
@@ -150,10 +152,12 @@ const addSong = async (username, url, label, duration) => {
   // we want to use a singular .push call for all 3 if possible
   songQueue.push(newSong);
 
+  let flatQ = songQueue.flatten()
   const data = JSON.stringify(
+    
     {
       type: 'addSong',
-      songQueue
+      songQueue: flatQ
     }
   );
 
@@ -164,13 +168,15 @@ const removeSong = (index) => {
   if (index === 0) {
     nextSong();
   } else {
-    songQueue.splice(index, 1);
+    songQueue.removeSongAtIndex(index);
   };
+
+  let flatQ = songQueue.flatten()
 
   const data = JSON.stringify(
     {
       type: 'updateSongLists',
-      songQueue,
+      songQueue: flatQ,
       songHistory
     }
   );
@@ -189,10 +195,12 @@ const nextSong = () => {
     songHistory.pop();
   };
 
+  let flatQ = songQueue.flatten()
+
   const data = JSON.stringify(
     {
       type: 'updateSongLists',
-      songQueue,
+      songQueue: flatQ,
       songHistory
     }
   );
