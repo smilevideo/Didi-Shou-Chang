@@ -18,7 +18,15 @@ export default class PriorityQ {
     // 
     pollingRate = 50
 
-    constructor() { }
+    constructor() {}
+
+    initFromObject(object) {
+        // doesn't avoid deep copy issues. mostly for reading in from json object
+        this.qMap = object.qMap
+        this.users = object.users
+        this.head = object.head
+        this.length = object.length
+    }
 
     push(song) {
         if (!this.inUse) {
