@@ -1,7 +1,7 @@
 import fs from 'fs'
 
 export default class FileUtils {
-    constructor() {}
+    constructor() { }
 
     static readJSONFromPath(filepath) {
         return fs.readFile(filepath, 'utf8', (err, data) => {
@@ -9,7 +9,7 @@ export default class FileUtils {
                 console.log(`Error reading from ${filepath}}: ${err}`)
             } else {
                 let parsedData = JSON.parse(data)
-                console.log(`Successfully parsed: ${parsedData}`)
+                console.log(`Successfully parsed: ${JSON.stringify(parsedData)}`)
                 return parsedData
             }
         })
@@ -20,14 +20,18 @@ export default class FileUtils {
             if (err) {
                 console.log(`Error reading from ${filepath}}: ${err}`)
             } else {
+                let retArr = []
                 let datArr = data.split("\n")
-                // convert from string arr to obj arr
-                for (i = 0; i < datArr.length; i++) {
-                    datArr[i] = JSON.parse(datArr[i])
-                    console.log(`Item index ${i} of ${filepath}: ${datArr[i]}`)
+                if (datArr.length > 0) {
+                    // convert from string arr to obj arr
+                    for (let i = 0; i < datArr.length; i++) {
+                        retArr[i] = JSON.parse(datArr[i])
+                        console.log(`Item index ${i} of ${filepath}: ${JSON.stringify(datArr[i])}`)
+                    }
                 }
+
                 console.log(`Finished reading ${filepath}`)
-                return datArr
+                return retArr
             }
         })
     }
@@ -42,7 +46,9 @@ export default class FileUtils {
 
     static writeToPath(filepath, data) {
         fs.writeFile(filepath, data, { flag: 'w' }, (err) => {
-            console.log(`Error writing ${data} to ${filepath}: ${err}`)
+            if (err) {
+                console.log(`Error writing ${data} to ${filepath}: ${err}`)
+            }
         })
     }
 }
