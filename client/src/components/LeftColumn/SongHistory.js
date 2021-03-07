@@ -87,7 +87,7 @@ const SongHistory = (props) => {
               {index + 1}
             </PlaceNumber>
             
-            <SongTitle href={url} target="_blank" >
+            <SongTitle href={url} target="_blank" rel="noreferrer" >
               {label}
             </SongTitle>
             

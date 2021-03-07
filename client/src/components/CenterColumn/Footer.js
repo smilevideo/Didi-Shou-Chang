@@ -7,14 +7,20 @@ const Text = styled.div`
 
   a {
     text-decoration: none;
-    color: blue;
+    color: darkblue;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
 const Footer = (props) => {
   return (
     <Text>
-      <a href="https://github.com/smilevideo/Didi-Shou-Chang">v1.2.3.4</a>
+      <a href="https://github.com/smilevideo/Didi-Shou-Chang" target="_blank" rel="noreferrer">
+        v2021.3.7
+      </a>
     </Text>
   )
 };
