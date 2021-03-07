@@ -18,11 +18,11 @@ const Message = styled.span`
 `
 
 const UserJoined = styled.span`
-  color: rgb(0, 150, 0);
+  color: rgb(0, 130, 0);
 `
 
 const UserLeft = styled.span`
-  color: rgb(0, 150, 0);
+  color: rgb(0, 130, 0);
 
   font-style: italic;
 `
@@ -49,6 +49,7 @@ const ChatMessage = (props) => {
         <Container>
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
+
           <Message>{message}</Message>
         </Container>
       )
@@ -57,6 +58,7 @@ const ChatMessage = (props) => {
         <Container>
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
+
           <UserJoined>has entered Didi-Shou-Chang.</UserJoined>
         </Container>
       ) 
@@ -65,6 +67,7 @@ const ChatMessage = (props) => {
         <Container>
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
+
           <UserLeft>has left Didi-Shou-Chang.</UserLeft>
         </Container>
       )
@@ -73,7 +76,10 @@ const ChatMessage = (props) => {
         <Container>
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
-          <AddedSong>added <SongLabel>'{label}'</SongLabel> to the queue.</AddedSong>
+
+          <AddedSong>
+            added <SongLabel>'{label}'</SongLabel> to the queue.
+          </AddedSong>
         </Container>
       )
     case 'removeSong':
@@ -81,7 +87,10 @@ const ChatMessage = (props) => {
         <Container>
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
-          <RemovedSong>removed <SongLabel>'{label}'</SongLabel> from the queue.</RemovedSong>
+
+          <RemovedSong>
+            removed <SongLabel>'{label}'</SongLabel> from the queue.
+          </RemovedSong>
         </Container>
       )
     default:
