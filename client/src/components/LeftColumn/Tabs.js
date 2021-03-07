@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Container = styled.div`
   font-weight: bold;
@@ -21,7 +21,17 @@ const Container = styled.div`
 `;
 
 const Tab = styled.div`
-  width: 50%;
+  text-align: center;
+  opacity: 0.5;
+
+  transition: opacity .3s ease;
+  
+  cursor: pointer;
+
+  ${props => props.selected && css`
+    opacity: 1;
+    cursor: unset;
+  `}
 `
 
 const Tabs = (props) => {

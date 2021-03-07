@@ -3,26 +3,9 @@ import styled from 'styled-components';
 import Duration from 'utils/Duration';
 
 const Container = styled.div`
-  height: 50%;
+  height: 100%;
   
-  border: 1px solid black;
-`
-
-const Header = styled.div`
-  font-weight: bold;
-  font-size: 1.2rem;
-
-  height: 30px;
-
-  background-color: rgb(33, 38, 45);
-  color: rgb(201, 209, 217);
-
-  position: sticky; top: 0;
-  z-index: 1;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-right: 1px solid black;
 `
 
 const SongList = styled.ul`
@@ -32,7 +15,7 @@ const SongList = styled.ul`
   overflow-y: auto;
   overflow-x: hidden;
 
-  max-height: calc(100% - 30px);
+  max-height: calc(100vh - 30px);
 
   li:nth-child(1) {
     background-image: url('/assets/woo3.gif');
@@ -127,7 +110,6 @@ const SongQueue = (props) => {
 
   return (
     <Container>
-      <Header>FUTURE</Header>
       <SongList>
         {songQueue.map((song, index) => {
           const { username, label, duration } = song;

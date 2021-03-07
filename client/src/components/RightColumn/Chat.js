@@ -13,7 +13,7 @@ const ChatMessageContainer = styled.div`
   height: calc(100% - 40px);
   overflow-y: auto;
   
-  border: 1px solid black;
+  border-left: 1px solid black;
   
   ul {
     margin: 10px;

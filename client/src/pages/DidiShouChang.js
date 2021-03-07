@@ -116,8 +116,16 @@ const DidiShouChang = (props) => {
     <Container>
       <LeftColumn>
         <Tabs tab={leftColumnTab} setTab={setLeftColumnTab} />
-        <SongQueue songQueue={songQueue} sendMessage={sendMessage} />
-        <SongHistory songHistory={songHistory} />
+        
+        {(leftColumnTab === 'PAST') && (
+          <SongHistory songHistory={songHistory} />
+        )}
+
+        {(leftColumnTab === 'FUTURE') && (
+          <SongQueue songQueue={songQueue} sendMessage={sendMessage} />
+        )}
+        
+        
       </LeftColumn>
 
       <CenterColumn>

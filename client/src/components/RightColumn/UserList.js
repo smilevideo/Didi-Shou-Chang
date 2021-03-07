@@ -4,7 +4,8 @@ const Container = styled.div`
   height: 333px;
   overflow-y: auto;
 
-  border: 1px solid black;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
 `
 
 const Header = styled.div`
