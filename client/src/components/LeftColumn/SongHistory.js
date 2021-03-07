@@ -29,13 +29,21 @@ const Song = styled.li`
   grid-gap: 8px;
 `
 
-const SongTitle = styled.div`
+const SongTitle = styled.a`
   grid-column: 1;
   grid-row: 1;
 
   width: 100%;
 
   font-weight: bold;
+
+  text-decoration: none;
+
+  color: rgb(33, 38, 45);
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
 
 const PlaceNumber = styled.div`
@@ -70,14 +78,14 @@ const SongHistory = (props) => {
     <Container>
       <SongList>
         {songHistory.map((song, index) => {
-          const { username, label, timestamp } = song;
+          const { username, label, timestamp, url } = song;
   
-          return <Song key={index}>
+          return <Song key={`${label} - ${index}`} >
             <PlaceNumber>
               {index + 1}
             </PlaceNumber>
             
-            <SongTitle>
+            <SongTitle href={url} >
               {label}
             </SongTitle>
             

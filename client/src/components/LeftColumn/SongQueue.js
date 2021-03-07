@@ -114,7 +114,7 @@ const SongQueue = (props) => {
         {songQueue.map((song, index) => {
           const { username, label, duration } = song;
 
-          return <Song key={index}>
+          return <Song key={`${label} - ${index}`}>
             <PlaceNumber className="placenumber">
               {index}
             </PlaceNumber>
