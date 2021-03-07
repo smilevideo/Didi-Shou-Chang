@@ -103,6 +103,7 @@ const SongQueue = (props) => {
     if (window.confirm(`rixslay ${label}?`)) {
       const message = {
         type: 'removeSong',
+        label,
         index,
       };
   

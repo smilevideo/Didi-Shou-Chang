@@ -38,7 +38,7 @@ const sendToOne = (ws, data) => {
 };
 
 const welcomeNewUser = (ws) => {
-  let songQueue = songPriorityQueue.flatten()
+  let songQueue = songPriorityQueue.flatten();
 
   const data = JSON.stringify(
     {
@@ -115,26 +115,25 @@ const getOEmbedData = async (url) => {
   }
 };
 
-const addSong = async (username, url, label, duration) => {
+const addSong = async (username, url, label, duration, timestamp) => {
   let newSong = new Song(username, url, label, duration);
 
   //no label implies song from provider URL, not upload
   if (!label) {
     const oEmbedData = await getOEmbedData(url);
 
-    newSong.label = oEmbedData.title
-
-    const currentDate = Date.now();
+    newSong.label = oEmbedData.title;
 
     //hacky way to fix react-player not being able to play the same url twice in a row 
     if (songPriorityQueue.length > 0 && songPriorityQueue.getSongAtIndex(songPriorityQueue.length - 1).url === url) { 
+      const currentDate = Date.now();
       newSong.url = `${url}?in${currentDate}`;
     } 
-  }
+  };
 
   songPriorityQueue.push(newSong);
 
-  let songQueue = songPriorityQueue.flatten()
+  let songQueue = songPriorityQueue.flatten();
 
   const data = JSON.stringify(  
     {
@@ -144,6 +143,13 @@ const addSong = async (username, url, label, duration) => {
   );
 
   broadcast(data);
+
+  addMessage({
+    username,
+    type: 'addSong',
+    label: newSong.label,
+    timestamp,
+  });
 };
 
 const removeSong = (index) => {
@@ -152,7 +158,7 @@ const removeSong = (index) => {
   } else {
     songPriorityQueue.removeSongAtIndex(index);
 
-    let songQueue = songPriorityQueue.flatten()
+    let songQueue = songPriorityQueue.flatten();
 
     const data = JSON.stringify(
       {
@@ -178,7 +184,7 @@ const nextSong = () => {
     // TODO: delete song from bucket (for uploads)
   };
 
-  let songQueue = songPriorityQueue.flatten()
+  let songQueue = songPriorityQueue.flatten();
 
   const data = JSON.stringify(
     {
@@ -240,25 +246,22 @@ wss.on('connection', (ws) => {
         break;
 
       case 'addSong':
-        const { url, label, duration } = clientMessage;
-
-        addSong(username, url, label, duration);
-
-        addMessage({
-          username,
-          type: 'addSong',
-          timestamp,
-        });
+        addSong(
+          username, 
+          clientMessage.url, 
+          clientMessage.label, 
+          clientMessage.duration,
+          timestamp
+        );
         break;
 
       case 'removeSong':
-        const { index } = clientMessage;
-
-        removeSong(index);
+        removeSong(clientMessage.index);
 
         addMessage({
           username,
           type: 'removeSong',
+          label: clientMessage.label,
           timestamp,
         });
         break;

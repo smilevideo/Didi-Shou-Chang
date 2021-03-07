@@ -4,6 +4,8 @@ const Container = styled.li`
   list-style-type: none;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+
+  position: relative;
 `
 
 const Username = styled.span`
@@ -36,8 +38,13 @@ const RemovedSong = styled.span`
   color: rgba(255, 0, 0, 0.85);
 `
 
+const SongLabel = styled.span`
+  color: black;
+  font-weight: 500;
+`
+
 const ChatMessage = (props) => {
-  const { type, message, username, timestamp } = props.message;
+  const { type, message, username, timestamp, label } = props.message;
 
   switch (type) {
     case 'chat':
@@ -69,8 +76,7 @@ const ChatMessage = (props) => {
         <Container>
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
-          <AddedSong>added a song to the queue.</AddedSong>
-
+          <AddedSong>added <SongLabel>"{label}"</SongLabel> to the queue.</AddedSong>
         </Container>
       )
     case 'removeSong':
@@ -78,8 +84,7 @@ const ChatMessage = (props) => {
         <Container>
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
-          <RemovedSong>removed a song from the queue.</RemovedSong>
-
+          <RemovedSong>removed <SongLabel>"{label}"</SongLabel> from the queue.</RemovedSong>
         </Container>
       )
     default:
