@@ -18,21 +18,21 @@ const Message = styled.span`
 `
 
 const UserJoined = styled.span`
-  color: green;
+  color: rgb(0, 150, 0);
 `
 
 const UserLeft = styled.span`
-  color: green;
+  color: rgb(0, 150, 0);
 
   font-style: italic;
 `
 
 const AddedSong = styled.span`
-  color: rgb(50, 50, 255);
+  color: rgb(0, 0, 200);
 `
 
 const RemovedSong = styled.span`
-  color: rgba(255, 0, 0, 0.85);
+  color: rgb(200, 0, 0);
 `
 
 const SongLabel = styled.span`
@@ -73,7 +73,7 @@ const ChatMessage = (props) => {
         <Container>
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
-          <AddedSong>added <SongLabel>"{label}"</SongLabel> to the queue.</AddedSong>
+          <AddedSong>added <SongLabel>'{label}'</SongLabel> to the queue.</AddedSong>
         </Container>
       )
     case 'removeSong':
@@ -81,7 +81,7 @@ const ChatMessage = (props) => {
         <Container>
           <Username>{`${username} `}</Username>
           <Timestamp>{`${timestamp}: `}</Timestamp>
-          <RemovedSong>removed <SongLabel>"{label}"</SongLabel> from the queue.</RemovedSong>
+          <RemovedSong>removed <SongLabel>'{label}'</SongLabel> from the queue.</RemovedSong>
         </Container>
       )
     default:
