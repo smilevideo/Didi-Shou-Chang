@@ -11,7 +11,7 @@ const userList = [];
 const messages = [];
 const MAX_MESSAGES = 200;
 
-const songQueue = new PriorityQ(); //handle max song queue limit on frontend
+const songPriorityQueue = new PriorityQ(); //handle max song queue limit on frontend
 
 const songHistory = []; 
 const MAX_SONGS_IN_HISTORY = 100;
@@ -38,11 +38,12 @@ const sendToOne = (ws, data) => {
 };
 
 const welcomeNewUser = (ws) => {
-  let flatQ = songQueue.flatten()
+  let songQueue = songPriorityQueue.flatten()
+
   const data = JSON.stringify(
     {
       type: 'welcome',
-      songQueue: flatQ,
+      songQueue,
       songHistory,
       seekTime
     }
@@ -125,19 +126,19 @@ const addSong = async (username, url, label, duration) => {
 
     //hacky way to fix react-player not being able to play the same url twice in a row 
     // -- adding ?in to the end of the url seems to still let it play for both yt and sc
-    if (songQueue.length > 0 && songQueue.getSongAtIndex(songQueue.length - 1).url === url) { 
+    if (songPriorityQueue.length > 0 && songPriorityQueue.getSongAtIndex(songPriorityQueue.length - 1).url === url) { 
       newSong.url = `${url}?in`;
     } 
   }
 
-  songQueue.push(newSong);
+  songPriorityQueue.push(newSong);
 
-  let flatQ = songQueue.flatten()
+  let songQueue = songPriorityQueue.flatten()
 
   const data = JSON.stringify(  
     {
       type: 'addSong',
-      songQueue: flatQ
+      songQueue
     }
   );
 
@@ -148,20 +149,20 @@ const removeSong = (index) => {
   if (index === 0) {
     nextSong();
   } else {
-    songQueue.removeSongAtIndex(index);
+    songPriorityQueue.removeSongAtIndex(index);
+
+    let songQueue = songPriorityQueue.flatten()
+
+    const data = JSON.stringify(
+      {
+        type: 'updateSongLists',
+        songQueue,
+        songHistory
+      }
+    );
+
+    broadcast(data);
   };
-
-  let flatQ = songQueue.flatten()
-
-  const data = JSON.stringify(
-    {
-      type: 'updateSongLists',
-      songQueue: flatQ,
-      songHistory
-    }
-  );
-
-  broadcast(data);
 };
 
 const nextSong = () => {
@@ -169,19 +170,19 @@ const nextSong = () => {
   seekTime = 0;
 
   const timestamp = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' }); 
-  songHistory.unshift({...songQueue.shift(), timestamp});
+  songHistory.unshift({...songPriorityQueue.shift(), timestamp});
   
   if (songHistory.length > MAX_SONGS_IN_HISTORY) {
     songHistory.pop();
     // TODO: delete song from bucket (for uploads)
   };
 
-  let flatQ = songQueue.flatten()
+  let songQueue = songPriorityQueue.flatten()
 
   const data = JSON.stringify(
     {
       type: 'updateSongLists',
-      songQueue: flatQ,
+      songQueue,
       songHistory
     }
   );
@@ -190,12 +191,12 @@ const nextSong = () => {
 };
 
 const timerInterval = setInterval(() => {
-  if (songQueue.length && !nowPlaying.duration) {
-    nowPlaying = songQueue.getSongAtIndex(0);
+  if (songPriorityQueue.length && !nowPlaying.duration) {
+    nowPlaying = songPriorityQueue.getSongAtIndex(0);
     songStartDate = Date.now();
   }
 
-  else if (songQueue.length) {
+  else if (songPriorityQueue.length) {
     seekTime = Math.round((Date.now() - songStartDate) / 1000);;
 
     if (seekTime >= nowPlaying.duration) {
