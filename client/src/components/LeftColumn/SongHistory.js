@@ -76,11 +76,18 @@ const AddedBy = styled.div`
 const SongHistory = (props) => {
   const { songHistory } = props;
 
+  const UtcHoursOffset = (new Date().getTimezoneOffset() / 60) * -1;
+
+
   return (
     <Container>
       <SongList>
         {songHistory.map((song, index) => {
           const { username, label, timestamp, url } = song;
+
+          const timestampHours = timestamp.substring(0, 2);
+          const newHours = parseInt(timestampHours, 10) + UtcHoursOffset;
+          const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
   
           return <Song key={`${label} - ${index}`} >
             <PlaceNumber>
@@ -92,7 +99,7 @@ const SongHistory = (props) => {
             </SongTitle>
             
             <AddedBy>
-              {`Added by ${username}, played at ${timestamp}`}
+              {`Added by ${username}, played at ${convertedTimestamp}`}
             </AddedBy>
           </Song>
         })}

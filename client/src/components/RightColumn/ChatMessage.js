@@ -43,12 +43,17 @@ const SongLabel = styled.span`
 const ChatMessage = (props) => {
   const { type, message, username, timestamp, label } = props.message;
 
+  const UtcHoursOffset = (new Date().getTimezoneOffset() / 60) * -1;
+  const timestampHours = timestamp.substring(0, 2);
+  const newHours = parseInt(timestampHours, 10) + UtcHoursOffset;
+  const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
+
   switch (type) {
     case 'chat':
       return (
         <Container>
           <Username>{`${username} `}</Username>
-          <Timestamp>{`${timestamp}: `}</Timestamp>
+          <Timestamp>{`${convertedTimestamp}: `}</Timestamp>
 
           <Message>{message}</Message>
         </Container>
@@ -57,7 +62,7 @@ const ChatMessage = (props) => {
       return (
         <Container>
           <Username>{`${username} `}</Username>
-          <Timestamp>{`${timestamp}: `}</Timestamp>
+          <Timestamp>{`${convertedTimestamp}: `}</Timestamp>
 
           <UserJoined>has entered Didi-Shou-Chang.</UserJoined>
         </Container>
@@ -66,7 +71,7 @@ const ChatMessage = (props) => {
       return (
         <Container>
           <Username>{`${username} `}</Username>
-          <Timestamp>{`${timestamp}: `}</Timestamp>
+          <Timestamp>{`${convertedTimestamp}: `}</Timestamp>
 
           <UserLeft>has left Didi-Shou-Chang.</UserLeft>
         </Container>
@@ -75,7 +80,7 @@ const ChatMessage = (props) => {
       return (
         <Container>
           <Username>{`${username} `}</Username>
-          <Timestamp>{`${timestamp}: `}</Timestamp>
+          <Timestamp>{`${convertedTimestamp}: `}</Timestamp>
 
           <AddedSong>
             added <SongLabel>'{label}'</SongLabel> to the queue.
@@ -86,7 +91,7 @@ const ChatMessage = (props) => {
       return (
         <Container>
           <Username>{`${username} `}</Username>
-          <Timestamp>{`${timestamp}: `}</Timestamp>
+          <Timestamp>{`${convertedTimestamp}: `}</Timestamp>
 
           <RemovedSong>
             removed <SongLabel>'{label}'</SongLabel> from the queue.
