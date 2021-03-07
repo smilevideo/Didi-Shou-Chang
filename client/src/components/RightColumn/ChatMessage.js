@@ -4,8 +4,6 @@ const Container = styled.li`
   list-style-type: none;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-
-  position: relative;
 `
 
 const Username = styled.span`
@@ -31,7 +29,6 @@ const UserLeft = styled.span`
 
 const AddedSong = styled.span`
   color: rgb(50, 50, 255);
-  
 `
 
 const RemovedSong = styled.span`
@@ -39,7 +36,7 @@ const RemovedSong = styled.span`
 `
 
 const SongLabel = styled.span`
-  color: black;
+  color: rgb(51, 51, 51);
   font-weight: 500;
 `
 
