@@ -24,7 +24,7 @@ const Tab = styled.div`
   text-align: center;
   opacity: 0.5;
 
-  transition: opacity .3s ease;
+  transition: opacity .4s ease;
   
   cursor: pointer;
 

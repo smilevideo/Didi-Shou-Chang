@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-  height: 333px;
+  height: 310px;
   overflow-y: auto;
 
   border-left: 1px solid black;
@@ -17,7 +17,9 @@ const Header = styled.div`
   background-color: rgb(33, 38, 45);
   color: rgb(201, 209, 217);
 
-  position: sticky; top: 0;
+  position: sticky; 
+  top: 0;
+  
   z-index: 1;
 
   display: flex;
@@ -29,21 +31,33 @@ const UsersContainer = styled.ul`
   padding: 0 0 0 2.5rem; 
 `
 
+const Self = styled.li`
+  margin-bottom: 2px;
+  font-weight: bold;
+`
+
 const User = styled.li`
   margin-bottom: 2px;
 `
 
 const UserList = (props) => {
-  const { userList } = props;
+  const { userList, username } = props;
+  
+  let selfRemovedUserList = [...userList];
+  selfRemovedUserList.splice(selfRemovedUserList.indexOf(username), 1);
 
   return (
     <Container>
       <Header>entities ({userList.length})</Header>
       <UsersContainer>
-        {userList.map((username, index) => {
+        <Self>
+          {username}
+        </Self>
+
+        {selfRemovedUserList.map((name, index) => {
           return (
-            <User key={index}>
-              {username}
+            <User key={`${name}-${index}`}>
+              {name}
             </User>
           )
         })}

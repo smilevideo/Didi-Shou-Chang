@@ -6,7 +6,7 @@ import ChatInput from './ChatInput';
 import ChatMessage from './ChatMessage';
 
 const Container = styled.div`
-  height: calc(100vh - 333px);
+  height: calc(100vh - 310px);
 `
 
 const ChatMessageContainer = styled.div`

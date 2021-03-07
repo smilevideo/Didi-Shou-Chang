@@ -144,7 +144,7 @@ const DidiShouChang = (props) => {
       </CenterColumn>
       
       <RightColumn>
-        <UserList userList={userList} />
+        <UserList userList={userList} username={username} />
         <Chat messages={messages} sendMessage={sendMessage} />
       </RightColumn>
     </Container>
