@@ -127,7 +127,6 @@ const addSong = async (username, url, label, duration) => {
     const currentDate = Date.now();
 
     //hacky way to fix react-player not being able to play the same url twice in a row 
-    // -- adding ?in to the end of the url seems to still let it play for both yt and sc
     if (songPriorityQueue.length > 0 && songPriorityQueue.getSongAtIndex(songPriorityQueue.length - 1).url === url) { 
       newSong.url = `${url}?in${currentDate}`;
     } 
