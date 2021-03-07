@@ -17,22 +17,9 @@ const songHistory = [];
 const MAX_SONGS_IN_HISTORY = 100;
 
 let nowPlaying = {};
-
+let songStartDate = 0;
 let seekTime = 0;
 
-const timerInterval = setInterval(() => {
-  if (songQueue.length && !nowPlaying.duration) {
-    nowPlaying = songQueue.getSongAtIndex(0);
-  }
-
-  else if (songQueue.length) {
-    seekTime += 1;
-
-    if (seekTime >= nowPlaying.duration) {
-      nextSong();
-    }
-  }
-}, 1000);
 
 const broadcast = (data) => {
   wss.clients.forEach((client) => {
@@ -186,7 +173,7 @@ const nextSong = () => {
   
   if (songHistory.length > MAX_SONGS_IN_HISTORY) {
     songHistory.pop();
-    // TODO: delete song from bucket (if applicable)
+    // TODO: delete song from bucket (for uploads)
   };
 
   let flatQ = songQueue.flatten()
@@ -201,6 +188,21 @@ const nextSong = () => {
 
   broadcast(data);
 };
+
+const timerInterval = setInterval(() => {
+  if (songQueue.length && !nowPlaying.duration) {
+    nowPlaying = songQueue.getSongAtIndex(0);
+    songStartDate = Date.now();
+  }
+
+  else if (songQueue.length) {
+    seekTime = Math.round((Date.now() - songStartDate) / 1000);;
+
+    if (seekTime >= nowPlaying.duration) {
+      nextSong();
+    }
+  };
+}, 500);
 
 wss.on('connection', (ws) => {
   let username = '';
