@@ -1,5 +1,6 @@
 import WebSocket from 'ws';
 import fetch from 'node-fetch';
+
 import Song from './Song.js';
 import PriorityQ from './PriorityQ.js';
 
@@ -127,33 +128,26 @@ const getOEmbedData = async (url) => {
 };
 
 const addSong = async (username, url, label, duration) => {
-  // TODO: order the queue so that each user takes turn playing songs, maybe not necessarily here
-
-  // create song object
   let newSong = new Song(username, url, label, duration);
 
   //no label implies song from provider URL, not upload
   if (!label) {
     const oEmbedData = await getOEmbedData(url);
 
+    newSong.label = oEmbedData.title
+
     //hacky way to fix react-player not being able to play the same url twice in a row 
     // -- adding ?in to the end of the url seems to still let it play for both yt and sc
     if (songQueue.length > 0 && songQueue.getSongAtIndex(songQueue.length - 1).url === url) { 
       newSong.url = `${url}?in`;
-      newSong.label = oEmbedData.title;
     } 
-    
-    else {
-      newSong.label = oEmbedData.title
-    };
   }
-  // only need to edit params in above two conditions
-  // we want to use a singular .push call for all 3 if possible
+
   songQueue.push(newSong);
 
   let flatQ = songQueue.flatten()
-  const data = JSON.stringify(
-    
+
+  const data = JSON.stringify(  
     {
       type: 'addSong',
       songQueue: flatQ
@@ -192,6 +186,7 @@ const nextSong = () => {
   
   if (songHistory.length > MAX_SONGS_IN_HISTORY) {
     songHistory.pop();
+    // TODO: delete song from bucket (if applicable)
   };
 
   let flatQ = songQueue.flatten()

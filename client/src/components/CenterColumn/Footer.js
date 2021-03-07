@@ -14,7 +14,7 @@ const Text = styled.div`
 const Footer = (props) => {
   return (
     <Text>
-      dev by <a href="https://github.com/smilevideo/Didi-Shou-Chang">andrew</a>, devops by pai
+      <a href="https://github.com/smilevideo/Didi-Shou-Chang">v1.2.3.4</a>
     </Text>
   )
 };

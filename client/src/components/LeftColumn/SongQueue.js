@@ -36,7 +36,9 @@ const SongList = styled.ul`
 const Song = styled.li`
   min-height: 70px;
 
-  border-bottom: 1px solid purple;
+  border-bottom: 1px solid rgb(100, 100, 100);
+  border-right: 1px solid rgb(100, 100, 100);
+
   margin: 0;
   padding: 5px;
 

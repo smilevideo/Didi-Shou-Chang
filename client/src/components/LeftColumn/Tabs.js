@@ -30,7 +30,7 @@ const Tab = styled.div`
 
   ${props => props.selected && css`
     opacity: 1;
-    cursor: unset;
+    cursor: default;
   `}
 `
 
