@@ -1,15 +1,14 @@
 # (A Part of Miyako Island's Traditional Cradle Song)
 
-## things I used
+## noncomprehensive list of packages leveraged
 
 - react
 - styled-components
-- websockets
 - react-player
-- node
-- ws (websockets library for node)
-- node-fetch cuz lazy
 - music-metadata-browser
+- ws
+- node-fetch
+- dotenv
 
 ## other providers I could add because of react-player
 
