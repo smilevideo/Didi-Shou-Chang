@@ -1,5 +1,5 @@
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 
 import { parseBlob } from 'music-metadata-browser';
@@ -136,7 +136,7 @@ const SongUpload = (props) => {
   const parseFilename = (fileName) => {
     const name = fileName.trim()
       .replace(/\s/g,'_')
-      .replace(/\{|\}|\^|\%|\`|\[|\]|\"|<|>|\~|\#|\||\@|\&/g,''); //invalid characters for s3
+      .replace(/\{|\}|\^|%|`|\[|\]|"|<|>|~|#|\||@|&/g,''); //invalid characters for s3
     const prefix = new Date().getTime()
     return `${prefix}_${name}`
   };

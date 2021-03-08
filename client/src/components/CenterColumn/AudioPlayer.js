@@ -69,10 +69,11 @@ const AudioPlayer = (props) => {
   };
 
   const handleProgress = (progress) => {
-    const { loaded, loadedSeconds, played, playedSeconds } = progress;
+    const { played } = progress;
 
     setElapsed(played);
 
+    // example values of progress' properties
     // loaded: 0.1284723857811503
     // loadedSeconds: 30.000999999999998
     // played: 0.0248933544266832
