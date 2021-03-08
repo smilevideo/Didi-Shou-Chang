@@ -40,7 +40,7 @@ const sendToOne = (ws, data) => {
 };
 
 const welcomeNewUser = (ws) => {
-  let songQueue = songPriorityQueue.flatten();
+  const songQueue = songPriorityQueue.flatten();
 
   const data = JSON.stringify(
     {
@@ -118,7 +118,7 @@ const getOEmbedData = async (url) => {
 };
 
 const addSong = async (username, url, label, duration, timestamp) => {
-  let newSong = new Song(username, url, label, duration);
+  const newSong = new Song(username, url, label, duration);
 
   //no label implies song from provider URL, not upload
   if (!label) {
@@ -135,7 +135,7 @@ const addSong = async (username, url, label, duration, timestamp) => {
 
   songPriorityQueue.push(newSong);
 
-  let songQueue = songPriorityQueue.flatten();
+  const songQueue = songPriorityQueue.flatten();
 
   const data = JSON.stringify(  
     {
@@ -160,7 +160,7 @@ const removeSong = (index) => {
   } else {
     songPriorityQueue.removeSongAtIndex(index);
 
-    let songQueue = songPriorityQueue.flatten();
+    const songQueue = songPriorityQueue.flatten();
 
     const data = JSON.stringify(
       {
@@ -193,7 +193,7 @@ const nextSong = () => {
     };
   };
 
-  let songQueue = songPriorityQueue.flatten();
+  const songQueue = songPriorityQueue.flatten();
 
   const data = JSON.stringify(
     {

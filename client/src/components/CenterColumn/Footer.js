@@ -19,7 +19,7 @@ const Footer = (props) => {
   return (
     <Text>
       <a href="https://github.com/smilevideo/Didi-Shou-Chang" target="_blank" rel="noreferrer">
-        v2021.3.7
+        v2021.3.8
       </a>
     </Text>
   )
