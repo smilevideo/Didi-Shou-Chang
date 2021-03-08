@@ -1,8 +1,11 @@
+import dotenv from 'dotenv';
 import WebSocket from 'ws';
 import fetch from 'node-fetch';
 
 import Song from './Song.js';
 import PriorityQ from './PriorityQ.js';
+
+dotenv.config();
 
 const wss = new WebSocket.Server({ port: 3030 });
 
@@ -19,7 +22,6 @@ const MAX_SONGS_IN_HISTORY = 100;
 let nowPlaying = {};
 let songStartDate = 0;
 let seekTime = 0;
-
 
 const broadcast = (data) => {
   wss.clients.forEach((client) => {
@@ -180,8 +182,15 @@ const nextSong = () => {
   songHistory.unshift({...songPriorityQueue.shift(), timestamp});
   
   if (songHistory.length > MAX_SONGS_IN_HISTORY) {
-    songHistory.pop();
-    // TODO: delete song from bucket (for uploads)
+    const song = songHistory.pop();
+
+    if (song.url.startsWith(process.env.S3_UPLOADS)) {
+      const filename = song.url.substring(process.env.S3_UPLOADS.length + 1);
+
+      fetch(`${process.env.S3_DELETE_ENDPOINT}/${filename}`, {
+        method: 'DELETE',
+      });
+    };
   };
 
   let songQueue = songPriorityQueue.flatten();
