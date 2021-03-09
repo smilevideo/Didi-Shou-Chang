@@ -51,7 +51,7 @@ const CenterColumn = styled.div`
     background-position: center;
     z-index: -1;
 
-    transition: opacity 0.5s ease;
+    transition: opacity 1s ease;
   }
 `;
 
