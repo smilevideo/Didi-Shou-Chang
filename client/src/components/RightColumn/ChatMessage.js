@@ -45,9 +45,12 @@ const ChatMessage = (props) => {
 
   const UtcHoursOffset = (new Date().getTimezoneOffset() / 60) * -1;
   const timestampHours = timestamp.substring(0, 2);
-  const newHours = parseInt(timestampHours, 10) + UtcHoursOffset;
+  let newHours = parseInt(timestampHours, 10) + UtcHoursOffset;
+  if (newHours < 0) {
+    newHours += 24;
+  };
   const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
-
+  
   switch (type) {
     case 'chat':
       return (

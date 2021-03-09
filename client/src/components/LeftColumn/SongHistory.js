@@ -78,7 +78,6 @@ const SongHistory = (props) => {
 
   const UtcHoursOffset = (new Date().getTimezoneOffset() / 60) * -1;
 
-
   return (
     <Container>
       <SongList>
@@ -86,7 +85,10 @@ const SongHistory = (props) => {
           const { username, label, timestamp, url } = song;
 
           const timestampHours = timestamp.substring(0, 2);
-          const newHours = parseInt(timestampHours, 10) + UtcHoursOffset;
+          let newHours = parseInt(timestampHours, 10) + UtcHoursOffset;
+          if (newHours < 0) {
+            newHours += 24;
+          };
           const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
   
           return <Song key={`${label} - ${index}`} >

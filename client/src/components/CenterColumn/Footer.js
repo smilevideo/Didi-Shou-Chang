@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 const Text = styled.div`
-  text-align: center;
   margin: 5px;
   font-size: 0.85rem;
 
