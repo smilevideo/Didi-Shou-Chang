@@ -215,7 +215,7 @@ const timerInterval = setInterval(() => {
   else if (songPriorityQueue.length) {
     seekTime = (Date.now() - songStartDate) / 1000;
 
-    if (seekTime >= nowPlaying.duration + 2) {
+    if (seekTime > nowPlaying.duration) {
       nextSong();
     }
   };
