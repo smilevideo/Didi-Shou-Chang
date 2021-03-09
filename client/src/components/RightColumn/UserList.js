@@ -4,15 +4,15 @@ const Container = styled.div`
   height: 310px;
   overflow-y: auto;
 
-  border-left: 1px solid black;
-  border-bottom: 1px solid black;
+  border-left: 1px solid rgb(33, 38, 45);
+  border-bottom: 1px solid rgb(33, 38, 45);
 `
 
 const Header = styled.div`
   font-weight: bold;
   font-size: 1.2rem;
 
-  height: 30px;
+  height: 45px;
 
   background-color: rgb(33, 38, 45);
   color: rgb(201, 209, 217);

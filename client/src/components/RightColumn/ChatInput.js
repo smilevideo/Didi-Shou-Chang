@@ -11,6 +11,8 @@ const MessageInput = styled.textarea`
   width: 100%;
   font: inherit;
   padding: 7px;
+
+  outline: none;
 `
 
 const ChatInput = (props) => {

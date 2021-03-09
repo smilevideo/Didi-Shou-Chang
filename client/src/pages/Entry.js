@@ -21,7 +21,7 @@ const Form = styled.div`
 
   input[type="text"] {
     width: 16ch;
-    margin-bottom: 2rem;
+    margin: 5px 0px 2rem 0px;
   }
 
   img {

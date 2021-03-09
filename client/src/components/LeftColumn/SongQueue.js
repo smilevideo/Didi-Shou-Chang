@@ -5,7 +5,7 @@ import Duration from 'utils/Duration';
 const Container = styled.div`
   height: 100%;
   
-  border-right: 1px solid black;
+  border-right: 1px solid rgb(33, 38, 45);
 `
 
 const SongList = styled.ul`
@@ -15,7 +15,7 @@ const SongList = styled.ul`
   overflow-y: auto;
   overflow-x: hidden;
 
-  max-height: calc(100vh - 30px);
+  max-height: calc(100vh - 45px);
 
   li:nth-child(1) {
     background-image: url('/assets/woo3.gif');
@@ -25,7 +25,6 @@ const SongList = styled.ul`
     min-height: 100px;
 
     color: white;
-    font-weight: 400;
 
     .placenumber {
       display: none;
@@ -36,8 +35,8 @@ const SongList = styled.ul`
 const Song = styled.li`
   min-height: 70px;
 
-  border-bottom: 1px solid rgb(100, 100, 100);
-  border-right: 1px solid rgb(100, 100, 100);
+  border-bottom: 1px solid rgb(33, 38, 45);
+  border-right: 1px solid rgb(33, 38, 45);
 
   margin: 0;
   padding: 5px;
@@ -54,18 +53,18 @@ const SongTitle = styled.div`
 
   width: 100%;
 
-  font-weight: ${props => props.first ? 'normal' : 'bold'};
+  font-weight: ${props => props.first ? 'unset' : 'bold'};
 `
 
 const PlaceNumber = styled.span`
   grid-column: 2;
   grid-row: 1;
 
-  color: rgb(90, 90, 255);
+  color: rgb(88, 166, 255);
   font-weight: bold;
 
   border-radius: 14px;
-  border: 1px solid grey;
+  border: 1px solid rgb(33, 38, 45);
 
   height: 28px;
   width: 28px;

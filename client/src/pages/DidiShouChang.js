@@ -34,6 +34,25 @@ const CenterColumn = styled.div`
   grid-template-columns: 100%;
   justify-content: center;
   align-items: center;
+
+  position: relative;
+
+  &:before {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: ${props => props.showBackground ? '1' : '0'};;
+    content: "";
+    background-image: url('/assets/a.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+
+    transition: opacity 0.5s ease;
+  }
 `;
 
 const RightColumn = styled.div`
@@ -128,7 +147,7 @@ const DidiShouChang = (props) => {
         
       </LeftColumn>
 
-      <CenterColumn>
+      <CenterColumn showBackground={songQueue.length} >
         <AudioPlayer song={songQueue.length ? songQueue[0] : null} seekTime={seekTime} />
 
         {(songQueue.length < 50) ? 

@@ -18,26 +18,26 @@ const Message = styled.span`
 `
 
 const UserJoined = styled.span`
-  color: rgb(0, 130, 0);
+  color: rgb(86, 211, 100);
 `
 
 const UserLeft = styled.span`
-  color: rgb(0, 130, 0);
+  color: rgb(86, 211, 100);
 
   font-style: italic;
 `
 
 const AddedSong = styled.span`
-  color: rgb(0, 0, 200);
+  color: rgb(88, 166, 255);
 `
 
 const RemovedSong = styled.span`
-  color: rgb(200, 0, 0);
+  color: rgb(248, 81, 73);
 `
 
 const SongLabel = styled.span`
-  color: rgb(51, 51, 51);
-  font-weight: 500;
+  color: rgb(201, 209, 217);
+  font-weight: bold;
 `
 
 const ChatMessage = (props) => {

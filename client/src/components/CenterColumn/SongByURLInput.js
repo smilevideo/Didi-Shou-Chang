@@ -10,6 +10,10 @@ const Container = styled.div`
   text-align: center;
 `;
 
+const SongUrlInput = styled.input`
+  border-radius: 5px;
+`
+
 const Error = styled.div`
   min-height: 58px;
 `
@@ -37,7 +41,11 @@ const SongByURLInput = (props) => {
     }
 
     else {
-      setError('URL is not a valid YT or SC link');
+      setError('Not a valid YT or SC URL');
+      
+      setTimeout(() => {
+        setError(null);
+      }, 5000)
     };
 
     setUrlInput('');
@@ -71,13 +79,12 @@ const SongByURLInput = (props) => {
       )}
 
       <form onSubmit={handleSubmit}>
-        <input 
+        <SongUrlInput
           type="text" 
           maxLength={100}
           value={urlInput} 
           onChange={handleChange}   
         />
-        <input type="submit" value="yt/sc only" />
       </form>
       
       <Error>

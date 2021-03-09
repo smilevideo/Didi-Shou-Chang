@@ -4,7 +4,7 @@ const Container = styled.div`
   font-weight: bold;
   font-size: 1.2rem;
 
-  height: 30px;
+  height: 45px;
 
   background-color: rgb(33, 38, 45);
   color: rgb(201, 209, 217);
@@ -20,7 +20,7 @@ const Container = styled.div`
 
 const Tab = styled.div`
   text-align: center;
-  opacity: 0.5;
+  opacity: 0.25;
 
   transition: opacity .4s ease;
   

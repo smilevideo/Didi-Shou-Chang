@@ -18,7 +18,7 @@ const FileInput = styled.input`
 const Dropzone = styled.div`
   height: 170px;
   width: 170px;
-  border: 1px solid rgb(187, 186, 186);
+  border: 1px solid rgb(33, 38, 45);
   border-radius: 50%;
   display: flex;
   align-items: center;

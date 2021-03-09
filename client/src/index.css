@@ -5,15 +5,43 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background: beige;
+  background: rgb(13, 17, 23);
   margin: 0;
 
   line-height: 1.5;
-  color: #333; 
+  color: rgb(201, 209, 217); 
 }
 
 h1, h2, strong {
   color: black;
+}
+
+/* Works on Firefox */
+* {
+  scrollbar-width: unset;
+  scrollbar-color: rgb(139, 148, 158) rgb(22,27,34);;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: unset;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgb(22,27,34);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(139, 148, 158);
+  border-radius: 20px;
+  border: 3px solid rgb(22,27,34);;
+}
+
+input, textarea {
+  background-color: rgba(9,13,19,255);
+  color: rgb(139, 148, 158);
+
+  border: 1px solid rgb(33, 38, 45);
 }
 
 * {
