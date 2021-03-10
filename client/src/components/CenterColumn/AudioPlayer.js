@@ -24,6 +24,8 @@ const Title = styled.div`
   font-weight: bold;
   
   margin-bottom: 10px;
+
+  color: rgb(88, 166, 255);
 `
 
 const Elapsed = styled.div`
@@ -44,6 +46,7 @@ const SongProgressContainer = styled.div`
   overflow: hidden;
 
   border-radius: 4px;
+  box-shadow: 0 0 2pt 1pt rgb(88, 166, 255);
 `
 
 const SongProgress = styled.progress`
