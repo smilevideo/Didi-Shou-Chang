@@ -31,6 +31,10 @@ const Elapsed = styled.div`
   font-weight: bold;
 `
 
+const SongProgress = styled.progress`
+  height: 8px;
+`
+
 const Volume = styled.div`
   grid-column: 2;
   grid-row: 2;
@@ -133,11 +137,15 @@ const AudioPlayer = (props) => {
         </Title>
 
         <Elapsed>
-          <Duration seconds={elapsed * duration} /> / <Duration seconds={duration} />
+          <Duration seconds={elapsed * duration} /> 
+          {' / '}
+          <Duration seconds={duration} />
         </Elapsed>
 
         <div>
-          <progress max={1} value={elapsed}>{elapsed}</progress>
+          <SongProgress max={1} value={elapsed}>
+            {elapsed}
+          </SongProgress>
         </div>
       </div>
 

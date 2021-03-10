@@ -52,3 +52,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+progress {
+  border-radius: 4px; 
+}
+progress::-webkit-progress-bar {
+  background-color: rgb(201, 209, 217);
+  border-radius: 4px;
+}
+progress::-webkit-progress-value {
+  background-color: rgb(88, 166, 255);
+  border-radius: 4px;
+}
+progress::-moz-progress-bar {
+  background-color: rgb(201, 209, 217);
+  border-radius: 4px;
+}
