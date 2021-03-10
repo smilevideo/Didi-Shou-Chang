@@ -31,8 +31,23 @@ const Elapsed = styled.div`
   font-weight: bold;
 `
 
-const SongProgress = styled.progress`
+const SongProgressContainer = styled.div`
+  width: 160px;
   height: 8px;
+
+  display: grid;
+  justify-content: center;
+  align-items: center;
+
+  margin: 10px auto 5px auto;
+
+  overflow: hidden;
+
+  border-radius: 4px;
+`
+
+const SongProgress = styled.progress`
+  width: 160px;
 `
 
 const Volume = styled.div`
@@ -142,11 +157,11 @@ const AudioPlayer = (props) => {
           <Duration seconds={duration} />
         </Elapsed>
 
-        <div>
+        <SongProgressContainer>
           <SongProgress max={1} value={elapsed}>
             {elapsed}
           </SongProgress>
-        </div>
+        </SongProgressContainer>
       </div>
 
       <Volume>
