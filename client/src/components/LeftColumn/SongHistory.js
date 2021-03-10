@@ -1,15 +1,19 @@
 import styled from 'styled-components';
 
-const ContainerList = styled.ul`
+const Container = styled.div`
+  height: calc(100vh - 45px);
+  
   border: 1px solid rgb(45, 55, 65);
+`
 
+const SongList = styled.ul`
   margin: 0;
   padding: 0;
 
+  height: 100%;
+
   overflow-y: auto;
   overflow-x: hidden;
-
-  max-height: calc(100vh - 45px);
 `
 
 const Song = styled.li`
@@ -74,32 +78,34 @@ const SongHistory = (props) => {
   const UtcHoursOffset = (new Date().getTimezoneOffset() / 60) * -1;
 
   return (
-    <ContainerList>
-      {songHistory.map((song, index) => {
-        const { username, label, timestamp, url } = song;
+    <Container>
+      <SongList>
+        {songHistory.map((song, index) => {
+          const { username, label, timestamp, url } = song;
 
-        const timestampHours = timestamp.substring(0, 2);
-        let newHours = parseInt(timestampHours, 10) + UtcHoursOffset;
-        if (newHours < 0) {
-          newHours += 24;
-        };
-        const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
-
-        return <Song key={`${label} - ${index}`} >
-          <PlaceNumber>
-            {index + 1}
-          </PlaceNumber>
-          
-          <SongTitle href={url} target="_blank" rel="noreferrer" >
-            {label}
-          </SongTitle>
-          
-          <AddedBy>
-            {`Added by ${username}, played at ${convertedTimestamp}`}
-          </AddedBy>
-        </Song>
-      })}
-    </ContainerList>
+          const timestampHours = timestamp.substring(0, 2);
+          let newHours = parseInt(timestampHours, 10) + UtcHoursOffset;
+          if (newHours < 0) {
+            newHours += 24;
+          };
+          const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
+  
+          return <Song key={`${label} - ${index}`} >
+            <PlaceNumber>
+              {index + 1}
+            </PlaceNumber>
+            
+            <SongTitle href={url} target="_blank" rel="noreferrer" >
+              {label}
+            </SongTitle>
+            
+            <AddedBy>
+              {`Added by ${username}, played at ${convertedTimestamp}`}
+            </AddedBy>
+          </Song>
+        })}
+      </SongList>
+    </Container>
   )
 }
 
