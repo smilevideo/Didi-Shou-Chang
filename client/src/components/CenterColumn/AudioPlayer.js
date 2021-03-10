@@ -25,7 +25,9 @@ const Title = styled.div`
   
   margin-bottom: 10px;
 
-  color: rgb(88, 166, 255);
+  color: ${props => props.song ? 'rgb(88, 166, 255)' : 'unset'};
+
+  transition: color 1s ease;
 `
 
 const Elapsed = styled.div`
@@ -104,70 +106,45 @@ const AudioPlayer = (props) => {
     setVolume(parseFloat(event.target.value));
   };
 
-  if (!song) {
-    return <Container>
-      <div />
-
-      <div>
-        <Title>
-          NO MUSIC NO IDOL
-        </Title>
-
-        <Volume hide={true}>
-          <div>
-            Volume
-          </div>
-          
-          <VolumeInput
-            type="range"
-            min={0}
-            max={1}
-            step="any"
-            value={volume}
-            onChange={handleVolumeChange}
-          />
-        </Volume>
-      </div>
-    </Container>;
-  }
-
-  const { url, label, duration } = song;
-
   return (
     <Container>
       <div>
-        <ReactPlayer 
-          url={url}
-          playing={true}
-          width="0"
-          height="0"
-          onError={handleError}
-          onProgress={handleProgress}
-          volume={volume}
-          ref={playerRef}
-        />
-        {error}
+        {song && <>
+          <ReactPlayer 
+            url={song.url}
+            playing={true}
+            width="0"
+            height="0"
+            onError={handleError}
+            onProgress={handleProgress}
+            volume={volume}
+            ref={playerRef}
+          />
+          {error}
+        </>}
       </div>
 
       <div>
-        <Title>
-          {label}
+        <Title song={song} >
+          {song ? song.label : 'NO MUSIC NO IDOL'}
         </Title>
 
-        <Elapsed>
-          <Duration seconds={elapsed * duration} /> 
-          {' / '}
-          <Duration seconds={duration} />
-        </Elapsed>
+        {song && <>
+          <Elapsed>
+            <Duration seconds={elapsed * song.duration} /> 
+            {' / '}
+            <Duration seconds={song.duration} />
+          </Elapsed>
 
-        <SongProgressContainer>
-          <SongProgress max={1} value={elapsed}>
-            {elapsed}
-          </SongProgress>
-        </SongProgressContainer>
+          <SongProgressContainer>
+            <SongProgress max={1} value={elapsed}>
+              {elapsed}
+            </SongProgress>
+          </SongProgressContainer>
+        </>}
       </div>
 
-      <Volume>
+      <Volume hide={!song} >
         <div>
           Volume
         </div>
