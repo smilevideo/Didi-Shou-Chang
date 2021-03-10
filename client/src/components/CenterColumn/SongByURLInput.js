@@ -12,6 +12,7 @@ const Container = styled.div`
 
 const SongUrlInput = styled.input`
   border-radius: 5px;
+  border: 1px solid rgb(48, 54, 61);
 `
 
 const Error = styled.div`

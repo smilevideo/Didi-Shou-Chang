@@ -2,13 +2,9 @@ import styled from 'styled-components';
 
 import Duration from 'utils/Duration';
 
-const Container = styled.div`
-  height: 100%;
-  
-  border-right: 1px solid rgb(33, 38, 45);
-`
+const ContainerList = styled.ul`  
+  border: 1px solid rgb(45, 55, 65);
 
-const SongList = styled.ul`
   margin: 0;
   padding: 0;
 
@@ -35,8 +31,7 @@ const SongList = styled.ul`
 const Song = styled.li`
   min-height: 70px;
 
-  border-bottom: 1px solid rgb(33, 38, 45);
-  border-right: 1px solid rgb(33, 38, 45);
+  border: 1px solid rgb(33, 38, 45);
 
   margin: 0;
   padding: 5px;
@@ -111,37 +106,35 @@ const SongQueue = (props) => {
   };
 
   return (
-    <Container>
-      <SongList>
-        {songQueue.map((song, index) => {
-          const { username, label, duration } = song;
+    <ContainerList>
+      {songQueue.map((song, index) => {
+        const { username, label, duration } = song;
 
-          return <Song key={`${label} - ${index}`}>
-            <PlaceNumber className="placenumber">
-              {index}
-            </PlaceNumber>
-            
-            <SongTitle first={index === 0}>
-              <div>
-                {label}
-              </div>
-            </SongTitle>
+        return <Song key={`${label} - ${index}`}>
+          <PlaceNumber className="placenumber">
+            {index}
+          </PlaceNumber>
+          
+          <SongTitle first={index === 0}>
+            <div>
+              {label}
+            </div>
+          </SongTitle>
 
-            <RemoveButton onClick={() => removeFromQueue(index, label)}>
-              [ri<span style={{color: 'red'}}>X</span>]
-            </RemoveButton>
-            
-            <AddedBy>
-              {`Added by ${username}`}
-            </AddedBy>
+          <RemoveButton onClick={() => removeFromQueue(index, label)}>
+            [ri<span style={{color: 'red'}}>X</span>]
+          </RemoveButton>
+          
+          <AddedBy>
+            {`Added by ${username}`}
+          </AddedBy>
 
-            <Length>
-              <Duration seconds={duration} />
-            </Length>
-          </Song>
-        })}
-      </SongList>
-    </Container>
+          <Length>
+            <Duration seconds={duration} />
+          </Length>
+        </Song>
+      })}
+    </ContainerList>
   )
 }
 

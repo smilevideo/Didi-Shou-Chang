@@ -16,6 +16,9 @@ const Container = styled.div`
   grid-template-columns: 50% 50%;
   justify-content: center;
   align-items: center;
+
+  border: 1px solid rgb(45, 55, 65);
+  border-bottom: 0;
 `;
 
 const Tab = styled.div`

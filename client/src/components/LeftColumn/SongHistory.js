@@ -1,12 +1,8 @@
 import styled from 'styled-components';
 
-const Container = styled.div`
-  height: 100%;
-  
-  border-right: 1px solid rgb(33, 38, 45);
-`
+const ContainerList = styled.ul`
+  border: 1px solid rgb(45, 55, 65);
 
-const SongList = styled.ul`
   margin: 0;
   padding: 0;
 
@@ -19,8 +15,7 @@ const SongList = styled.ul`
 const Song = styled.li`
   min-height: 70px;
 
-  border-bottom: 1px solid rgb(33, 38, 45);
-  border-right: 1px solid rgb(33, 38, 45);
+  border: 1px solid rgb(33, 38, 45);
 
   margin: 0;
   padding: 5px;
@@ -79,34 +74,32 @@ const SongHistory = (props) => {
   const UtcHoursOffset = (new Date().getTimezoneOffset() / 60) * -1;
 
   return (
-    <Container>
-      <SongList>
-        {songHistory.map((song, index) => {
-          const { username, label, timestamp, url } = song;
+    <ContainerList>
+      {songHistory.map((song, index) => {
+        const { username, label, timestamp, url } = song;
 
-          const timestampHours = timestamp.substring(0, 2);
-          let newHours = parseInt(timestampHours, 10) + UtcHoursOffset;
-          if (newHours < 0) {
-            newHours += 24;
-          };
-          const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
-  
-          return <Song key={`${label} - ${index}`} >
-            <PlaceNumber>
-              {index + 1}
-            </PlaceNumber>
-            
-            <SongTitle href={url} target="_blank" rel="noreferrer" >
-              {label}
-            </SongTitle>
-            
-            <AddedBy>
-              {`Added by ${username}, played at ${convertedTimestamp}`}
-            </AddedBy>
-          </Song>
-        })}
-      </SongList>
-    </Container>
+        const timestampHours = timestamp.substring(0, 2);
+        let newHours = parseInt(timestampHours, 10) + UtcHoursOffset;
+        if (newHours < 0) {
+          newHours += 24;
+        };
+        const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
+
+        return <Song key={`${label} - ${index}`} >
+          <PlaceNumber>
+            {index + 1}
+          </PlaceNumber>
+          
+          <SongTitle href={url} target="_blank" rel="noreferrer" >
+            {label}
+          </SongTitle>
+          
+          <AddedBy>
+            {`Added by ${username}, played at ${convertedTimestamp}`}
+          </AddedBy>
+        </Song>
+      })}
+    </ContainerList>
   )
 }
 

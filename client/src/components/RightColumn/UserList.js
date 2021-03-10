@@ -4,8 +4,7 @@ const Container = styled.div`
   height: 310px;
   overflow-y: auto;
 
-  border-left: 1px solid rgb(33, 38, 45);
-  border-bottom: 1px solid rgb(33, 38, 45);
+  border: 1px solid rgb(45, 55, 65);
 `
 
 const Header = styled.div`
@@ -25,6 +24,8 @@ const Header = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  border: 1px solid rgb(45, 55, 65);
 `
 
 const UsersContainer = styled.ul`
