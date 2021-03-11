@@ -82,7 +82,7 @@ const Length = styled.div`
 `
 
 const NowPlaying = (props) => {
-  const { song, sendMessage, volume, setVolume } = props;
+  const { song, sendMessage } = props;
 
   const skipNowPlaying = (label) => {
     if (window.confirm(`Skip '${label}'?`)) {

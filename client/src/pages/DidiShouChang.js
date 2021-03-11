@@ -28,7 +28,7 @@ const Container = styled.div`
     right: 0px;
     bottom: 0px;
     left: 0px;
-    opacity: ${props => props.showBackground ? props.volume : '0'};
+    opacity: ${props => props.showBackground ? (props.volume / 2) : '0'};
     content: "";
     background-image: url('/assets/a.jpg');
     background-repeat: no-repeat;
