@@ -19,22 +19,6 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: 350px 1fr 350px;
   grid-template-rows: 100vh;
-`;
-
-const LeftColumn = styled.div`
-  grid-column: 1;
-  display: flex;
-  flex-direction: column;
-`;
-
-const CenterColumn = styled.div`
-  grid-column: 2;
-  display: grid;
-  
-  grid-template-rows: 55% 1fr 30px;
-  grid-template-columns: 100%;
-  justify-content: center;
-  align-items: center;
 
   position: relative;
 
@@ -52,6 +36,22 @@ const CenterColumn = styled.div`
     background-position: center;
     z-index: -1;
   }
+`;
+
+const LeftColumn = styled.div`
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+`;
+
+const CenterColumn = styled.div`
+  grid-column: 2;
+  display: grid;
+  
+  grid-template-rows: 55% 1fr 30px;
+  grid-template-columns: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 const RightColumn = styled.div`
@@ -133,7 +133,7 @@ const DidiShouChang = (props) => {
   };
 
   return (
-    <Container>
+    <Container showBackground={songQueue.length} volume={volume} >
       <LeftColumn>
         <NowPlaying 
           song={songQueue[0]}
@@ -156,11 +156,9 @@ const DidiShouChang = (props) => {
             setVolume={setVolume}
           />
         )}
-        
-        
       </LeftColumn>
 
-      <CenterColumn showBackground={songQueue.length} volume={volume} >
+      <CenterColumn>
         <AudioPlayer 
           song={songQueue.length ? songQueue[0] : null} 
           seekTime={seekTime} 
