@@ -81,6 +81,11 @@ const VolumeIcon = styled.div`
 
 const VolumeInput = styled.input`
   width: 80%;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
 `
 
 const AudioPlayer = (props) => {
