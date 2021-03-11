@@ -36,7 +36,7 @@ const ChatInput = (props) => {
   return (
     <Container>
       <MessageInput
-        placeholder="Message Didi-Shou-Chang"
+        placeholder="speak"
         value={messageInput}
         onChange={(event) => setMessageInput(event.target.value)}
         autoFocus={true}

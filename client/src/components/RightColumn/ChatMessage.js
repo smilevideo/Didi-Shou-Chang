@@ -1,20 +1,22 @@
 import styled from 'styled-components';
 
-const Container = styled.li`
+const MessageContainer = styled.li`
   list-style-type: none;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-`
 
-const Username = styled.span`
-  font-weight: bold;
+  display: grid;
+  grid-template-columns: 270px 38px;
+  grid-gap: 6px;
+  margin-bottom: 5px;
 `
 
 const Timestamp = styled.span`
   font-size: 0.9rem;
+  text-align: center;
 `
 
-const Message = styled.span`
+const Message = styled.div`
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
 `
 
 const UserJoined = styled.span`
@@ -23,8 +25,6 @@ const UserJoined = styled.span`
 
 const UserLeft = styled.span`
   color: rgb(86, 211, 100);
-
-  font-style: italic;
 `
 
 const AddedSong = styled.span`
@@ -35,8 +35,18 @@ const RemovedSong = styled.span`
   color: rgb(248, 81, 73);
 `
 
-const SongLabel = styled.span`
+const Username = styled.span`
   color: rgb(201, 209, 217);
+  font-weight: bold;
+`
+
+const AddedSongName = styled.span`
+  color: rgb(108, 186, 255);
+  font-weight: bold;
+`
+
+const RemovedSongName = styled.span`
+  color: rgb(255, 101, 93);
   font-weight: bold;
 `
 
@@ -54,63 +64,63 @@ const ChatMessage = (props) => {
   switch (type) {
     case 'chat':
       return (
-        <Container>
-          <Username>{`${username} `}</Username>
-          <Timestamp>{`${convertedTimestamp}: `}</Timestamp>
-
-          <Message>{message}</Message>
-        </Container>
+        <MessageContainer>
+          <Message>
+            <Username>{username}: </Username>{message}
+          </Message>
+          
+          <Timestamp>{convertedTimestamp}</Timestamp>
+        </MessageContainer>
       )
     case 'userEnter':
       return (
-        <Container>
-          <Username>{`${username} `}</Username>
-          <Timestamp>{`${convertedTimestamp}: `}</Timestamp>
+        <MessageContainer>
+          <UserJoined>
+            <Username>{username}</Username> has entered Didi-Shou-Chang.
+          </UserJoined>
 
-          <UserJoined>has entered Didi-Shou-Chang.</UserJoined>
-        </Container>
+          <Timestamp>{convertedTimestamp}</Timestamp>
+        </MessageContainer>
       ) 
     case 'userLeave':
       return (
-        <Container>
-          <Username>{`${username} `}</Username>
-          <Timestamp>{`${convertedTimestamp}: `}</Timestamp>
+        <MessageContainer>
+          <UserLeft>
+            <Username>{username}</Username> has left Didi-Shou-Chang.
+          </UserLeft>
 
-          <UserLeft>has left Didi-Shou-Chang.</UserLeft>
-        </Container>
+          <Timestamp>{convertedTimestamp}</Timestamp>
+        </MessageContainer>
       )
     case 'addSong':
       return (
-        <Container>
-          <Username>{`${username} `}</Username>
-          <Timestamp>{`${convertedTimestamp}: `}</Timestamp>
-
+        <MessageContainer>
           <AddedSong>
-            added <SongLabel>'{label}'</SongLabel> to the queue.
+            <Username>{username}</Username> added <AddedSongName>'{label}'</AddedSongName> to the queue.
           </AddedSong>
-        </Container>
+
+          <Timestamp>{convertedTimestamp}</Timestamp>
+        </MessageContainer>
       )
     case 'removeSong':
       return (
-        <Container>
-          <Username>{`${username} `}</Username>
-          <Timestamp>{`${convertedTimestamp}: `}</Timestamp>
-
+        <MessageContainer>
           <RemovedSong>
-            removed <SongLabel>'{label}'</SongLabel> from the queue.
+            <Username>{username}</Username> removed <RemovedSongName>'{label}'</RemovedSongName> from the queue.
           </RemovedSong>
-        </Container>
+
+          <Timestamp>{convertedTimestamp}</Timestamp>
+        </MessageContainer>
       )
     case 'skipSong':
       return (
-        <Container>
-          <Username>{`${username} `}</Username>
-          <Timestamp>{`${convertedTimestamp}: `}</Timestamp>
-
+        <MessageContainer>
           <RemovedSong>
-            <SongLabel>'{label}'</SongLabel> was skipped.
+            <RemovedSongName>'{label}'</RemovedSongName> was skipped.
           </RemovedSong>
-        </Container>
+
+          <Timestamp>{convertedTimestamp}</Timestamp>
+        </MessageContainer>
       )
     default:
       return null;
