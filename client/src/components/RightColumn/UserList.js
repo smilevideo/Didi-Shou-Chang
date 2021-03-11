@@ -49,10 +49,10 @@ const UserList = (props) => {
 
   return (
     <Container>
-      <Header>entities ({userList.length})</Header>
+      <Header>entities: {userList.length}</Header>
       <UsersContainer>
         <Self>
-          {username}
+          {username} (you)
         </Self>
 
         {selfRemovedUserList.map((name, index) => {
