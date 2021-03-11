@@ -60,6 +60,10 @@ const SkipButton = styled.span`
     z-index: 1;
 
     opacity: 1;
+
+    &:hover {
+      cursor: pointer;
+    }
   };
 `
 
