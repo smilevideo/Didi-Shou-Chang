@@ -26,8 +26,14 @@ const Tab = styled.div`
   opacity: 0.25;
 
   transition: opacity .4s ease;
+
+  height: 100%;
   
   cursor: pointer;
+
+  display: grid;
+  justify-content: center;
+  align-items: center;
 
   ${props => props.selected && css`
     opacity: 1;
