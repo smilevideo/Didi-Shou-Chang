@@ -101,6 +101,17 @@ const ChatMessage = (props) => {
           </RemovedSong>
         </Container>
       )
+    case 'skipSong':
+      return (
+        <Container>
+          <Username>{`${username} `}</Username>
+          <Timestamp>{`${convertedTimestamp}: `}</Timestamp>
+
+          <RemovedSong>
+            <SongLabel>'{label}'</SongLabel> was skipped.
+          </RemovedSong>
+        </Container>
+      )
     default:
       return null;
   }

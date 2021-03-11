@@ -53,7 +53,7 @@ const welcomeNewUser = (ws) => {
   sendToOne(ws, data);
 };
 
-const addUser = (username) => {
+const addUser = (username, timestamp) => {
   userList.push(username);
 
   const data = JSON.stringify(
@@ -64,6 +64,12 @@ const addUser = (username) => {
   );
 
   broadcast(data);
+
+  addMessage({
+    username,
+    type: 'userEnter',
+    timestamp
+  });
 };
 
 const removeUser = (username) => {
@@ -154,10 +160,19 @@ const addSong = async (username, url, label, duration, timestamp) => {
   });
 };
 
-const removeSong = (index) => {
+const removeSong = (index, username, timestamp, label) => {
   if (index === 0) {
     nextSong();
-  } else {
+
+    addMessage({
+      username,
+      type: 'skipSong',
+      label,
+      timestamp,
+    });
+  } 
+  
+  else {
     songPriorityQueue.removeSongAtIndex(index);
 
     const songQueue = songPriorityQueue.flatten();
@@ -171,6 +186,13 @@ const removeSong = (index) => {
     );
 
     broadcast(data);
+
+    addMessage({
+      username,
+      type: 'removeSong',
+      label,
+      timestamp,
+    });
   };
 };
 
@@ -236,13 +258,7 @@ wss.on('connection', (ws) => {
       case 'userEnter':
         username = clientMessage.username;
 
-        addMessage({
-          username,
-          type: 'userEnter',
-          timestamp
-        });
-
-        addUser(username);
+        addUser(username, timestamp);
         break;
 
       case 'chat':
@@ -265,14 +281,12 @@ wss.on('connection', (ws) => {
         break;
 
       case 'removeSong':
-        removeSong(clientMessage.index);
-
-        addMessage({
-          username,
-          type: 'removeSong',
-          label: clientMessage.label,
+        removeSong(
+          clientMessage.index,
+          username, 
           timestamp,
-        });
+          clientMessage.label,
+        );
         break;
 
       default:
