@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useEffect, useState, useRef } from 'react';
 
+import NowPlaying from 'components/LeftColumn/NowPlaying';
 import Tabs from 'components/LeftColumn/Tabs';
 import SongQueue from 'components/LeftColumn/SongQueue';
 import SongHistory from 'components/LeftColumn/SongHistory';
@@ -43,15 +44,13 @@ const CenterColumn = styled.div`
     right: 0px;
     bottom: 0px;
     left: 0px;
-    opacity: ${props => props.showBackground ? '1' : '0'};;
+    opacity: ${props => props.showBackground ? props.volume : '0'};
     content: "";
     background-image: url('/assets/a.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
     z-index: -1;
-
-    transition: opacity 1s ease;
   }
 `;
 
@@ -73,6 +72,8 @@ const DidiShouChang = (props) => {
   const [songQueue, setSongQueue] = useState([]);
   const [songHistory, setSongHistory] = useState([]);
   const [seekTime, setSeekTime] = useState(0);
+
+  const [volume, setVolume] = useState(1);
 
   const [leftColumnTab, setLeftColumnTab] = useState('FUTURE');
 
@@ -134,6 +135,13 @@ const DidiShouChang = (props) => {
   return (
     <Container>
       <LeftColumn>
+        <NowPlaying 
+          song={songQueue[0]}
+          sendMessage={sendMessage}
+          volume={volume}
+          setVolume={setVolume}
+        />
+
         <Tabs tab={leftColumnTab} setTab={setLeftColumnTab} />
         
         {(leftColumnTab === 'PAST') && (
@@ -141,14 +149,24 @@ const DidiShouChang = (props) => {
         )}
 
         {(leftColumnTab === 'FUTURE') && (
-          <SongQueue songQueue={songQueue} sendMessage={sendMessage} />
+          <SongQueue 
+            songQueue={songQueue} 
+            sendMessage={sendMessage} 
+            volume={volume}
+            setVolume={setVolume}
+          />
         )}
         
         
       </LeftColumn>
 
-      <CenterColumn showBackground={songQueue.length} >
-        <AudioPlayer song={songQueue.length ? songQueue[0] : null} seekTime={seekTime} />
+      <CenterColumn showBackground={songQueue.length} volume={volume} >
+        <AudioPlayer 
+          song={songQueue.length ? songQueue[0] : null} 
+          seekTime={seekTime} 
+          volume={volume}
+          setVolume={setVolume}
+        />
 
         {(songQueue.length < 50) ? 
           <div>

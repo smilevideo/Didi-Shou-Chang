@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Duration from 'utils/Duration';
 
 const Container = styled.div`
-  height: calc(100vh - 45px);
+  height: calc(100vh - 45px - 100px);
   
   border: 1px solid rgb(45, 55, 65);
 `
@@ -16,22 +16,6 @@ const SongList = styled.ul`
 
   overflow-y: auto;
   overflow-x: hidden;
-
-  li:nth-child(1) {
-    background-image: url('/assets/woo3.gif');
-    background-position-y: 50%;
-    background-size: cover;
-
-    min-height: 100px;
-
-    color: white;
-
-    .placenumber {
-      img {
-        opacity: 1;
-      }
-    }
-  }
 `
 
 const Song = styled.li`
@@ -113,11 +97,7 @@ const SongQueue = (props) => {
   const { songQueue, sendMessage } = props;
 
   const removeFromQueue = (index, label) => {
-    const confirmationMessage = (index === 0) ? 
-      `Skip '${label}'?` :
-      `Remove '${label}' from queue?`;
-
-    if (window.confirm(confirmationMessage)) {
+    if (window.confirm(`Remove '${label}' from queue?`)) {
       const message = {
         type: 'removeSong',
         label,
@@ -128,22 +108,26 @@ const SongQueue = (props) => {
     };
   };
 
+  const songQueueWithoutFirst = songQueue.filter((song, index) => {
+    return index !== 0;
+  });
+
   return (
     <Container>
       <SongList>
-        {songQueue.map((song, index) => {
+        {songQueueWithoutFirst.map((song, index) => {
           const { username, label, duration } = song;
 
-          return <Song key={`${label} - ${index}`}>
+          return <Song key={`${label} - ${index + 1}`}>
             <PlaceNumber 
               className="placenumber" 
-              onClick={() => removeFromQueue(index, label)}
+              onClick={() => removeFromQueue(index + 1, label)}
             >
-              {index}
+              {index + 1}
               <img src="/assets/icon-close.svg" alt="remove song from queue" />
             </PlaceNumber>
             
-            <SongTitle first={index === 0}>
+            <SongTitle>
               <div>
                 {label}
               </div>

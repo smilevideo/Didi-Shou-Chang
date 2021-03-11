@@ -25,7 +25,7 @@ const Title = styled.div`
   
   margin-bottom: 10px;
 
-  color: ${props => props.song ? 'rgb(88, 166, 255)' : 'unset'};
+  color: ${props => props.song ? 'rgb(108, 186, 255)' : 'unset'};
 
   transition: color 1s ease;
 `
@@ -59,11 +59,24 @@ const Volume = styled.div`
   grid-column: 2;
   grid-row: 2;
 
-  display: ${props => props.hide ? 'none' : 'block'};
+  display: ${props => props.hide ? 'none' : 'grid'};
+  grid-template-columns: 25px 1fr;
+  grid-gap: 5px;
 
-  max-width: 120px;
+  max-width: 140px;
 
   margin: auto;
+`
+
+const VolumeIcon = styled.div`
+  display: grid;
+  align-items: center;
+  justify-content: center;
+
+  img { 
+    height: 100%;
+    width: 100%;
+  }
 `
 
 const VolumeInput = styled.input`
@@ -71,12 +84,10 @@ const VolumeInput = styled.input`
 `
 
 const AudioPlayer = (props) => {
-  const { song, seekTime } = props;
+  const { song, seekTime, volume, setVolume } = props;
   
   const [error, setError] = useState('');
   const [elapsed, setElapsed] = useState(null);
-
-  const [volume, setVolume] = useState(1);
 
   const playerRef = useRef(null);
 
@@ -145,9 +156,9 @@ const AudioPlayer = (props) => {
       </div>
 
       <Volume hide={!song} >
-        <div>
-          Volume
-        </div>
+        <VolumeIcon>
+          <img src="/assets/icon-volume.png" alt="volume" />
+        </VolumeIcon>
 
         <VolumeInput
           type="range"
