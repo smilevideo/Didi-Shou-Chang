@@ -9,9 +9,11 @@ const MessageContainer = styled.li`
   margin-bottom: 5px;
 `
 
-const Timestamp = styled.span`
+const Timestamp = styled.div`
   font-size: 0.9rem;
-  text-align: center;
+  display: grid;
+  justify-content: center;
+  align-items: center;
 `
 
 const Message = styled.div`

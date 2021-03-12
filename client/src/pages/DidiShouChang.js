@@ -138,8 +138,6 @@ const DidiShouChang = (props) => {
         <NowPlaying 
           song={songQueue[0]}
           sendMessage={sendMessage}
-          volume={volume}
-          setVolume={setVolume}
         />
 
         <Tabs tab={leftColumnTab} setTab={setLeftColumnTab} />
@@ -152,8 +150,6 @@ const DidiShouChang = (props) => {
           <SongQueue 
             songQueue={songQueue} 
             sendMessage={sendMessage} 
-            volume={volume}
-            setVolume={setVolume}
           />
         )}
       </LeftColumn>
