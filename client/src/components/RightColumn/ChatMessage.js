@@ -5,11 +5,21 @@ const MessageContainer = styled.li`
 
   display: grid;
   grid-template-columns: 270px 38px;
-  grid-gap: 6px;
+  grid-template-rows: 24px 1fr;
   margin-bottom: 5px;
+
+  div:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1 / 3;
+
+    padding-right: 8px;
+  }
 `
 
 const Timestamp = styled.div`
+  grid-column: 2;
+  grid-row: 1;
+
   font-size: 0.9rem;
   display: grid;
   justify-content: center;
@@ -21,19 +31,19 @@ const Message = styled.div`
   white-space: pre-wrap;
 `
 
-const UserJoined = styled.span`
+const UserJoined = styled.div`
   color: rgb(86, 211, 100);
 `
 
-const UserLeft = styled.span`
+const UserLeft = styled.div`
   color: rgb(86, 211, 100);
 `
 
-const AddedSong = styled.span`
+const AddedSong = styled.div`
   color: rgb(88, 166, 255);
 `
 
-const RemovedSong = styled.span`
+const RemovedSong = styled.div`
   color: rgb(248, 81, 73);
 `
 
