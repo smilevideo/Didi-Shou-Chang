@@ -54,8 +54,13 @@ const SongUpload = (props) => {
   const [progressMessage, setProgressMessage] = useState('');
 
   const fileInputRef = useRef(null);
+  const progressMessageRef = useRef(progressMessage);
+  progressMessageRef.current = progressMessage;
 
-  const canUpload = !progressMessage;
+  const fileTypeErrorMessage = 'audio files only';
+
+  const canUpload = progressMessage === '' || 
+    progressMessage === fileTypeErrorMessage;
 
   const handleClick = (event) => {
     event.target.value = '';
@@ -81,7 +86,7 @@ const SongUpload = (props) => {
 
   const onDrop = (event) => {
     event.preventDefault();
-    
+
     handleFiles(event.dataTransfer.files);
 
     setDropzoneHighlighted(false);
@@ -90,11 +95,7 @@ const SongUpload = (props) => {
   const handleFiles = async (files) => {
     const file = files[0];
 
-    if (progressMessage) {
-      console.log('upload already in progress');
-    }
-
-    else if (file && file.type.substring(0, 6) === 'audio/') {
+    if (file && file.type.substring(0, 6) === 'audio/') {
       const filename = parseFilename(file.name);
       const audioUrl = `${process.env.REACT_APP_S3_BUCKET_BASE_URL}/uploads/${filename}`;
       
@@ -131,7 +132,13 @@ const SongUpload = (props) => {
     }
 
     else {
-      console.log('audio files only');
+      setProgressMessage(fileTypeErrorMessage);
+
+      setTimeout(() => {
+        if (progressMessageRef.current === fileTypeErrorMessage) {
+          setProgressMessage('');
+        };
+      }, 5000)
     };
   };
 
@@ -165,9 +172,9 @@ const SongUpload = (props) => {
   return (
     <Container>
       <Dropzone 
-        onClick={canUpload ? openFileDialog: null}
-        onDragOver={onDragOver}
-        onDragLeave={onDragLeave}
+        onClick={canUpload ? openFileDialog : null}
+        onDragOver={canUpload ? onDragOver : null}
+        onDragLeave={canUpload ? onDragLeave : null}
         onDrop={canUpload ? onDrop : null}
         highlighted={dropzoneHighlighted}
         canUpload={canUpload}
