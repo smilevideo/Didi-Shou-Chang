@@ -17,7 +17,7 @@ const Song = styled.li`
   grid-template-rows: 1fr 22px;
   grid-gap: 8px;
 
-  background-image: ${props => props.song ? "url('/assets/woo3.gif')" : "url('/assets/woo4.gif')"};
+  background-image: ${props => props.song ? "url('/assets/woo4.gif')" : "url('/assets/woo4.gif')"};
   background-position-y: 50%;
   background-size: cover;
 
