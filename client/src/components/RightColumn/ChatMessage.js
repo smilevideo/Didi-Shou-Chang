@@ -70,6 +70,8 @@ const ChatMessage = (props) => {
   let newHours = parseInt(timestampHours, 10) + UtcHoursOffset;
   if (newHours < 0) {
     newHours += 24;
+  } else if (newHours > 23) {
+    newHours -= 24;
   };
   const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
   
