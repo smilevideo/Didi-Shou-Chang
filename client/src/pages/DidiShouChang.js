@@ -35,6 +35,8 @@ const Container = styled.div`
     background-size: cover;
     background-position: center;
     z-index: -1;
+
+    transition: opacity 0.1s ease;
   }
 `;
 
