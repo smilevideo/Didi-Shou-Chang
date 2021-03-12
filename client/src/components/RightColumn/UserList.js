@@ -26,6 +26,7 @@ const Header = styled.div`
   align-items: center;
 
   border: 1px solid rgb(45, 55, 65);
+  border-top: 0;
 `
 
 const UsersContainer = styled.ul`
