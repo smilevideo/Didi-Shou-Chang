@@ -5,6 +5,7 @@ const Container = styled.div`
   overflow-y: auto;
 
   border: 1px solid rgb(45, 55, 65);
+  border-top: 0;
 `
 
 const Header = styled.div`

@@ -7,6 +7,7 @@ const Song = styled.li`
   max-height: 100px;
 
   border: 1px solid rgb(33, 38, 45);
+  border-top: 0;
 
   margin: 0;
   padding: 5px;
