@@ -48,7 +48,7 @@ const Entry = (props) => {
       <div>
         <WelcomeImage src="/assets/d.gif" alt="welcome" />
 
-        <Form showSubmit={username}>
+        <Form showSubmit={!!(username.trim())}>
           <label>"whomst'd've"</label>
           <input
             type="text"
