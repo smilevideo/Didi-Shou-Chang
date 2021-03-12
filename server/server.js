@@ -160,7 +160,7 @@ const addSong = async (username, url, label, duration, timestamp) => {
   });
 };
 
-const removeSong = (index, username, timestamp, label) => {
+const removeSong = (index, username, timestamp, label, url) => {
   if (index === 0) {
     nextSong();
 
@@ -173,6 +173,14 @@ const removeSong = (index, username, timestamp, label) => {
   } 
   
   else {
+    if (url.startsWith(process.env.S3_UPLOADS)) {
+      const filename = url.substring(process.env.S3_UPLOADS.length + 1);
+
+      fetch(encodeURI(`${process.env.S3_DELETE_ENDPOINT}/${filename}`), {
+        method: 'DELETE',
+      });
+    };
+
     songPriorityQueue.removeSongAtIndex(index);
 
     const songQueue = songPriorityQueue.flatten();
@@ -209,7 +217,7 @@ const nextSong = () => {
     if (song.url.startsWith(process.env.S3_UPLOADS)) {
       const filename = song.url.substring(process.env.S3_UPLOADS.length + 1);
 
-      fetch(`${process.env.S3_DELETE_ENDPOINT}/${filename}`, {
+      fetch(encodeURI(`${process.env.S3_DELETE_ENDPOINT}/${filename}`), {
         method: 'DELETE',
       });
     };
@@ -286,6 +294,7 @@ wss.on('connection', (ws) => {
           username, 
           timestamp,
           clientMessage.label,
+          clientMessage.url,
         );
         break;
 

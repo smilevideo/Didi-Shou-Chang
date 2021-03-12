@@ -96,12 +96,13 @@ const Length = styled.div`
 const SongQueue = (props) => {
   const { songQueue, sendMessage } = props;
 
-  const removeFromQueue = (index, label) => {
+  const removeFromQueue = (index, label, url) => {
     if (window.confirm(`Remove '${label}' from queue?`)) {
       const message = {
         type: 'removeSong',
         label,
         index,
+        url
       };
   
       sendMessage(message);
@@ -116,12 +117,12 @@ const SongQueue = (props) => {
     <Container>
       <SongList>
         {songQueueWithoutFirst.map((song, index) => {
-          const { username, label, duration } = song;
+          const { username, label, duration, url } = song;
 
           return <Song key={`${label} - ${index + 1}`}>
             <PlaceNumber 
               className="placenumber" 
-              onClick={() => removeFromQueue(index + 1, label)}
+              onClick={() => removeFromQueue(index + 1, label, url)}
             >
               {index + 1}
               <img src="/assets/icon-close.svg" alt="remove song from queue" />
