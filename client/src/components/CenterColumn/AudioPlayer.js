@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import { useState, useEffect, useRef } from 'react';
 
 import ReactPlayer from 'react-player';

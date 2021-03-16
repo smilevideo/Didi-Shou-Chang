@@ -4,7 +4,6 @@ const Container = styled.div`
   height: calc(100vh - 45px - 100px);
   
   border: 1px solid rgb(45, 55, 65);
-  border-bottom: 0;
 `
 
 const SongList = styled.ul`

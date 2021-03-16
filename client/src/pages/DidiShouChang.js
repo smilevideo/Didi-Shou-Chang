@@ -21,23 +21,6 @@ const Container = styled.div`
   grid-template-rows: 100vh;
 
   position: relative;
-
-  &:before {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    opacity: ${props => props.showBackground ? (props.volume / 2) : '0'};
-    content: "";
-    background-image: url('/assets/a.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    z-index: -1;
-
-    transition: opacity 0.1s ease;
-  }
 `;
 
 const LeftColumn = styled.div`
@@ -135,7 +118,7 @@ const DidiShouChang = (props) => {
   };
 
   return (
-    <Container showBackground={songQueue.length} volume={volume} >
+    <Container>
       <LeftColumn>
         <NowPlaying 
           song={songQueue[0]}
