@@ -4,7 +4,7 @@ const MessageContainer = styled.li`
   list-style-type: none;
 
   display: grid;
-  grid-template-columns: 270px 38px;
+  grid-template-columns: 275px 41px;
   grid-template-rows: 24px 1fr;
   margin-bottom: 5px;
 

@@ -16,7 +16,7 @@ const ChatMessageContainer = styled.div`
   border: 1px solid rgb(45, 55, 65);
   
   ul {
-    margin: 10px;
+    margin: 10px 5px 10px 10px;
     padding: 0;
   }
 `
