@@ -41,9 +41,17 @@ const SongTitle = styled.a`
   text-decoration: none;
 
   color: rgb(150, 180, 200);
+  
+  display: grid;
+  /* justify-content: center; */
+  align-items: center;
 
   &:hover {
     text-decoration: underline;
+  }
+  
+  img {
+    height: 22px;
   }
 `
 
@@ -89,6 +97,11 @@ const SongHistory = (props) => {
             newHours += 24;
           };
           const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
+
+          let provider = true;
+          if (url.startsWith(process.env.REACT_APP_S3_BUCKET_BASE_URL)) {
+            provider = false;
+          }
   
           return <Song key={`${label} - ${index}`} >
             <PlaceNumber>
@@ -97,6 +110,8 @@ const SongHistory = (props) => {
             
             <SongTitle href={url} target="_blank" rel="noreferrer" >
               {label}
+
+              <img src={`/assets/${provider ? 'p-trans.png' : 'tn.png'}`} alt="uploaded song" />
             </SongTitle>
             
             <AddedBy>
