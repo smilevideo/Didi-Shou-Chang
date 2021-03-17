@@ -48,7 +48,7 @@ const RightColumn = styled.div`
 const beep2 = new Audio('/assets/beep2.mp3');
 
 const DidiShouChang = (props) => {
-  const { username } = props;
+  const { username, setUsername, setUsernameEntered } = props;
 
   const ws = useRef(null);
 
@@ -89,6 +89,14 @@ const DidiShouChang = (props) => {
           break;
 
         case 'welcome':
+          if (message.userList.includes(username)) {
+            setUsername('');
+            setUsernameEntered(false);
+            ws.current.close();
+            console.log('disconnected');
+            alert('you are you');
+          };
+
           setSongQueue(message.songQueue);
           setSongHistory(message.songHistory);
           setSeekTime(message.seekTime);
@@ -110,8 +118,11 @@ const DidiShouChang = (props) => {
       };
     };
 
-    return () => ws.current.close();
-  }, [username]);
+    return () => {
+      ws.current.close();
+      console.log('disconnected');
+    };
+  }, [setUsername, setUsernameEntered, username]);
 
   const sendMessage = (message) => {
     ws.current.send(JSON.stringify(message));

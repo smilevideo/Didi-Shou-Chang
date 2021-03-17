@@ -10,10 +10,18 @@ const App = () => {
   return (
     <div className="App">
       {!usernameEntered && 
-        <Entry username={username} setUsername={setUsername} setUsernameEntered={setUsernameEntered} />
+        <Entry 
+          username={username} 
+          setUsername={setUsername} 
+          setUsernameEntered={setUsernameEntered}   
+        />
       }
       {usernameEntered &&
-        <DidiShouChang username={username} />
+        <DidiShouChang 
+          username={username} 
+          setUsername={setUsername} 
+          setUsernameEntered={setUsernameEntered}   
+        />
       }
     </div>
   );

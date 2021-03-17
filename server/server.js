@@ -47,7 +47,8 @@ const welcomeNewUser = (ws) => {
       type: 'welcome',
       songQueue,
       songHistory,
-      seekTime
+      seekTime,
+      userList,
     }
   )
   sendToOne(ws, data);

@@ -43,7 +43,6 @@ const SongTitle = styled.a`
   color: rgb(150, 180, 200);
   
   display: grid;
-  /* justify-content: center; */
   align-items: center;
 
   &:hover {
