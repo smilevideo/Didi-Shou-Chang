@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { emoteMap, emoteCodes } from 'utils/ChatEmotes.js';
+
 const MessageContainer = styled.li`
   list-style-type: none;
 
@@ -62,6 +64,36 @@ const RemovedSongName = styled.span`
   font-weight: bold;
 `
 
+const ChatEmote = styled.img`
+  height: 24px;
+  width: 24px;
+
+  vertical-align: middle;
+`;
+
+const convertChatMessage = (chatMessage) => {
+  return (
+    chatMessage.split(' ').map((word) => {
+      if (emoteCodes.includes(word)) {
+        return (
+          <span>
+            <ChatEmote src={emoteMap[word].imagePath} alt={`${word} emote`} />
+            {' '}
+          </span>
+        );
+      }
+
+      else {
+        return (
+          <span>
+            {`${word} `}
+          </span>
+        )
+      }
+    })
+  );
+}
+
 const ChatMessage = (props) => {
   const { type, message, username, timestamp, label } = props.message;
 
@@ -74,13 +106,18 @@ const ChatMessage = (props) => {
     newHours -= 24;
   };
   const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
+
+  let convertedMessageJsxArray;
+  if (message) {
+    convertedMessageJsxArray = convertChatMessage(message);
+  };
   
   switch (type) {
     case 'chat':
       return (
         <MessageContainer>
           <Message>
-            <Username>{username}: </Username>{message}
+            <Username>{username}: </Username>{convertedMessageJsxArray}
           </Message>
           
           <Timestamp>{convertedTimestamp}</Timestamp>

@@ -25,8 +25,6 @@ const Title = styled.div`
   margin-bottom: 10px;
 
   color: ${props => props.song ? 'rgb(108, 186, 255)' : 'unset'};
-
-  transition: color 1s ease;
 `
 
 const Elapsed = styled.div`
