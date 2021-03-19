@@ -71,7 +71,7 @@ const ChatEmote = styled.img`
   vertical-align: middle;
 `;
 
-const convertChatMessage = (chatMessage) => {
+const parseChatMessage = (chatMessage) => {
   return (
     chatMessage.split(' ').map((word) => {
       if (emoteCodes.includes(word)) {
@@ -107,9 +107,9 @@ const ChatMessage = (props) => {
   };
   const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
 
-  let convertedMessageJsxArray;
+  let messageJsxArray;
   if (message) {
-    convertedMessageJsxArray = convertChatMessage(message);
+    messageJsxArray = parseChatMessage(message);
   };
   
   switch (type) {
@@ -117,7 +117,7 @@ const ChatMessage = (props) => {
       return (
         <MessageContainer>
           <Message>
-            <Username>{username}: </Username>{convertedMessageJsxArray}
+            <Username>{username}: </Username>{messageJsxArray}
           </Message>
           
           <Timestamp>{convertedTimestamp}</Timestamp>
