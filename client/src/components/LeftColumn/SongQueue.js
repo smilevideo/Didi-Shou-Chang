@@ -97,7 +97,7 @@ const SongQueue = (props) => {
   const { songQueue, sendMessage } = props;
 
   const removeFromQueue = (index, label, url) => {
-    if (window.confirm(`Remove '${label}' from queue?`)) {
+    if (window.confirm(`Rixslay '${label}'?`)) {
       const message = {
         type: 'removeSong',
         label,

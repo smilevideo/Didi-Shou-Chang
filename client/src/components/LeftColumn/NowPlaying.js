@@ -42,7 +42,6 @@ const SkipButton = styled.span`
   font-weight: bold;
 
   border-radius: 14px;
-  border: 1px solid rgb(33, 38, 45);
 
   height: 28px;
   width: 28px;
@@ -85,7 +84,7 @@ const NowPlaying = (props) => {
   const { song, sendMessage } = props;
 
   const skipNowPlaying = (label) => {
-    if (window.confirm(`Skip '${label}'?`)) {
+    if (window.confirm(`Rixslay '${label}'?`)) {
       const message = {
         type: 'removeSong',
         label,
