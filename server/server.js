@@ -121,7 +121,7 @@ const getOEmbedData = async (url) => {
     const response = await fetch(fetchUrl);
 
     return response.json();
-  }
+  };
 };
 
 const addSong = async (username, url, label, duration, timestamp) => {

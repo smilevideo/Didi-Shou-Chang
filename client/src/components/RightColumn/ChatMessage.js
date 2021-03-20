@@ -72,26 +72,32 @@ const ChatEmote = styled.img`
 `;
 
 const parseChatMessage = (chatMessage) => {
-  return (
-    chatMessage.split(' ').map((word) => {
-      if (emoteCodes.includes(word)) {
-        return (
-          <span>
-            <ChatEmote src={emoteMap[word].imagePath} alt={`${word} emote`} />
-            {' '}
-          </span>
-        );
-      }
+  if (!chatMessage) {
+    return null;
+  } 
+  
+  else {
+    return (
+      chatMessage.split(' ').map((word) => {
+        if (emoteCodes.includes(word)) {
+          return (
+            <span>
+              <ChatEmote src={emoteMap[word].imagePath} alt={`${word} emote`} />
+              {' '}
+            </span>
+          );
+        }
 
-      else {
-        return (
-          <span>
-            {`${word} `}
-          </span>
-        )
-      }
-    })
-  );
+        else {
+          return (
+            <span>
+              {`${word} `}
+            </span>
+          )
+        }
+      })
+    );
+  }
 }
 
 const ChatMessage = (props) => {
@@ -106,11 +112,8 @@ const ChatMessage = (props) => {
     newHours -= 24;
   };
   const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
-
-  let messageJsxArray;
-  if (message) {
-    messageJsxArray = parseChatMessage(message);
-  };
+  
+  const messageJsxArray = parseChatMessage(message);
   
   switch (type) {
     case 'chat':
