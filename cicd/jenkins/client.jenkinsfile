@@ -1,0 +1,32 @@
+def client_dir = "./client"
+
+pipeline {
+    agent any
+    options {
+        timestamps ()
+    }
+
+    stages {
+        stage("Build") {
+            steps {
+                script {
+                    dir(client_dir) {
+                        sh "echo $WORKSPACE"
+                        sh "npm install"
+                        sh "npm run build"
+                    }
+                }
+            }
+        }
+        stage("Deploy") {
+            steps {
+                script {
+                    dir(client_dir) {
+                        sh 'aws s3 rm --recursive s3://tubalub --exclude "uploads/*"'
+                        sh 'aws s3 cp --recursive ./build s3://tubalub --acl public-read'
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+def server_dir = "./server"
+
+pipeline {
+    agent any
+    options {
+        timestamps ()
+    }
+
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+    }
+
+    stages {
+        stage("Stop running docker instances") {
+            steps {
+                script {
+                    sh "docker stop dsc_back || true"
+                }
+            }
+        }
+        stage("Build") {
+            steps {
+                script {
+                    dir(server_dir) {
+                        sh "docker build -t dsc_back ."
+                    }
+                }
+            }
+        }
+        stage("Deploy") {
+            steps {
+                script {
+                    sh "docker run --rm -d -p 3030:3030 --name dsc_back dsc_back"
+                }
+            }
+        }
+    }
+}
