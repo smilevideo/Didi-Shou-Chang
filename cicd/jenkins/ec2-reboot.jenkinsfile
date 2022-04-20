@@ -4,16 +4,26 @@ pipeline {
         timestamps ()
     }
     stages {
-        stage("Get Public IP") {
+        stage('Get Public IP') {
             steps {
                 script {
-                    def publicIP = sh(script: "curl http://checkip.amazonaws.com", returnStdout: true).trim()
+                    def publicIP = sh(script: 'curl http://checkip.amazonaws.com', returnStdout: true).trim()
                     println("Public IP: ${publicIP}")
                 }
             }
         }
-        stage("Recompile client") {
-            
+        stage('Build/Deploy') {
+            parallel {
+                stage('Deploy Client') {
+                    build job 'dsc_front'
+                }
+                stage('Deploy Server') {
+                    build job 'dsc_back'
+                }
+                stage('Deploy S3 Client') {
+                    build job 'dsc_s3'
+                }
+            }
         }
     }
 }
