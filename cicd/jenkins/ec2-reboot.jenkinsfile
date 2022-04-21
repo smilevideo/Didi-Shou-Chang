@@ -24,12 +24,16 @@ pipeline {
                 }
                 stage('Deploy Server') {
                     steps {
-                        build job 'dsc_back'
+                        script {
+                            build job 'dsc_back'
+                        } 
                     }
                 }
                 stage('Deploy S3 Client') {
                     steps {
-                        build job 'dsc_s3'
+                        script {
+                            build job 'dsc_s3'
+                        }
                     }
                 }
             }
