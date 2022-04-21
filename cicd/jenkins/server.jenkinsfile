@@ -6,8 +6,8 @@ pipeline {
         timestamps ()
     }
 
-    environment {
-        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: "Branch to check out")
     }
 
     stages {

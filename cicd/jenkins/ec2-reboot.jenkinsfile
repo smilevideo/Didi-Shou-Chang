@@ -3,6 +3,11 @@ pipeline {
     options {
         timestamps ()
     }
+
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: "Branch to check out")
+    }
+
     stages {
         stage('Get Public IP') {
             steps {

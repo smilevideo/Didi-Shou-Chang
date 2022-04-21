@@ -9,6 +9,10 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
     }
 
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: "Branch to check out")
+    }
+
     stages {
         stage("Clean Build") {
             steps {
