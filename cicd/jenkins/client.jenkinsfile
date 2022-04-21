@@ -16,8 +16,8 @@ pipeline {
                 script {
                     dir(client_dir) {
                         sh "echo $WORKSPACE"
-                        sh "npm install"
-                        sh "npm run build"
+                        npm "install"
+                        npm "run build"
                     }
                 }
             }
