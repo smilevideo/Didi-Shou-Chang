@@ -15,17 +15,20 @@ pipeline {
         stage('Build/Deploy') {
             parallel {
                 stage('Deploy Client') {
-                    script {
-                        build job 'dsc_front'
+                    steps {
+                        script {
+                            build job 'dsc_front'
+                        }
                     }
+
                 }
                 stage('Deploy Server') {
-                    script {
+                    steps {
                         build job 'dsc_back'
                     }
                 }
                 stage('Deploy S3 Client') {
-                    script {
+                    steps {
                         build job 'dsc_s3'
                     }
                 }
