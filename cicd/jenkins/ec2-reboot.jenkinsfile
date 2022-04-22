@@ -10,10 +10,19 @@ pipeline {
     }
 
     stages {
+        stage("Test") {
+            steps {
+                script {
+                    sh "echo $TRIGGER_DOWNSTREAM_JOBS"
+                    println(params.TRIGGER_DOWNSTREAM_JOBS)
+                    println(TRIGGER_DOWNSTREAM_JOBS == false)
+                }
+            }
+        }
         stage('Build/Deploy') {
             when {
                 expression {
-                    TRIGGER_DOWNSTREAM_JOBS == true
+                    return params.TRIGGER_DOWNSTREAM_JOBS
                 }
             }
             parallel {
