@@ -14,7 +14,7 @@ pipeline {
                 stage('Deploy Client') {
                     steps {
                         script {
-                            build job: 'dsc_front'
+                            build job: 'dsc_front', wait: false
                         }
                     }
 
@@ -22,14 +22,14 @@ pipeline {
                 stage('Deploy Server') {
                     steps {
                         script {
-                            build job: 'dsc_back'
+                            build job: 'dsc_back', wait: false
                         } 
                     }
                 }
                 stage('Deploy S3 Client') {
                     steps {
                         script {
-                            build job: 'dsc_s3'
+                            build job: 'dsc_s3', wait: false
                         }
                     }
                 }
