@@ -17,6 +17,8 @@ pipeline {
         stage("Parameter Setup") {
             steps {
                 script {
+                    // credentials show up as **** by default
+                    // this is just for us to make sure AWS secrets are being injected properly
                     println "AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}"
                     println "AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}"
                 }
@@ -25,8 +27,10 @@ pipeline {
         stage("Clean Build") {
             steps {
                 script {
-                    sh "mvn clean package"
-                    sh "docker build -t dsc_s3 ."
+                    dir("./s3") {
+                        sh "mvn clean package"
+                        sh "docker build -t dsc_s3 ."
+                    }
                 }
             }
         }
