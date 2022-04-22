@@ -26,5 +26,5 @@ Content-Disposition: attachment; filename="userdata.txt"
 /bin/sleep 60
 
 /bin/chmod +x /home/ec2-user/*.sh
-/bin/bash /home/ec2-user/startup.sh
+/bin/bash /home/ec2-user/startup.sh >> /home/ec2-user/startup.log
 --//--
