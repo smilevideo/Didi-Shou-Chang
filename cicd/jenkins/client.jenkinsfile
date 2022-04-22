@@ -10,12 +10,17 @@ pipeline {
         string(name: 'BRANCH', defaultValue: 'main', description: "Branch to check out")
     }
 
+    tools {
+        nodejs "nodejs"
+    }
+
     stages {
         stage("Build") {
             steps {
                 script {
                     dir(client_dir) {
                         sh "echo Running in: $WORKSPACE"
+                        sh "npm --version"
                         sh "npm install"
                         sh "npm run build"
                     }
