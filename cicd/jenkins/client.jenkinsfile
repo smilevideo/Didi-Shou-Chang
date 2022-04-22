@@ -15,16 +15,16 @@ pipeline {
     }
 
     environment {
-        EC2_ENDPOINT = "not yet initialized"
+        REACT_APP_EC2_ENDPOINT = "not yet initialized"
     }
 
     stages {
         stage('Get Public IP') {
             steps {
                 script {
-                    EC2_ENDPOINT = sh(script: 'curl http://checkip.amazonaws.com', returnStdout: true).trim()
-                    println("Public IP: ${EC2_ENDPOINT}")
-                    sh "echo EC2_ENDPOINT: $EC2_ENDPOINT"
+                    REACT_APP_EC2_ENDPOINT = sh(script: 'curl http://checkip.amazonaws.com', returnStdout: true).trim()
+                    println("Public IP: ${REACT_APP_EC2_ENDPOINT}")
+                    sh "echo REACT_APP_EC2_ENDPOINT: $REACT_APP_EC2_ENDPOINT"
                 }
             }
         }
@@ -36,7 +36,7 @@ pipeline {
                         sh "echo Running in: $WORKSPACE"
                         sh "npm --version"
                         sh "npm install --verbose"
-                        sh "EC2_ENDPOINT=${EC2_ENDPOINT} npm run build"
+                        sh "REACT_APP_EC2_ENDPOINT=${REACT_APP_EC2_ENDPOINT} npm run build"
                     }
                 }
             }

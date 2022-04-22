@@ -151,7 +151,7 @@ const SongUpload = (props) => {
   };
 
   const fetchPresignedUrl = async (filename) => {
-    const fetchUrl = `http://${process.env.EC2_ENDPOINT}:8089/tubalub/upload?filename=${filename}`
+    const fetchUrl = `http://${process.env.REACT_APP_EC2_ENDPOINT}:8089/tubalub/upload?filename=${filename}`
 
     const response = await fetch(fetchUrl);
 
