@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+    options {
+        timestamps ()
+    }
+
+    environment {
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+    }
+
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: "Branch to check out")
+    }
+
+    stages {
+        stage("Parameter Setup") {
+            steps {
+                script {
+                    // credentials show up as **** by default
+                    // this is just for us to make sure AWS secrets are being injected properly
+                    println "AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}"
+                    println "AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}"
+                }
+            }
+        }
+        stage("Clean Build") {
+            steps {
+                script {
+                    dir("./s3") {
+                        sh "mvn clean package"
+                        sh "docker build -t dsc_s3 ."
+                    }
+                }
+            }
+        }
+        stage("Deploy") {
+            steps {
+                script {
+                    sh 'docker stop dsc_s3 || true'
+                    sh "docker run --rm -d -p 8089:8089 -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} --name dsc_s3 dsc_s3"
+                }
+            }
+        }
+    }
+    
+    post {
+        success {
+            cleanWs(deleteDirs: true)
+        }
+    }
+}

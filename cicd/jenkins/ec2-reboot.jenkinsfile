@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+    options {
+        timestamps ()
+    }
+
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: "Branch to check out")
+    }
+
+    stages {
+        stage('Build/Deploy') {
+            parallel {
+                stage('Deploy Client') {
+                    steps {
+                        script {
+                            build job: 'dsc_front'
+                        }
+                    }
+
+                }
+                stage('Deploy Server') {
+                    steps {
+                        script {
+                            build job: 'dsc_back'
+                        } 
+                    }
+                }
+                stage('Deploy S3 Client') {
+                    steps {
+                        script {
+                            build job: 'dsc_s3'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            cleanWs(deleteDirs: true)
+        }
+    }
+}
