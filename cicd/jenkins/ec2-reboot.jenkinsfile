@@ -13,7 +13,7 @@ pipeline {
         stage('Build/Deploy') {
             when {
                 expression {
-                    TRIGGER_DOWNSTREAM_JOBS == true
+                    return params.TRIGGER_DOWNSTREAM_JOBS
                 }
             }
             parallel {
