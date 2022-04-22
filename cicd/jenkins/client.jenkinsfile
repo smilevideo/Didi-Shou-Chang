@@ -1,4 +1,5 @@
 def client_dir = "./client"
+def publicIP = "not-yet-initialized"
 
 pipeline {
     agent any
@@ -15,6 +16,15 @@ pipeline {
     }
 
     stages {
+        stage('Get Public IP') {
+            steps {
+                script {
+                    def publicIP = sh(script: 'curl http://checkip.amazonaws.com', returnStdout: true).trim()
+                    println("Public IP: ${publicIP}")
+                }
+            }
+        }
+
         stage("Build") {
             steps {
                 script {
@@ -22,6 +32,7 @@ pipeline {
                         sh "echo Running in: $WORKSPACE"
                         sh "npm --version"
                         sh "npm install --verbose"
+                        sh "export EC2_ENDPOINT=${publicIP}"
                         sh "npm run build"
                     }
                 }

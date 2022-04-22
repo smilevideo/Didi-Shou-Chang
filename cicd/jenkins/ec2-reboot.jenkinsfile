@@ -9,14 +9,6 @@ pipeline {
     }
 
     stages {
-        stage('Get Public IP') {
-            steps {
-                script {
-                    def publicIP = sh(script: 'curl http://checkip.amazonaws.com', returnStdout: true).trim()
-                    println("Public IP: ${publicIP}")
-                }
-            }
-        }
         stage('Build/Deploy') {
             parallel {
                 stage('Deploy Client') {
