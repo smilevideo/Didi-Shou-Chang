@@ -32,8 +32,7 @@ pipeline {
                         sh "echo Running in: $WORKSPACE"
                         sh "npm --version"
                         sh "npm install --verbose"
-                        sh "export EC2_ENDPOINT=${publicIP}"
-                        sh "npm run build"
+                        sh "EC2_ENDPOINT=${publicIP} npm run build"
                     }
                 }
             }
