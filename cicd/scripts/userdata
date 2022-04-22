@@ -18,7 +18,8 @@ Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="userdata.txt"
 
 #!/bin/bash
-/bin/rm -f $HOME/startup_script_ran
+/bin/rm -f /home/ec2-user/startup_var.txt
+/bin/rm -f /home/ec2-user/startup.log
 
 /bin/systemctl start jenkins
 /bin/systemctl start docker
@@ -26,5 +27,5 @@ Content-Disposition: attachment; filename="userdata.txt"
 /bin/sleep 60
 
 /bin/chmod +x /home/ec2-user/*.sh
-/bin/bash /home/ec2-user/startup.sh >> /home/ec2-user/startup.log
+/bin/bash /home/ec2-user/startup.sh
 --//--
