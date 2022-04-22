@@ -19,7 +19,7 @@ pipeline {
         stage('Get Public IP') {
             steps {
                 script {
-                    def publicIP = sh(script: 'curl http://checkip.amazonaws.com', returnStdout: true).trim()
+                    publicIP = sh(script: 'curl http://checkip.amazonaws.com', returnStdout: true).trim()
                     println("Public IP: ${publicIP}")
                 }
             }
