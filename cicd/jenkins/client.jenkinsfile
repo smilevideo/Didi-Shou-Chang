@@ -29,6 +29,18 @@ pipeline {
             }
         }
 
+        stage('Clean') {
+            steps {
+                script {
+                    dir(client_dir) {
+                        sh "echo Running in: $WORKSPACE"
+                        sh "npm --version"
+                        sh "npm cache clean --force" // necessary we sometimes run out of memory and disk space on our EC2 when doing concurrent builds
+                    }
+                }
+            }
+        }
+
         stage("Build") {
             steps {
                 script {
@@ -37,8 +49,6 @@ pipeline {
                         println("Public IP: ${REACT_APP_EC2_ENDPOINT}")
                         sh "echo REACT_APP_WEBSOCKET_URL: $REACT_APP_WEBSOCKET_URL"
 
-                        sh "echo Running in: $WORKSPACE"
-                        sh "npm --version"
                         sh "npm install --verbose"
                         sh "REACT_APP_WEBSOCKET_URL=$REACT_APP_WEBSOCKET_URL REACT_APP_EC2_ENDPOINT=$REACT_APP_EC2_ENDPOINT npm run build"
                     }
