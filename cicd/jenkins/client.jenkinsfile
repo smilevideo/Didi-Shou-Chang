@@ -25,10 +25,6 @@ pipeline {
                 script {
                     REACT_APP_EC2_ENDPOINT = sh(script: 'curl http://checkip.amazonaws.com', returnStdout: true).trim()
                     REACT_APP_WEBSOCKET_URL = "ws://${REACT_APP_EC2_ENDPOINT}:3030"
-
-                    // double check the two match, and that our shell has access to Jenkins env var
-                    println("Public IP: ${REACT_APP_EC2_ENDPOINT}")
-                    sh "echo REACT_APP_WEBSOCKET_URL: $REACT_APP_WEBSOCKET_URL"
                 }
             }
         }
@@ -37,6 +33,10 @@ pipeline {
             steps {
                 script {
                     dir(client_dir) {
+                        // double check the two match, and that our shell has access to Jenkins env var
+                        println("Public IP: ${REACT_APP_EC2_ENDPOINT}")
+                        sh "echo REACT_APP_WEBSOCKET_URL: $REACT_APP_WEBSOCKET_URL"
+
                         sh "echo Running in: $WORKSPACE"
                         sh "npm --version"
                         sh "npm install --verbose"
