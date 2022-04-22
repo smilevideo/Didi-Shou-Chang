@@ -19,7 +19,7 @@ Content-Disposition: attachment; filename="userdata.txt"
 
 #!/bin/bash
 /bin/rm -f /home/ec2-user/startup_var.txt
-/bin/rm -f /home/ec2-user/startup.log
+/bin/rm -f /home/ec2-user/startup_request.log
 
 /bin/systemctl start jenkins
 /bin/systemctl start docker
