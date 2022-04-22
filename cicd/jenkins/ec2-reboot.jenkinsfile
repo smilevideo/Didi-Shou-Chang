@@ -6,15 +6,21 @@ pipeline {
 
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: "Branch to check out")
+        booleanParam(name: 'TRIGGER_DOWNSTREAM_JOBS', defaultValue: true, description: "Flag to trigger downstream jobs. Primarily used for testing/sandbox")
     }
 
     stages {
         stage('Build/Deploy') {
+            when {
+                expression {
+                    TRIGGER_DOWNSTREAM_JOBS == true
+                }
+            }
             parallel {
                 stage('Deploy Client') {
                     steps {
                         script {
-                            build job: 'dsc_front'
+                            build job: 'dsc_front', wait: false
                         }
                     }
 
@@ -22,14 +28,14 @@ pipeline {
                 stage('Deploy Server') {
                     steps {
                         script {
-                            build job: 'dsc_back'
+                            build job: 'dsc_back', wait: false
                         } 
                     }
                 }
                 stage('Deploy S3 Client') {
                     steps {
                         script {
-                            build job: 'dsc_s3'
+                            build job: 'dsc_s3', wait: false
                         }
                     }
                 }
