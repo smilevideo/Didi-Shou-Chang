@@ -21,7 +21,7 @@ pipeline {
                     dir(client_dir) {
                         sh "echo Running in: $WORKSPACE"
                         sh "npm --version"
-                        sh "npm install"
+                        sh "npm install --verbose"
                         sh "npm run build"
                     }
                 }

@@ -39,4 +39,10 @@ pipeline {
             }
         }
     }
+    
+    post {
+        success {
+            cleanWs(deleteDirs: true)
+        }
+    }
 }
