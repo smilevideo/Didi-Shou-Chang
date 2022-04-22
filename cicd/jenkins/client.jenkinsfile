@@ -6,10 +6,6 @@ pipeline {
         timestamps ()
     }
 
-    tools {
-        nodejs "nodejs"
-    }
-
     parameters {
         string(name: 'BRANCH', defaultValue: 'main', description: "Branch to check out")
     }
@@ -19,9 +15,9 @@ pipeline {
             steps {
                 script {
                     dir(client_dir) {
-                        sh "echo $WORKSPACE"
-                        npm "install"
-                        npm "run build"
+                        sh "echo Running in: $WORKSPACE"
+                        sh "npm install"
+                        sh "npm run build"
                     }
                 }
             }
