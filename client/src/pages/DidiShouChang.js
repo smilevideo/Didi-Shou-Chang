@@ -21,6 +21,8 @@ const Container = styled.div`
   grid-template-rows: 100vh;
 
   position: relative;
+
+  overflow-y: hidden; /* don't know why I have to do this because I thought I calculated heights correctly in components, but I do */
 `;
 
 const LeftColumn = styled.div`

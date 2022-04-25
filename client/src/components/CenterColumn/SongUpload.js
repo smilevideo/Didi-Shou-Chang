@@ -62,6 +62,10 @@ const SongUpload = (props) => {
   const canUpload = progressMessage === '' || 
     progressMessage === fileTypeErrorMessage;
 
+  const clearProgressMessage = () => {
+    setProgressMessage('');
+  };
+
   const handleClick = (event) => {
     event.target.value = '';
   };
@@ -136,7 +140,7 @@ const SongUpload = (props) => {
 
       setTimeout(() => {
         if (progressMessageRef.current === fileTypeErrorMessage) {
-          setProgressMessage('');
+          clearProgressMessage();
         };
       }, 5000)
     };
