@@ -78,10 +78,10 @@ const parseChatMessage = (chatMessage) => {
   
   else {
     return (
-      chatMessage.split(' ').map((word) => {
+      chatMessage.split(' ').map((word, index) => {
         if (emoteCodes.includes(word)) {
           return (
-            <span>
+            <span key={index}>
               <ChatEmote src={emoteMap[word].imagePath} alt={`${word} emote`} />
               {' '}
             </span>
@@ -90,7 +90,7 @@ const parseChatMessage = (chatMessage) => {
 
         else {
           return (
-            <span>
+            <span key={index}>
               {`${word} `}
             </span>
           )
@@ -103,9 +103,9 @@ const parseChatMessage = (chatMessage) => {
 const ChatMessage = (props) => {
   const { type, message, username, timestamp, label } = props.message;
 
-  const UtcHoursOffset = (new Date().getTimezoneOffset() / 60) * -1;
+  const utcHoursOffset = (new Date().getTimezoneOffset() / 60) * -1;
   const timestampHours = timestamp.substring(0, 2);
-  let newHours = parseInt(timestampHours, 10) + UtcHoursOffset;
+  let newHours = parseInt(timestampHours, 10) + utcHoursOffset;
   if (newHours < 0) {
     newHours += 24;
   } else if (newHours > 23) {
