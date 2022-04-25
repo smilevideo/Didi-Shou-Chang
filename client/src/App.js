@@ -8,7 +8,7 @@ const App = () => {
   const [usernameEntered, setUsernameEntered] = useState(false);
 
   return (
-    <div className="App">
+    <>
       {!usernameEntered && 
         <Entry 
           username={username} 
@@ -23,7 +23,7 @@ const App = () => {
           setUsernameEntered={setUsernameEntered}   
         />
       }
-    </div>
+    </>
   );
 }
 

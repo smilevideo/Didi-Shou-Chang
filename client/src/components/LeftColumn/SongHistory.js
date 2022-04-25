@@ -97,9 +97,9 @@ const SongHistory = (props) => {
           };
           const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
 
-          let provider = true;
+          let songFromProvider = true;
           if (url.startsWith(process.env.REACT_APP_S3_BUCKET_BASE_URL)) {
-            provider = false;
+            songFromProvider = false;
           }
   
           return <Song key={`${label} - ${index}`} >
@@ -110,7 +110,7 @@ const SongHistory = (props) => {
             <SongTitle href={url} target="_blank" rel="noreferrer" >
               {label}
 
-              <img src={`/assets/${provider ? 'p-trans.png' : 'tn.png'}`} alt="uploaded song" />
+              <img src={`/assets/${songFromProvider ? 'p-trans.png' : 'tn.png'}`} alt="uploaded song" />
             </SongTitle>
             
             <AddedBy>

@@ -46,6 +46,7 @@ const RightColumn = styled.div`
 `;
 
 const beep2 = new Audio('/assets/beep2.mp3');
+const MAX_SONGS_IN_QUEUE = 50;
 
 const DidiShouChang = (props) => {
   const { username, setUsername, setUsernameEntered } = props;
@@ -158,7 +159,7 @@ const DidiShouChang = (props) => {
           setVolume={setVolume}
         />
 
-        {(songQueue.length < 50) ? 
+        {(songQueue.length < MAX_SONGS_IN_QUEUE) ? 
           <div>
             <SongUpload sendMessage={sendMessage} />
             <SongByURLInput sendMessage={sendMessage} />
