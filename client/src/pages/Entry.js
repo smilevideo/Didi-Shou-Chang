@@ -98,7 +98,6 @@ const Entry = (props) => {
         if (response.status === 200) {
           setS3Available(true);
         };
-        console.log(response);
       }
     };
 
