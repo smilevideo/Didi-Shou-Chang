@@ -92,6 +92,7 @@ const DidiShouChang = (props) => {
           break;
 
         case 'welcome':
+          // disallow duplicate usernames, todo: change up messaging
           if (message.userList.includes(username)) {
             setUsername('');
             setUsernameEntered(false);

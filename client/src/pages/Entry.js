@@ -83,12 +83,6 @@ const Entry = (props) => {
   const [s3Available, setS3Available] = useState(false);
 
   useEffect(() => {
-    ws.current = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
-
-    ws.current.onopen = () => {
-      setWssAvailable(true);
-    };
-
     const testS3Connection = async () => {
       if (!s3Available) {
         const s3TestUrl = `http://${process.env.REACT_APP_EC2_ENDPOINT}:8089/tubalub/upload?filename=test`
@@ -101,15 +95,28 @@ const Entry = (props) => {
       }
     };
 
+    testS3Connection();
+
     const s3TestInterval = setInterval(() => {
       testS3Connection();
     }, 10000);
 
     return () => {
-      ws.current.close();
       clearInterval(s3TestInterval);
     };
   }, [s3Available])
+
+  useEffect(() => {
+    ws.current = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+
+    ws.current.onopen = () => {
+      setWssAvailable(true);
+    };
+
+    return () => {
+      ws.current.close();
+    };
+  }, []);
 
   const handleChangeUsername = (event) => {
     setUsername(event.target.value);
