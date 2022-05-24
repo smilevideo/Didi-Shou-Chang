@@ -1,5 +1,9 @@
 # A Part of Miyako Island's Traditional Cradle Song
 
+## public deployment
+
+- <http://tubalub.s3-website-us-east-1.amazonaws.com/>
+
 ## EC2 instance
 
 - <https://904405935261.signin.aws.amazon.com/console>

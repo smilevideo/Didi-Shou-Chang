@@ -127,8 +127,9 @@ const getOEmbedData = async (url) => {
 const addSong = async (username, url, label, duration, timestamp) => {
   const newSong = new Song(username, url, label, duration);
 
-  //no label implies song from provider URL, not upload
-  if (!label) {
+  const isProviderLink = !label;
+
+  if (isProviderLink) {
     const oEmbedData = await getOEmbedData(url);
 
     newSong.label = oEmbedData.title;
