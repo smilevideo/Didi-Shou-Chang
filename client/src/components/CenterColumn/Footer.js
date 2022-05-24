@@ -24,7 +24,7 @@ const Footer = (props) => {
         target="_blank" 
         rel="noreferrer"
       >
-        v2022.4.24
+        v2022.5.24
       </a>
     </Text>
   )
