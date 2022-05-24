@@ -93,10 +93,17 @@ const AudioPlayer = (props) => {
 
   const playerRef = useRef(null);
 
-  useEffect(() => {
-    if (playerRef.current && seekTime > 0) {
-      playerRef.current.seekTo(seekTime, 'seconds');
-    }
+  useEffect(() => {  
+    const timer = setTimeout(() => { //need to use timeout to get seekTo to work properly for some reason
+      if (playerRef.current && seekTime > 0) {
+        console.log('asdf')
+        playerRef.current.seekTo(seekTime, 'seconds');
+      }
+    }, 0);
+
+    return () => {
+      clearTimeout(timer);
+    };
   }, [seekTime]);
 
   const handleError = () => {

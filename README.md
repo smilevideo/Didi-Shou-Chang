@@ -6,6 +6,6 @@ need to use hosted ec2 instance for song upload/storage (wss can still be hosted
 1. start ec2 instance
 2. `cd client`
 3. `export REACT_APP_EC2_ENDPOINT=<insert EC2 url>`
-4. `npm start`
+4. `npm start` (in the same shell)
 5. `cd server`
 6. `npm start`
