@@ -54,6 +54,7 @@ const SongUpload = (props) => {
   const [progressMessage, setProgressMessage] = useState('');
 
   const fileInputRef = useRef(null);
+  const audioElementRef = useRef(null);
   const progressMessageRef = useRef(progressMessage);
   progressMessageRef.current = progressMessage;
 
@@ -112,9 +113,16 @@ const SongUpload = (props) => {
       setProgressMessage('parsing song metadata');
       const metadata = await getMetadata(file);
 
-      const duration = metadata.format.duration;
+      let duration = metadata.format.duration;
       const artist = metadata.common.artist;
       const title = metadata.common.title;
+
+      //handle music-metadata-browser not parsing duration correctly for some audio files for some reason
+      if (!(duration > 0)) { 
+        audioElementRef.current.src = audioUrl;
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        duration = audioElementRef.current.duration;
+      };
 
       let label;
 
@@ -175,6 +183,7 @@ const SongUpload = (props) => {
 
   return (
     <Container>
+      <audio ref={audioElementRef} preload="metadata" />
       <Dropzone 
         onClick={canUpload ? openFileDialog : null}
         onDragOver={canUpload ? onDragOver : null}

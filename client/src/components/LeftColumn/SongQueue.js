@@ -149,7 +149,7 @@ const SongQueue = (props) => {
             </SongTitle>
             
             <AddedBy>
-              {`Played by ${username}`}
+              {`Added by ${username}`}
             </AddedBy>
 
             <Length>
