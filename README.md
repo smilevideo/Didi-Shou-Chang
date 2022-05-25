@@ -17,7 +17,3 @@ EC2 instance must be running for both the deployment and local testing
 3. `npm start` (in the same shell)
 4. (in a new shell) `cd server`
 5. `npm start`
-
-## any other devops stuff
-
-- ask jack
