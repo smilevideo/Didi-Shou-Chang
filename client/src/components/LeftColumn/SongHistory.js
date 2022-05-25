@@ -17,17 +17,17 @@ const SongList = styled.ul`
 `
 
 const Song = styled.li`
-  min-height: 70px;
+  min-height: 80px;
 
   border: 1px solid rgb(33, 38, 45);
 
   margin: 0;
-  padding: 5px;
+  padding: 7px;
 
   display: grid;
-  grid-template-columns: calc(100% - 36px) 35px;
+  grid-template-columns: calc(100% - 35px) 33px;
   grid-template-rows: 1fr 22px;
-  grid-gap: 5px;
+  grid-gap: 2px;
 `
 
 const SongTitle = styled.a`
@@ -41,16 +41,9 @@ const SongTitle = styled.a`
   text-decoration: none;
 
   color: ${props => props.color};
-  
-  display: grid;
-  align-items: center;
 
   &:hover {
     text-decoration: underline;
-  }
-  
-  img {
-    height: 22px;
   }
 `
 
@@ -60,12 +53,10 @@ const PlaceNumber = styled.div`
 
   color: rgb(88, 166, 255);
   font-weight: bold;
+  
 
-  border-radius: 14px;
-  border: 1px solid rgb(33, 38, 45);
+  height: 24px;
 
-  height: 28px;
-  width: 28px;
 
   display: grid;
   justify-content: center;
@@ -108,11 +99,6 @@ const SongHistory = (props) => {
             newHours += 24;
           };
           const convertedTimestamp = `${newHours}${timestamp.substring(2)}`;
-
-          let songFromProvider = true;
-          if (url.startsWith(process.env.REACT_APP_S3_BUCKET_BASE_URL)) {
-            songFromProvider = false;
-          }
   
           return <Song key={`${label} - ${index}`} >
             <PlaceNumber>
@@ -126,12 +112,10 @@ const SongHistory = (props) => {
               color={getSongTitleColor(index)}
             >
               {label}
-
-              <img src={`/assets/${songFromProvider ? 'p-trans.png' : 'tn.png'}`} alt="uploaded song" />
             </SongTitle>
             
             <AddedBy>
-              {`Added by ${username}, played at ${convertedTimestamp}`}
+              {`Played by ${username} at ${convertedTimestamp}`}
             </AddedBy>
           </Song>
         })}

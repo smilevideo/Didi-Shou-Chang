@@ -108,7 +108,7 @@ const NowPlaying = (props) => {
       </SongTitle>
       
       <AddedBy>
-        {`Added by ${song.username}`}
+        {`Played by ${song.username}`}
       </AddedBy>
 
       <Length>

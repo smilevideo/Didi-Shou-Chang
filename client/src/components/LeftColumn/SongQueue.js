@@ -19,17 +19,17 @@ const SongList = styled.ul`
 `
 
 const Song = styled.li`
-  min-height: 70px;
+  min-height: 80px;
 
   border: 1px solid rgb(33, 38, 45);
 
   margin: 0;
-  padding: 5px;
+  padding: 7px;
 
   display: grid;
-  grid-template-columns: calc(100% - 36px) 35px;
+  grid-template-columns: calc(100% - 35px) 33px;
   grid-template-rows: 1fr 22px;
-  grid-gap: 4px;
+  grid-gap: 2px;
 `
 
 const SongTitle = styled.div`
@@ -52,11 +52,7 @@ const PlaceNumber = styled.span`
   color: rgb(88, 166, 255);
   font-weight: bold;
 
-  border-radius: 14px;
-  border: 1px solid rgb(33, 38, 45);
-
-  height: 28px;
-  width: 28px;
+  height: 24px;
 
   display: grid;
   justify-content: center;
@@ -93,6 +89,10 @@ const Length = styled.div`
   grid-row: 2;
 
   font-size: 0.9rem;
+
+  display: grid;
+  justify-content: center;
+  align-items: center;
 `
 
 const SongQueue = (props) => {
@@ -149,7 +149,7 @@ const SongQueue = (props) => {
             </SongTitle>
             
             <AddedBy>
-              {`Added by ${username}`}
+              {`Played by ${username}`}
             </AddedBy>
 
             <Length>
