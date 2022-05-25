@@ -27,7 +27,7 @@ const Song = styled.li`
   display: grid;
   grid-template-columns: calc(100% - 36px) 35px;
   grid-template-rows: 1fr 22px;
-  grid-gap: 8px;
+  grid-gap: 5px;
 `
 
 const SongTitle = styled.a`
@@ -40,7 +40,7 @@ const SongTitle = styled.a`
 
   text-decoration: none;
 
-  color: rgb(150, 180, 200);
+  color: ${props => props.color};
   
   display: grid;
   align-items: center;
@@ -84,6 +84,18 @@ const SongHistory = (props) => {
 
   const UtcHoursOffset = (new Date().getTimezoneOffset() / 60) * -1;
 
+  const getSongTitleColor = (index) => {
+    const colorList = [
+      "#BB68FC",
+      "#03DAC5",
+      "#7132FC",
+      "#FF7597",
+      "#FF0266",
+    ];
+  
+    return colorList[index % 5];
+  };
+
   return (
     <Container>
       <SongList>
@@ -107,7 +119,12 @@ const SongHistory = (props) => {
               {index + 1}
             </PlaceNumber>
             
-            <SongTitle href={url} target="_blank" rel="noreferrer" >
+            <SongTitle 
+              href={url} 
+              target="_blank" 
+              rel="noreferrer" 
+              color={getSongTitleColor(index)}
+            >
               {label}
 
               <img src={`/assets/${songFromProvider ? 'p-trans.png' : 'tn.png'}`} alt="uploaded song" />

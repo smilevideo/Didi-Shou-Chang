@@ -29,7 +29,7 @@ const Song = styled.li`
   display: grid;
   grid-template-columns: calc(100% - 36px) 35px;
   grid-template-rows: 1fr 22px;
-  grid-gap: 8px;
+  grid-gap: 4px;
 `
 
 const SongTitle = styled.div`
@@ -41,6 +41,8 @@ const SongTitle = styled.div`
   font-weight: bold;
 
   margin-bottom: 10px;
+
+  color: ${props => props.color};
 `
 
 const PlaceNumber = styled.span`
@@ -96,6 +98,18 @@ const Length = styled.div`
 const SongQueue = (props) => {
   const { songQueue, sendMessage } = props;
 
+  const getSongTitleColor = (index) => {
+    const colorList = [
+      "#BB68FC",
+      "#03DAC5",
+      "#7132FC",
+      "#FF7597",
+      "#FF0266",
+    ];
+  
+    return colorList[index % 5];
+  };
+
   const removeFromQueue = (index, label, url) => {
     if (window.confirm(`Rixslay '${label}'?`)) {
       const message = {
@@ -128,7 +142,7 @@ const SongQueue = (props) => {
               <img src="/assets/icon-close.svg" alt="remove song from queue" />
             </PlaceNumber>
             
-            <SongTitle>
+            <SongTitle color={getSongTitleColor(index)}>
               <div>
                 {label}
               </div>
