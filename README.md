@@ -8,15 +8,15 @@
 
 ## Local testing
 
-shell 1:
+shell 1 - start server first:
+
+1. `cd server`
+2. `npm install`
+3. `npm start`
+
+shell 2:
 
 1. `export REACT_APP_EC2_ENDPOINT=<insert EC2 url>`
 2. `cd client`
 3. `npm install`
 4. `npm start`
-
-shell 2:
-
-1. `cd server`
-2. `npm install`
-3. `npm start`
